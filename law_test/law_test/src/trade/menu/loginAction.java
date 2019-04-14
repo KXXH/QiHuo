@@ -38,7 +38,7 @@ public class loginAction extends HttpServlet {
 
 
         try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb?user=root&password=Zjm,,971014&useUnicode=true&characterEncoding=UTF-8");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb?user=root&password=123456&useUnicode=true&characterEncoding=UTF-8");
             System.out.println("连接了数据库");
             if(tocken.length()>0){
                 String sql = "SELECT * FROM tbl_tockeninfo WHERE tockenValue=?";
