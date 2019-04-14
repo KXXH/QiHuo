@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
+    <servlet>
+        <servlet-name>queryAction</servlet-name>
+        <servlet-class>trade.menu.queryAction</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>queryAction</servlet-name>
+        <url-pattern>/query</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>loginAction</servlet-name>
+        <servlet-class>trade.menu.loginAction</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>loginAction</servlet-name>
+        <url-pattern>/loginAction</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>logoutAction</servlet-name>
+        <servlet-class>trade.menu.logoutAction</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>logoutAction</servlet-name>
+        <url-pattern>/logoutAction</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet-mapping>
+        <servlet-name>fileUpload</servlet-name>
+        <url-pattern>/fileUpload</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>fileUpload</servlet-name>
+        <servlet-class>file.upload.uploadAction</servlet-class>
+    </servlet>
+    
+    <servlet>
+        <servlet-name>getImageAction</servlet-name>
+        <servlet-class>image.show.getImageAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getImageAction</servlet-name>
+        <url-pattern>/getImageAction</url-pattern>
+    </servlet-mapping>
+</web-app>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/jquery-2.1.4.min.js"></script>
+</head>
+<body>
+<div>
+    <img id="my_image" src="" style="width:300px;height: auto">
+
+</div>
+<script>
+    var url="getImageAction";
+    $.post(url,function(json){
+        list=json.files;
+        startImageShow(list);
+    });
+    var list;
+    var t;
+    var index=0;
+    function startImageShow(list){
+        clearTimeout(t);
+        t=setTimeout(showImage,5000);
+    }
+    function showImage(){
+        $("#my_image").attr("src","/image/"+list[index]);
+        index++;
+        if(index==list.length) index=0;
+        t=setTimeout(showImage,5000);
+    }
+</script>
+</body>
+</html>
