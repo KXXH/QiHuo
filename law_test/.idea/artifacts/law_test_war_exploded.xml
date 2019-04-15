@@ -7,6 +7,10 @@
         <element id="directory" name="classes">
           <element id="module-output" name="law_test" />
         </element>
+        <element id="directory" name="lib">
+          <element id="file-copy" path="$PROJECT_DIR$/web/WEB-INF/lib/json.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/web/WEB-INF/lib/mysql-connector-java-5.0.4-bin.jar" />
+        </element>
       </element>
     </root>
   </artifact>
