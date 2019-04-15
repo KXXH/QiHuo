@@ -10,6 +10,7 @@
           <root url="file://$MODULE_DIR$/web" relative="/" />
           <root url="file://$MODULE_DIR$/.idea" relative="/image" />
         </webroots>
+        <sourceRoots />
       </configuration>
     </facet>
   </component>
