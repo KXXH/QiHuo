@@ -50,4 +50,52 @@
         <servlet-name>getImageAction</servlet-name>
         <url-pattern>/getImageAction</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>userQueryAction</servlet-name>
+        <servlet-class>user.manager.queryAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>userQueryAction</servlet-name>
+        <url-pattern>/userQueryAction</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>userEditAction</servlet-name>
+        <servlet-class>user.manager.editAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>userEditAction</servlet-name>
+        <url-pattern>/userEditAction</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>userDeleteAction</servlet-name>
+        <servlet-class>user.manager.deleteAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>userDeleteAction</servlet-name>
+        <url-pattern>/userDeleteAction</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>userAddAction</servlet-name>
+        <servlet-class>user.manager.addAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>userAddAction</servlet-name>
+        <url-pattern>/userAddAction</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>userStatisticAction</servlet-name>
+        <servlet-class>user.manager.statisticAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>userStatisticAction</servlet-name>
+        <url-pattern>/userStatisticAction</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>dataToCSVAction</servlet-name>
+        <servlet-class>user.manager.dataToCSV</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>dataToCSVAction</servlet-name>
+        <url-pattern>/dataToCSVAction</url-pattern>
+    </servlet-mapping>
 </web-app>
