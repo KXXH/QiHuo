@@ -12,12 +12,13 @@ import java.util.Objects;
 /**
  * Created by zjm97 on 2019/4/16.
  * token检查工具类，支持检查token的权限、找到token对应的用户、token对应用户不存在时的重定向
+ * 需要注意的是,使用该工具类检查token时,如果token有效,将会自动续期token(5分钟).
  */
 public class tokenChecker {
     /**
-     * 检查token对应的
-     * @param token
-     * @return
+     * 检查token对应的用户组
+     * @param token　需要检查的token
+     * @return　用户组名称/"error"/"timeout"
      */
     public static String checkToken(String token){
             try{
@@ -83,8 +84,14 @@ public class tokenChecker {
                 e.printStackTrace();
             }
     return "error";
-
     }
+
+    /**
+     * 找到token对应的用户，传入token不存在或token对应用户不存在则返回null
+     * 由于返回null的原因，可能会导致空指针，需要注意特别处理
+     * @param token　需要检查的token
+     * @return　null/对应的用户对象
+     */
     public static User tokenToUser(String token){
         try{
             String ans=checkToken(token);
@@ -109,6 +116,14 @@ public class tokenChecker {
         }
         return null;
     }
+
+    /**
+     * 还在完善中，目前实现的是token/用户不存在时重定向功能
+     * @param request
+     * @param response
+     * @return
+     * @throws IOException
+     */
     public static User checkTokenAndRedirect(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String token = tokenExtractor.extractToken(request);
         User user=tokenToUser(token);
