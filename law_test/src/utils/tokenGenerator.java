@@ -26,6 +26,12 @@ public class tokenGenerator {
         return getAndStoreToken(userName,false);
     }
 
+    /**
+     * 生成并储存token，然后返回这个token。由于有记住密码的差别，token存活时间可以长至３０天，也可以短到５分钟，由参数shortRoLong控制
+     * @param userName
+     * @param shortOrLong 长时间有效token还是短时间有效token?
+     * @return
+     */
     public static String getAndStoreToken(String userName,boolean shortOrLong){
         String token = generateToken(userName);
         Connection conn = null;
