@@ -1,3 +1,4 @@
-\.idea\*
-\fileUpload
-\out\*
+/.idea/*
+/fileUpload
+/out/*
+law_test/.idea/workspace.xml
