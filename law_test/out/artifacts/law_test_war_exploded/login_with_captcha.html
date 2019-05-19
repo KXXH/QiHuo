@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Home</title>
+    <meta charset="utf-8">
+    <meta name="keywords" content="" />
+    <script src="js/jquery-2.1.4.min.js"></script>
+    <link rel="stylesheet" href="//cdnjs.loli.net/ajax/libs/mdui/0.4.2/css/mdui.min.css">
+    <script src="//cdnjs.loli.net/ajax/libs/mdui/0.4.2/js/mdui.min.js"></script>
+
+</head>
+
+<body class="mdui-theme-primary-indigo mdui-valign" onload="initPage()" style="background-image: url(images/p2.jpg);background-repeat: no-repeat;background-attachment: fixed;background-size: cover;position: absolute;height: 100%">
+<div class="mdui-dialog mdui-center" id="process">
+    <div class="mdui-spinner mdui-spinner-colorful mdui-m-t-2 mdui-m-b-2" id="loader" style="display: block;margin-left:auto;margin-right:auto;margin-top: 50%"></div>
+</div>
+
+<div class="mdui-row mdui-center mdui-container">
+    <div class="mdui-col-lg-4 mdui-col-offset-lg-4 mdui-col-sm-6 mdui-col-offset-sm-3 mdui-col-md-6 mdui-col-offset-3" style="height: 20%">
+        <div class="mdui-card">
+            <div class="mdui-card-media">
+                <img class="mdui-img-fluid" src="images/login_title.jpg"/>
+                <div class="mdui-card-media-covered">
+                    <div class="mdui-card-primary">
+                        <div class="mdui-card-primary-title" >登录</div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="mdui-card-content">
+                <div class="mdui-textfield mdui-textfield-floating-label">
+                    <label class="mdui-textfield-label" >用户名</label>
+                    <input class="mdui-textfield-input" id="UserName" name="UserName" type="text" required/>
+                    <div class="mdui-textfield-error">用户名不能为空</div>
+                </div>
+                <div class="mdui-textfield mdui-textfield-floating-label">
+                    <label class="mdui-textfield-label" >密码</label>
+                    <input class="mdui-textfield-input" id="PassWd" name="PassWd" type="password" required/>
+                    <div class="mdui-textfield-error">密码不能为空</div>
+                </div>
+                <img class="mdui-col-xs-4" src="jcaptcha.jpg" onclick='this.src=this.src+"?"+Math.random()' id="captcha_img" /> <input class="mdui-textfield-input mdui-col-xs-8" type="text" name="jcaptcha" id="jcaptcha" value="" placeholder="验证码"/>
+                <label class="mdui-checkbox">
+                    <input type="checkbox" name="rememberPassword" id="rememberPassword"/>
+                    <i class="mdui-checkbox-icon"></i>
+                    记住密码
+                </label>
+                <div class=" mdui-typo mdui-float-right">
+                    <a class="mdui-float-right" onclick="" href="forgetPassword.html">
+                        忘记密码
+                    </a>
+                </div>
+                <div class="mdui-card-actions">
+                    <div>
+                        <button class="mdui-btn mdui-ripple mdui-float-right mdui-color-deep-orange-600" onclick="">
+                            注册
+                        </button>
+                        <button class="mdui-btn mdui-ripple mdui-float-right mdui-color-deep-orange-600" onclick="loginTask();" >
+                            登录
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="js/login_with_captcha.js"></script>
+</body>
+</html>
