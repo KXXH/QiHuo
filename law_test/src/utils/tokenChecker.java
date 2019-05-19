@@ -11,8 +11,14 @@ import java.util.Objects;
 
 /**
  * Created by zjm97 on 2019/4/16.
+ * token检查工具类，支持检查token的权限、找到token对应的用户、token对应用户不存在时的重定向
  */
 public class tokenChecker {
+    /**
+     * 检查token对应的
+     * @param token
+     * @return
+     */
     public static String checkToken(String token){
             try{
                 String userType;
