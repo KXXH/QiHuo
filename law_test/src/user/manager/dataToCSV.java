@@ -39,7 +39,7 @@ public class dataToCSV extends javax.servlet.http.HttpServlet {
 
     protected void doPost(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, java.io.IOException {
         String token=request.getParameter("token");
-        String user_role=tokenChecker.checkToken(token);
+        String user_role= utils.tokenChecker.checkToken(token);
         if(!Objects.equals(user_role, "admin")){
             try{
                 JSONObject json = new JSONObject();

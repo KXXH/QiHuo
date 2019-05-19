@@ -1,4 +1,7 @@
 /**
+ * Created by zjm97 on 2019/5/16.
+ */
+/**
  * Created by zjm97 on 2019/3/29.
  */
 
@@ -46,9 +49,6 @@ function logOut(){
 
 function initPage(){
     var tocken = getCookie("tocken");
-    //var height=document.body.scrollHeight;
-
-    //document.getElementById("container").style.height=height+"px";
     if(tocken!=""){
         loginWithTocken(tocken);
     }
@@ -60,7 +60,7 @@ function loginWithTocken(tocken){
     var password = document.getElementById("PassWd").value;
     var data = '{"UserName":"'+username+'","PassWd":"'+password+'","rememberPassword":"'+document.getElementById("rememberPassword").checked+'","tocken":"'+tocken+'"}';
     var obj = JSON.parse(data);
-    obj={'UserName':username,'PassWd':password,'rememberPassword':document.getElementById("rememberPassword").checked,'tocken':tocken,'jcaptcha':''};
+
     $.post(url,obj,function(json){
         checkResult(json);
     })
@@ -74,14 +74,15 @@ function loginTask(){
     var url = "/loginAction";
     var username = document.getElementById("UserName").value;
     var password = document.getElementById("PassWd").value;
+    var captcha=document.getElementById("jcaptcha").value;
     //var data = '{"UserName":"'+username+'","PassWd":"'+password+'","rememberPassword":"'+document.getElementById("rememberPassword").checked+'","tocken":""}';
-    var data={'UserName':username,'PassWd':password,'rememberPassword':document.getElementById("rememberPassword").checked,'token':'','jcaptcha':document.getElementById("jcaptcha").value};
+    var data={'UserName':username,'PassWd':password,'rememberPassword':document.getElementById("rememberPassword").checked,'token':'','jcaptcha':captcha};
     //var obj = JSON.parse(data);
 
     $.post(url,data,function(json){
         checkResult(json);
     })
-    refreshCaptcha();
+
     mdui.mutation();
 }
 
@@ -102,22 +103,9 @@ function checkResult(json){
         console.log(type);
         if(type==1){
             alert("用户名或密码错误!");
-        }else if(type==10){
-            alert("请填写验证码后继续!");
-            document.getElementById("captcha_div").style.display="block";
-            refreshCaptcha();
-            //window.location.href="login";
-        }else if(type==11){
-            alert("验证码错误!");
-            document.getElementById("captcha_div").style.display="block";
-            refreshCaptcha();
         }
         else{
             delCookie("tocken");
         }
     }
-}
-
-function refreshCaptcha(){
-    document.getElementById("captcha_img").src='jcaptcha.jpg?'+Math.random();
 }

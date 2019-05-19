@@ -1,4 +1,9 @@
-package user.manager;
+package utils;
+import user.manager.User;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -11,7 +16,7 @@ public class tokenChecker {
     public static String checkToken(String token){
             try{
                 String userType;
-                Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb?user=root&password=123456&useUnicode=true&characterEncoding=UTF-8");
+                Connection conn = dbOpener.getDB();
                 String sql="SELECT * FROM tbl_tockeninfo WHERE tockenValue=?";
                 PreparedStatement ptmt = conn.prepareStatement(sql);
                 ptmt.setString(1,token);
@@ -72,5 +77,41 @@ public class tokenChecker {
                 e.printStackTrace();
             }
     return "error";
+
+    }
+    public static User tokenToUser(String token){
+        try{
+            String ans=checkToken(token);
+            if(!Objects.equals(ans, "error") || !Objects.equals(ans, "timeout")){
+                Connection conn = dbOpener.getDB();
+                String sql = "SELECT * FROM tbl_tockeninfo WHERE tockenValue=?";
+                PreparedStatement ptmt = conn.prepareStatement(sql);
+                ptmt.setString(1,token);
+                ResultSet rs = ptmt.executeQuery();
+                if(!rs.next()){
+                    return null;
+                }
+                else{
+                    User user=User.findUser(rs.getString("UserName"),"UserName");
+                    return user;
+                }
+            }
+
+        }catch(SQLException e){
+            e.printStackTrace();
+            return null;
+        }
+        return null;
+    }
+    public static User checkTokenAndRedirect(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String token = tokenExtractor.extractToken(request);
+        User user=tokenToUser(token);
+        if(user!=null){
+            return user;
+        }
+        else{
+            response.sendRedirect("login");
+            return null;
+        }
     }
 }

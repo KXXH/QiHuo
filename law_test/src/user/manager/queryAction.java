@@ -8,7 +8,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
+import utils.*;
 /**
  * Created by zjm97 on 2019/4/15.
  */
@@ -19,33 +19,19 @@ public class queryAction extends javax.servlet.http.HttpServlet {
         System.out.println("username="+username);
         String email = request.getParameter("email");
         String phone = request.getParameter("phone");
-        String token = request.getParameter("token");
+        String token = tokenExtractor.extractToken(request);
         System.out.println("token="+token);
-        String user_role=tokenChecker.checkToken(token);
+        String user_role= utils.tokenChecker.checkToken(token);
         String sorted_by = request.getParameter("sorted_by");
         String sorted_by2=request.getParameter("sorted_by2");
         System.out.println("user_role="+user_role);
         if(sorted_by==null||sorted_by2==null||!Objects.equals(user_role, "admin")){
-            try{
-                JSONObject json = new JSONObject();
-                json.put("status","error");
-                response.setContentType("application/json; charset=UTF-8");
-                try{
-                    response.getWriter().print(json);
-                    response.getWriter().flush();
-                    response.getWriter().close();
-                }
-                catch(IOException e){
-                    e.printStackTrace();
-                }
-                return;
-            }catch(JSONException e){
-                e.printStackTrace();
-            }
+            sendManager.sendSimpleErrorJSON(response);
+            return;
         }
 
         try{
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb?user=root&password=123456&useUnicode=true&characterEncoding=UTF-8");
+            Connection conn = utils.dbOpener.getDB();
             boolean flag=false;
             boolean usernameFlag=false,emailFlag=false,phoneFlag=false;
             int count=1;
@@ -139,20 +125,10 @@ public class queryAction extends javax.servlet.http.HttpServlet {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("status","ok");
             jsonObject.put("list",jsonList);
-            response.setContentType("application/json; charset=UTF-8");
-            try{
-                response.getWriter().print(jsonObject);
-                response.getWriter().flush();
-                response.getWriter().close();
-            }
-            catch(IOException e){
-                e.printStackTrace();
-            }
+            sendManager.sendJSON(response,jsonObject);
             return;
 
-        }catch (SQLException e){
-            e.printStackTrace();
-        } catch (JSONException e) {
+        }catch (SQLException | JSONException e){
             e.printStackTrace();
         }
 

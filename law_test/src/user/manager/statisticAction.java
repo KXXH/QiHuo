@@ -3,13 +3,12 @@ package user.manager;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Date;
-
+import utils.*;
 /**
  * Created by zjm97 on 2019/4/17.
  */
@@ -32,8 +31,8 @@ public class statisticAction extends javax.servlet.http.HttpServlet {
     protected void doPost(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, java.io.IOException {
         System.out.println("执行了POST-stat");
         HashMap map=new HashMap<Date,Integer>();
-        String token=request.getParameter("token");
-        String user_role=tokenChecker.checkToken(token);
+        String token=tokenExtractor.extractToken(request);
+        String user_role= utils.tokenChecker.checkToken(token);
         System.out.println("user_role="+user_role);
         List jsonList = new ArrayList();
         if(!Objects.equals(user_role, "admin")){

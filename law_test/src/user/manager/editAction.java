@@ -9,7 +9,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Objects;
-
+import utils.*;
 /**
  * Created by zjm97 on 2019/4/17.
  */
@@ -23,27 +23,13 @@ public class editAction extends javax.servlet.http.HttpServlet {
         String phone = request.getParameter("phone");
         String wechat_id = request.getParameter("wechat_id");
         String role_id = request.getParameter("role_id");
-        String token = request.getParameter("token");
+        String token = tokenExtractor.extractToken(request);
         System.out.println("token="+token);
-        String user_role=tokenChecker.checkToken(token);
+        String user_role= utils.tokenChecker.checkToken(token);
         System.out.println("user_role="+user_role);
         if(!Objects.equals(user_role, "admin")){
-            try{
-                JSONObject json = new JSONObject();
-                json.put("status","error");
-                response.setContentType("application/json; charset=UTF-8");
-                try{
-                    response.getWriter().print(json);
-                    response.getWriter().flush();
-                    response.getWriter().close();
-                }
-                catch(IOException e){
-                    e.printStackTrace();
-                }
-                return;
-            }catch(JSONException e){
-                e.printStackTrace();
-            }
+            sendManager.sendSimpleErrorJSON(response);
+            return;
         }
         try {
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb?user=root&password=123456&useUnicode=true&characterEncoding=UTF-8");
@@ -56,22 +42,7 @@ public class editAction extends javax.servlet.http.HttpServlet {
             ptmt.setString(5,role_id);
             ptmt.setInt(6,userId);
             ptmt.execute();
-            try{
-                JSONObject json = new JSONObject();
-                json.put("status","ok");
-                response.setContentType("application/json; charset=UTF-8");
-                try{
-                    response.getWriter().print(json);
-                    response.getWriter().flush();
-                    response.getWriter().close();
-                }
-                catch(IOException e){
-                    e.printStackTrace();
-                }
-                return;
-            }catch(JSONException e){
-                e.printStackTrace();
-            }
+            sendManager.sendSimpleOKJSON(response);
         } catch (SQLException e) {
             e.printStackTrace();
         }
