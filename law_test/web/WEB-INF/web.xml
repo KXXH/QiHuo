@@ -133,4 +133,69 @@
         <servlet-name>jcaptcha</servlet-name>
         <url-pattern>/jcaptcha.jpg</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>getNewsAction</servlet-name>
+        <servlet-class>news.getNews.getNewsAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getNewsAction</servlet-name>
+        <url-pattern>/getNewsAction</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>newsManagerAction</servlet-name>
+        <servlet-class>news.getNews.newsManagerAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>newsManagerAction</servlet-name>
+        <url-pattern>/newsManagerAction</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>newsDeleteAction</servlet-name>
+        <servlet-class>news.getNews.newsDeleteAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>newsDeleteAction</servlet-name>
+        <url-pattern>/newsDeleteAction</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>newsModifyAction</servlet-name>
+        <servlet-class>news.getNews.newsModifyAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>newsModifyAction</servlet-name>
+        <url-pattern>/newsModifyAction</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>newsSearchAction</servlet-name>
+        <servlet-class>news.getNews.newsSearchAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>newsSearchAction</servlet-name>
+        <url-pattern>/newsSearchAction</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>newsStatisticsAction</servlet-name>
+        <servlet-class>news.getNews.newsStatisticsAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>newsStatisticsAction</servlet-name>
+        <url-pattern>/newsStatisticsAction</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>newsExportAction</servlet-name>
+        <servlet-class>news.getNews.newsExportAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>newsExportAction</servlet-name>
+        <url-pattern>/newsExportAction</url-pattern>
+    </servlet-mapping>
 </web-app>

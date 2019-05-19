@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>News</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta name="keywords" content="" />
+    <script src="js/jquery-2.1.4.min.js"></script>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="//cdnjs.loli.net/ajax/libs/mdui/0.4.2/css/mdui.min.css">
+    <script src="//cdnjs.loli.net/ajax/libs/mdui/0.4.2/js/mdui.min.js"></script>
+    <script src="js/index_beta.js"></script>
+</head>
+<body onload="initPage();getNews();get_all_news()" class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-pink ">
+    <div class="mdui-appbar mdui-appbar-fixed">
+        <div class="mdui-toolbar mdui-color-theme">
+            <a class="mdui-btn mdui-btn-icon" mdui-drawer="{target: '#left-drawer'}"><i class="mdui-icon material-icons">menu</i></a>
+            <a href="javascript:;" class="mdui-typo-headline">期货交易系统</a>
+            <a href="javascript:;" class="mdui-typo-title">财经新闻</a>
+            <div class="mdui-toolbar-spacer"></div>
+            <a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></a>
+            <a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">refresh</i></a>
+            <a onclick="logOut();" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">exit_to_app</i></a>
+        </div>
+    </div>
+    <div class="mdui-drawer mdui-shadow-5" id="left-drawer">
+        <div class="mdui-spinner mdui-spinner-colorful" id="loader" style="display: block;margin-left:auto;margin-right:auto;margin-top: 50%"></div>
+        <div class="mdui-list mdui-collapse" mdui-collapse="{accordion:true}" id="drawer"></div>
+
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-7">
+                <h2>今日新闻</h2>
+                <ul class="list-unstyled" id="media" style="margin-left: 5%">
+
+                </ul>
+            </div>
+            <div class="col-md-4" role="complementary" style="margin-top: 5%;">
+                <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix">
+                    <ul class="nav bs-docs-sidenav">
+                        <li>
+                            历史新闻
+                            <ul class="nav" id="history">
+
+                            </ul>
+                            <nav aria-label="Page navigation">
+                                <ul class="pagination">
+                                    <li>
+                                        <a href="#" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+                                    <li><a href="#" onclick="page_0()">1</a></li>
+                                    <li><a href="#" onclick="page_1()">2</a></li>
+                                    <li><a href="#" onclick="page_2()">3</a></li>
+                                    <li>
+                                        <a href="#" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<script>
+    function getNews(){
+        url = "getNewsAction";
+        $.post(url,function(json){
+            if(json.status == "error"){
+                alert("必须登录！");
+            }
+            else
+                set_news(json);
+        })
+    }
+    function sessionTest(){
+        url = "sessionTest";
+        $.post(url,function(text){
+            console.log(text);
+        })
+    }
+
+    function set_news(json){
+        var list = json.aaData;
+        for(var i = 0; i < list.length; i++){
+            console.log(list[i].title);
+            console.log(list[i].date);
+            console.log(list[i].thumbnail_pic_s);
+            var mediaNode = document.createElement("li");
+            //newNode.className = "mdui-card mdui-col-xs-10";
+            //newNode.innerHTML = "<div class=\"mdui-card-media mdui-col-xs-3\">";
+            //newNode.innerHTML += "<img class=\" mdui-img-rounded\" src=\"" + list[i].thumbnail_pic_s + "\"/></div>";
+            //newNode.innerHTML += "<div class=\"mdui-card-primary mdui-col-xs-3\">";
+            //newNode.innerHTML += "<div class=\"mdui-card-primary-title\">" + list[i].title + "</div>";
+            //newNode.innerHTML += "<div class=\"mdui-card-primary-subtitle\">"+ list[i].date+ "</div></div>";
+            //newNode.innerHTML += "<div class=\"mdui-card-actions\"><button class=\"mdui-btn mdui-ripple\"><a href='"+list[i].url+"'/> 查看详情</button></div>";
+
+            mediaNode.className = "media";
+            mediaNode.innerHTML = "<div class=\"media-body\"><h3 class=\"mt-0 mb-1\">" + list[i].title + "</h3> " + list[i].date +"<a href='"+list[i].url+"'/> 查看详情</div>";
+            mediaNode.innerHTML += "<img src=\"" + list[i].thumbnail_pic_s + "\" class=\"ml-3\">";
+            var parent = document.getElementById("media");
+            parent.appendChild(mediaNode);
+
+        }
+    }
+    var length;
+    var page=0;
+    var list;
+    function get_all_news(){
+        url = "newsManagerAction";
+        var order_1 = "id";
+        var order_2 = "date";
+        var data = '{"order_1":"'+order_1+'","order_2":"'+order_2+'"}';
+        var obj = JSON.parse(data);
+        $.post(url,obj,function(json){
+            initHistory(json);
+        })
+    }
+    function initHistory(json){
+        list = json.aaData;
+        length = list.length;
+        setHistory()
+    }
+    function setHistory(){
+        var parent = document.getElementById("history");
+        parent.innerHTML = "";
+        for(var i = (length-11)-page*30; i >= (length-30)-page*30; i--){
+            var newNode = document.createElement("li");
+            newNode.innerHTML = "<li><a href="+list[i].url +">"+list[i].title+"</a></li>";
+            parent.appendChild(newNode);
+        }
+    }
+    function page_0(){
+        if(page != 0){
+            page = 0;
+            setHistory();
+        }
+    }
+    function page_1(){
+        if(page != 1){
+            page = 1;
+            setHistory();
+        }
+    }
+    function page_2(){
+        if(page != 2){
+            page = 2;
+            setHistory();
+        }
+    }
+
+</script>
+
+
