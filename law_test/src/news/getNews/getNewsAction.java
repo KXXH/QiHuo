@@ -43,7 +43,7 @@ public class getNewsAction extends HttpServlet {
         try{
             Connection conn = dbOpener.getDB();
             Statement statement = conn.createStatement();
-            String sql = "SELECT * FROM tbl_news order by id desc LIMIT 10";
+            String sql = "SELECT * FROM tbl_news order by id desc";
             ResultSet rs = statement.executeQuery(sql);
             JSONObject jsonObject = new JSONObject();
             ArrayList list = new ArrayList();

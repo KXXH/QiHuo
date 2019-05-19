@@ -14,7 +14,7 @@
     <script src="//cdnjs.loli.net/ajax/libs/mdui/0.4.2/js/mdui.min.js"></script>
     <script src="js/index_beta.js"></script>
 </head>
-<body onload="initPage();getNews();get_all_news()" class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-pink ">
+<body onload="initPage();getNews();" class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-pink ">
     <div class="mdui-appbar mdui-appbar-fixed">
         <div class="mdui-toolbar mdui-color-theme">
             <a class="mdui-btn mdui-btn-icon" mdui-drawer="{target: '#left-drawer'}"><i class="mdui-icon material-icons">menu</i></a>
@@ -75,26 +75,27 @@
 </html>
 
 <script>
+    var list;
+    var length;
     function getNews(){
         url = "getNewsAction";
         $.post(url,function(json){
             if(json.status == "error"){
                 alert("必须登录！");
             }
-            else
+            else{
                 set_news(json);
-        })
-    }
-    function sessionTest(){
-        url = "sessionTest";
-        $.post(url,function(text){
-            console.log(text);
+                get_all_news();
+            }
+
         })
     }
 
     function set_news(json){
-        var list = json.aaData;
-        for(var i = 0; i < list.length; i++){
+        list = json.aaData;
+        length = list.length;
+        console.log("length",length);
+        for(var i = 0; i < 10; i++){
             console.log(list[i].title);
             console.log(list[i].date);
             console.log(list[i].thumbnail_pic_s);
@@ -115,22 +116,11 @@
 
         }
     }
-    var length;
     var page=0;
-    var list;
     function get_all_news(){
-        url = "newsManagerAction";
-        var order_1 = "id";
-        var order_2 = "date";
-        var data = '{"order_1":"'+order_1+'","order_2":"'+order_2+'"}';
-        var obj = JSON.parse(data);
-        $.post(url,obj,function(json){
-            initHistory(json);
-        })
+        initHistory();
     }
-    function initHistory(json){
-        list = json.aaData;
-        length = list.length;
+    function initHistory(){
         setHistory()
     }
     function setHistory(){
