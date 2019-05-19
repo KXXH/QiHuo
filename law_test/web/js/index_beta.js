@@ -130,6 +130,6 @@ function getMenu(){
     var obj=JSON.parse(data);
     $.post(url,obj, function(json){
         initMenu(json);
-        console.log(json.stringify());
+        console.log(JSON.stringify(json));
     })
 }
