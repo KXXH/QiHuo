@@ -39,7 +39,7 @@ function logOut(){
     var obj = JSON.parse(data);
     $.post(url,obj);
     delCookie("tocken");
-    window.location.href = "login";
+    window.location.href = "login_beta.html";
 
 }
 
@@ -130,6 +130,5 @@ function getMenu(){
     var obj=JSON.parse(data);
     $.post(url,obj, function(json){
         initMenu(json);
-        console.log(JSON.stringify(json));
     })
 }

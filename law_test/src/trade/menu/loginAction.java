@@ -2,153 +2,175 @@ package trade.menu;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.*;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Date;
 
-import com.octo.captcha.module.servlet.image.SimpleImageCaptchaServlet;
 import org.json.JSONException;
 import org.json.JSONObject;
-import user.manager.User;
-
 import java.util.Base64;
-import utils.tokenChecker;
-import utils.tokenGenerator;
-import utils.*;
 /**
  * Created by zjm97 on 2019/3/29.
  */
 @WebServlet(name = "loginAction")
 public class loginAction extends HttpServlet {
-    //POST返回错误码对照:
-    //1:用户名或密码错误
-    //2:token不存在
-    //10:尝试次数过多，需要验证码
-    //11:验证码错误
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("执行了post");
-        HttpSession session = request.getSession(true);
         String userName = request.getParameter("UserName");
         String password = request.getParameter("PassWd");
         String rememberPassword = request.getParameter("rememberPassword");
-        String token = tokenExtractor.extractToken(request);
+        String tocken = request.getParameter("tocken");
         System.out.println("remember="+rememberPassword);
-        Cookie tokenCookie=cookieManager.getCookieByName(request,"token");
-        String userCaptchaResponse = request.getParameter("jcaptcha");
-        System.out.println("session id="+session.getId());
-        if(session==null){
-            System.out.println("session is null!");
-        }
-        else{
-            System.out.println("session is not null!");
-        }
-        boolean captcha_flag;
-        if(session.getAttribute("captcha_flag")==null){
-            captcha_flag=false;
-        }else{
-            captcha_flag=(boolean)session.getAttribute("captcha_flag");
-        }
-        boolean captchaPassed =true;
-        if(captcha_flag){
-            captchaPassed = SimpleImageCaptchaServlet.validateResponse(request, userCaptchaResponse);
-        }
-        if(captcha_flag&&!captchaPassed&&userCaptchaResponse!=null&&userCaptchaResponse.length()>0){
-            JSONObject jsonObject=new JSONObject();
-            System.out.println("验证码错误!!");
-            try {
-                jsonObject.put("error",11);
-                jsonObject.put("status","error");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            sendManager.sendJSON(response,jsonObject);
-            return;
-        }else if(captcha_flag&&!captchaPassed&&(userCaptchaResponse==null||userCaptchaResponse.length()==0)){
-            JSONObject jsonObject=new JSONObject();
-            System.out.println("未填写验证码!!");
-            try {
-                jsonObject.put("error",10);
-                jsonObject.put("status","error");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            sendManager.sendJSON(response,jsonObject);
-            return;
+        String userType = "normal";
+
+        List jsonList = new ArrayList();
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException classNotFoundException) {
+            classNotFoundException.printStackTrace();
         }
 
-        if(session.getAttribute("token")!=null){
-            token=(String)session.getAttribute("token");
-        }
-        else if(tokenCookie!=null){
-            token=tokenCookie.getValue();
-        }
 
         try {
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb?user=root&password=123456&useUnicode=true&characterEncoding=UTF-8");
             System.out.println("连接了数据库");
-            if(token.length()>0){
-                User user=tokenChecker.tokenToUser(token);
-                if(user==null){
+            if(tocken.length()>0){
+                String sql = "SELECT * FROM tbl_tockeninfo WHERE tockenValue=?";
+                PreparedStatement ptmt = conn.prepareStatement(sql);
+                ptmt.setString(1,tocken);
+                ResultSet rs = ptmt.executeQuery();
+                if(!rs.next()){
                     System.out.println("没有找到tocken");
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("status", "error");
                     jsonObject.put("error", 2);
-                    utils.sendManager.sendJSON(response,jsonObject);
+                    response.setContentType("application/json; charset=UTF-8");
+                    try {
+                        response.getWriter().print(jsonObject);
+                        response.getWriter().flush();
+                        response.getWriter().close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     return;
                 }
 
+                String TTL = rs.getString("TTL");
+                Date date = new Date();
+                try
+                {
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    date = sdf.parse(TTL);
+                }
+                catch (ParseException e)
+                {
+                    System.out.println(e.getMessage());
+                }
+                if(date.getTime()<new Date().getTime()){
+                    System.out.println("tocken已过期");
+                    System.out.printf("ttl=%d",date.getTime());
+                    System.out.printf("time=%d",new Date().getTime());
+                    sql = "DELETE FROM tbl_tockeninfo WHERE tockenValue=?";
+                    ptmt = conn.prepareStatement(sql);
+                    ptmt.setString(1,tocken);
+                    ptmt.execute();
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("status", "error");
+                    jsonObject.put("error", 3);
+                    response.setContentType("application/json; charset=UTF-8");
+                    try {
+                        response.getWriter().print(jsonObject);
+                        response.getWriter().flush();
+                        response.getWriter().close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    return;
+                }
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("status", "success");
-                jsonObject.put("tocken", token);
-                utils.sendManager.sendJSON(response,jsonObject);
+                jsonObject.put("tocken", tocken);
+                response.setContentType("application/json; charset=UTF-8");
+                try {
+                    response.getWriter().print(jsonObject);
+                    response.getWriter().flush();
+                    response.getWriter().close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 return;
+
             }
-            User user=User.login(userName,password);
-            if (user==null) {
+            String sql = "SELECT * FROM tbl_userinfo WHERE UserName=? AND PassWd=?";
+            PreparedStatement ptmt = conn.prepareStatement(sql);
+            ptmt.setString(1, userName);
+            ptmt.setString(2, password);
+            ResultSet rs = ptmt.executeQuery();
+            if (!rs.next()) {
                 System.out.println("没有找到用户");
                 JSONObject jsonObject = new JSONObject();
-
-                int count;
-                if(session.getAttribute("attempt_count")==null){
-                    count=0;
-                }else{
-                    count=(int)session.getAttribute("attempt_count");
-                }
-                System.out.println("count="+String.valueOf(count));
-                if(count==0){
-                    session.setAttribute("attempt_count",1);
-                    jsonObject.put("status", "error");
-                    jsonObject.put("error", 1);
-                    sendManager.sendJSON(response,jsonObject);
-                }else if(count<3||count>3){
-                    session.setAttribute("attempt_count",count+1);
-                    jsonObject.put("status", "error");
-                    jsonObject.put("error", 1);
-                    sendManager.sendJSON(response,jsonObject);
-                }else if(count==3){
-                    jsonObject.put("status","error");
-                    jsonObject.put("error",10);//captcha required
-                    session.setAttribute("captcha_flag",true);
-                    sendManager.sendJSON(response,jsonObject);
-                    session.setAttribute("attempt_count",count+1);
-                    return;
+                jsonObject.put("status", "error");
+                jsonObject.put("error", 1);
+                response.setContentType("application/json; charset=UTF-8");
+                try {
+                    response.getWriter().print(jsonObject);
+                    response.getWriter().flush();
+                    response.getWriter().close();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
                 return;
             }
-            token=tokenGenerator.getAndStoreToken(userName,Objects.equals(rememberPassword, "true"));
-            System.out.println("tocken="+token);
+            userType = rs.getString("role_id");
+            int userId = rs.getInt("UserId");
+            Date date = new Date();
+            tocken = Base64.getEncoder().encodeToString((userName+String.valueOf(date.getTime())).getBytes("utf-8"));
+            System.out.println("tocken="+tocken);
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("status","success");
-            jsonObject.put("tocken",token);
-            session.setAttribute("token",token);
-            session.setAttribute("captcha_flag",false);
-            session.setAttribute("attempt_count",0);
-            if(Objects.equals(rememberPassword, "true")){
-                cookieManager.addCookie(response,"token",token,30*24*3600);
+            jsonObject.put("tocken",tocken);
+            sql = "SELECT * FROM tbl_tockeninfo WHERE UserName=?";
+            ptmt = conn.prepareStatement(sql);
+            ptmt.setString(1,userName);
+            rs = ptmt.executeQuery();
+            if(rs.next()) {
+                sql = "UPDATE tbl_tockeninfo SET tockenValue=?, TTL=? WHERE UserName=? AND UserId=?";
             }
-            utils.sendManager.sendJSON(response,jsonObject);
-            System.out.println("发送回复成功");
+            else{
+                sql="INSERT INTO tbl_tockeninfo (tockenValue, TTL,UserName,UserId) VALUES(?,?,?,?)";
+            }
+            ptmt = conn.prepareStatement(sql);
+            ptmt.setString(1, tocken);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            java.util.Date currentDate = new java.util.Date();
+            long timeStamp = currentDate.getTime()+5*60000;
+            System.out.println(timeStamp);
+            if(Objects.equals(rememberPassword, "true")){
+                timeStamp+=60*1000*60*24*10;
+            }
+            ptmt.setString(2,sdf.format(new java.util.Date(timeStamp)));
+            System.out.println("TTL时间是"+sdf.format(new java.util.Date(timeStamp)));
+            //ptmt.setDate(2, new java.sql.Date(new java.util.Date().getTime()));
+            ptmt.setString(3,userName);
+            ptmt.setInt(4,userId);
+            ptmt.execute();
+            response.setContentType("application/json; charset=UTF-8");
+            try {
+                response.getWriter().print(jsonObject);
+                response.getWriter().flush();
+                response.getWriter().close();
+                System.out.println("发送回复成功");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         } catch (JSONException e) {
             e.printStackTrace();
         }
