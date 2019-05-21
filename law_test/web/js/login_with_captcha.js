@@ -70,7 +70,7 @@ function loginWithTocken(tocken){
 
 function loginTask(){
     mdui.mutation();
-    process_dialog.open();
+    //process_dialog.open();
     var url = "/loginAction";
     var username = document.getElementById("UserName").value;
     var password = document.getElementById("PassWd").value;

@@ -4,6 +4,12 @@
 
 var process_dialog=new mdui.Dialog('#process');
 
+document.getElementById("process").addEventListener('closed.mdui.dialog', function () {
+
+    document.getElementById("body").style.width="100%";
+    console.log('closed');
+});
+
 function setCookieDays(cname,cvalue,exdays)
 {
     var d = new Date();
@@ -70,7 +76,7 @@ function loginWithTocken(tocken){
 
 function loginTask(){
     mdui.mutation();
-    process_dialog.open();
+    //process_dialog.open();
     var url = "/loginAction";
     var username = document.getElementById("UserName").value;
     var password = document.getElementById("PassWd").value;
@@ -83,6 +89,7 @@ function loginTask(){
     })
     refreshCaptcha();
     mdui.mutation();
+
 }
 
 function checkResult(json){
@@ -115,6 +122,7 @@ function checkResult(json){
         else{
             delCookie("tocken");
         }
+        document.getElementById("body").style.width="100%";
     }
 }
 
