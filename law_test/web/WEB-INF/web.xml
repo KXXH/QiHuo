@@ -262,5 +262,8 @@
         <servlet-name>statisticAction</servlet-name>
         <url-pattern>/statisticAction</url-pattern>
     </servlet-mapping>
-
+    
+    <listener>
+        <listener-class>news.getNews.autoRun</listener-class>
+    </listener>
 </web-app>
