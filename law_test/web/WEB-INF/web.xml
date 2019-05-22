@@ -307,4 +307,14 @@
         <servlet-name>enableAccountAction</servlet-name>
         <url-pattern>/enableAccountAction</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>busquerylistAction</servlet-name>
+        <servlet-class>business.query.busquerylistAction</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>busquerylistAction</servlet-name>
+        <url-pattern>/busquerylistAction</url-pattern>
+    </servlet-mapping>
 </web-app>
