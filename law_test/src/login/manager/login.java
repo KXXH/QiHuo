@@ -26,6 +26,7 @@ public class login extends javax.servlet.http.HttpServlet {
         else if(session.getAttribute("captcha_flag")==null||(boolean)session.getAttribute("captcha_flag")==false){
             request.getRequestDispatcher("login_beta.html").forward(request, response);
         }else{
+            loginRecorder.loginWithToken(request);
             request.getRequestDispatcher("login_with_captcha.html").forward(request, response);
         }
     }

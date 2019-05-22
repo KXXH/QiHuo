@@ -28,6 +28,7 @@ public class permissionChecker {
         ResultSet rs=ptmt.executeQuery();
         if(rs.next()){
             int code = rs.getInt("permissionCode");
+            connection.close();
             System.out.println("code="+code);
             if((code&1)==1){
                 return true;
@@ -43,6 +44,7 @@ public class permissionChecker {
                 return false;
             }
         }
+        connection.close();
         return false;
     }
     public static boolean checkPermissionAndResponse(HttpServletRequest request, HttpServletResponse response, HttpServlet servlet){
