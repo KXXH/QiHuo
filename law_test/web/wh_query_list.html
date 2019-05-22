@@ -137,7 +137,7 @@
 		console.log(data1);
 		$.post(url,obj,function(json){
 			console.log(JSON.stringify(json));
-			showPage(json);
+			updateTable(json);
 		})
 	}
 

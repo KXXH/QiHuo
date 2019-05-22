@@ -317,4 +317,14 @@
         <servlet-name>busquerylistAction</servlet-name>
         <url-pattern>/busquerylistAction</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>buschaxunAction</servlet-name>
+        <servlet-class>business.query.buschaxunAction</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>buschaxunAction</servlet-name>
+        <url-pattern>/buschaxunAction</url-pattern>
+    </servlet-mapping>
 </web-app>
