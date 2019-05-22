@@ -29,7 +29,7 @@ public class forgetPasswordAction extends javax.servlet.http.HttpServlet {
                     e.printStackTrace();
                 }
             }
-            String token= tokenGenerator.getAndStoreToken(user.getUserName());
+            String token= tokenGenerator.getAndStoreToken(user.getUserName(),true);
             try {
                 sendMail.sendForgetPasswdURL(email,"http://localhost:8080/resetPassword.html?"+token);
                 sendManager.sendSimpleOKJSON(response);

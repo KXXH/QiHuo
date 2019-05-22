@@ -60,6 +60,7 @@ public class tokenGenerator {
             System.out.println("TTL时间是"+sdf.format(new java.util.Date(timeStamp)));
             ptmt.setString(3,userName);
             ptmt.setInt(4, User.findUser(userName,"UserName").getUserId());
+            System.out.println("执行的SQL语句是"+ptmt.toString());
             ptmt.execute();
         } catch (SQLException e) {
             e.printStackTrace();
