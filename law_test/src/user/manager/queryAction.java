@@ -8,6 +8,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import permission.manager.permissionChecker;
 import utils.*;
 /**
  * Created by zjm97 on 2019/4/15.
@@ -25,11 +27,11 @@ public class queryAction extends javax.servlet.http.HttpServlet {
         String sorted_by = request.getParameter("sorted_by");
         String sorted_by2=request.getParameter("sorted_by2");
         System.out.println("user_role="+user_role);
-        if(sorted_by==null||sorted_by2==null||!Objects.equals(user_role, "admin")){
+        if(!permissionChecker.checkPermissionAndResponse(request,response,this)) return;
+        if(sorted_by==null||sorted_by2==null){
             sendManager.sendSimpleErrorJSON(response);
             return;
         }
-
         try{
             Connection conn = utils.dbOpener.getDB();
             boolean flag=false;

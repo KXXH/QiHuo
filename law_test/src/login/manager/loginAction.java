@@ -1,4 +1,4 @@
-package trade.menu;
+package login.manager;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -157,4 +157,5 @@ public class loginAction extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }
+
 }

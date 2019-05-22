@@ -1,5 +1,6 @@
-package trade.menu;
+package login.manager;
 
+import user.manager.User;
 import utils.dbOpener;
 
 import javax.servlet.ServletException;
@@ -14,7 +15,7 @@ import java.sql.*;
  * Created by zjm97 on 2019/3/30.
  */
 @WebServlet(name = "logoutAction")
-public class logoutAction extends HttpServlet {
+public class logoutAction extends HttpServlet{
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String token = (String)request.getSession().getAttribute("token");
 
@@ -35,4 +36,6 @@ public class logoutAction extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }
+
+
 }

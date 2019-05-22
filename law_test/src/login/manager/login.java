@@ -1,9 +1,13 @@
-package trade.menu;
+package login.manager;
 
 import javax.servlet.http.HttpSession;
 
 import user.manager.User;
 import utils.*;
+import permission.manager.*;
+
+import java.sql.SQLException;
+
 /**
  * Created by zjm97 on 2019/5/16.
  */
@@ -25,4 +29,5 @@ public class login extends javax.servlet.http.HttpServlet {
             request.getRequestDispatcher("login_with_captcha.html").forward(request, response);
         }
     }
+
 }

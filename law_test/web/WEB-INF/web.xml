@@ -15,7 +15,7 @@
     
     <servlet>
         <servlet-name>loginAction</servlet-name>
-        <servlet-class>trade.menu.loginAction</servlet-class>
+        <servlet-class>login.manager.loginAction</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -25,7 +25,7 @@
 
     <servlet>
         <servlet-name>login</servlet-name>
-        <servlet-class>trade.menu.login</servlet-class>
+        <servlet-class>login.manager.login</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -35,7 +35,7 @@
     
     <servlet>
         <servlet-name>logoutAction</servlet-name>
-        <servlet-class>trade.menu.logoutAction</servlet-class>
+        <servlet-class>login.manager.logoutAction</servlet-class>
     </servlet>
 
     <servlet-mapping>

@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Date;
 import utils.*;
+import permission.manager.*;
 /**
  * Created by zjm97 on 2019/4/17.
  */
@@ -33,6 +34,15 @@ public class statisticAction extends javax.servlet.http.HttpServlet {
         HashMap map=new HashMap<Date,Integer>();
         String token=tokenExtractor.extractToken(request);
         String user_role= utils.tokenChecker.checkToken(token);
+        if(!permissionChecker.checkPermissionAndResponse(request,response,this)) return;
+        try {
+            boolean flag=permissionChecker.checkPermission(this,tokenChecker.tokenToUser(token));
+            if(flag){
+                System.out.println("权限正确!");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         System.out.println("user_role="+user_role);
         List jsonList = new ArrayList();
         if(!Objects.equals(user_role, "admin")){
