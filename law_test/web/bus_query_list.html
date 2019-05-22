@@ -30,19 +30,44 @@
 
 	</div>
 		<select class="mdui-select" id="sel1" mdui-select>
+			<option value="OrderId">订单号</option>
+			<option value="UserId">用户ID</option>
+			<option value="UserName">用户名称</option>
 			<option value="StockId">股票ID</option>
 			<option value="StockName">股票名称</option>
 			<option value="Quantity">持有数量</option>
+			<option value="BUnitPrice">订单价格</option>
+			<option value="CreateAt">创建时间</option>
 		</select>
 		<select class="mdui-select" id="sel2" mdui-select>
+			<option value="OrderId">订单号</option>
+			<option value="UserId">用户ID</option>
+			<option value="UserName">用户名称</option>
 			<option value="StockId">股票ID</option>
 			<option value="StockName">股票名称</option>
 			<option value="Quantity">持有数量</option>
+			<option value="BUnitPrice">订单价格</option>
+			<option value="CreateAt">创建时间</option>
 		</select>
 		<select class="mdui-select" id="sel3" mdui-select>
+			<option value="OrderId">订单号</option>
+			<option value="UserId">用户ID</option>
+			<option value="UserName">用户名称</option>
 			<option value="StockId">股票ID</option>
 			<option value="StockName">股票名称</option>
 			<option value="Quantity">持有数量</option>
+			<option value="BUnitPrice">订单价格</option>
+			<option value="CreateAt">创建时间</option>
+		</select>
+		<select class="mdui-select" id="sel4" mdui-select>
+			<option value="OrderId">订单号</option>
+			<option value="UserId">用户ID</option>
+			<option value="UserName">用户名称</option>
+			<option value="StockId">股票ID</option>
+			<option value="StockName">股票名称</option>
+			<option value="Quantity">持有数量</option>
+			<option value="BUnitPrice">订单价格</option>
+			<option value="CreateAt">创建时间</option>
 		</select>
 		<button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="show()">显示</button>
 
@@ -72,14 +97,18 @@
 				<table class="mdui-table mdui-table-hoverable">
 					<thead>
 					<tr>
+						<th>订单号</th>
+						<th>用户ID</th>
+						<th>用户名称</th>
 						<th>股票ID</th>
 						<th>股票名称</th>
 						<th>持有数量</th>
+						<th>订单价格</th>
 						<th>交易日期</th>
 						<th>操作</th>
 					</tr>
 					</thead>
-					<tbody id="wh_list">
+					<tbody id="bus_list">
 
 					</tbody>
 				</table>
@@ -90,7 +119,7 @@
 </html>
 
 <script>
-	var wh_info;
+	var bus_info;
 	function add(){
 		window.location.href="wh_register.html";
 	}
@@ -142,12 +171,24 @@
 	}
 
 	function updateTable(json){
-		wh_info=json.list;
-		var table = document.getElementById('wh_list');
+		bus_info=json.list;
+		var table = document.getElementById('bus_list');
 		table.innerHTML="";
 		for(var i=0;i<json.list.length;i++){
 			var row = document.createElement('tr');
-			var id=json.list[i].stockid;
+			var id=json.list[i].orderid;
+
+			var orderId = document.createElement('td');
+			orderId.innerText=json.list[i].orderid;
+			row.appendChild(orderId);
+
+			var userId = document.createElement('td');
+			userId.innerText=json.list[i].userid;
+			row.appendChild(userId);
+
+			var userName = document.createElement('td');
+			userName.innerText=json.list[i].username;
+			row.appendChild(userName);
 
 			var stockId = document.createElement('td');
 			stockId.innerText=json.list[i].stockid;
@@ -160,6 +201,10 @@
 			var Quantity = document.createElement('td');
 			Quantity.innerText=json.list[i].quantity;
 			row.appendChild(Quantity);
+
+			var BUnitPrice = document.createElement('td');
+			BUnitPrice.innerText=json.list[i].bunitprice;
+			row.appendChild(BUnitPrice);
 
 			var createAt = document.createElement('td');
 			createAt.innerText=json.list[i].createat;
@@ -189,7 +234,7 @@
 			row.appendChild(buttonBox);
 			table.appendChild(row);
 		}
-		mdui.updateTables("#wh_list")
+		mdui.updateTables("#bus_list")
 	}
 
 
@@ -197,21 +242,21 @@
 
 	function show(){
 
-		var url = "/querylistAction";
+		var url = "/busquerylistAction";
 
 		var sel1 = document.getElementById("sel1").value;
 		var sel2 = document.getElementById("sel2").value;
 		var sel3 = document.getElementById("sel3").value;
-		//var sel4 = document.getElementById("sel4").value;
+		var sel4 = document.getElementById("sel4").value;
 
 		var coo = getCookie("tocken");
 
-		var data1 = '{"Sel1":"'+sel1+'","Sel2":"'+sel2+'","Sel3":"'+sel3+'","Cookie":"'+coo+'"}';
+		var data1 = '{"Sel1":"'+sel1+'","Sel2":"'+sel2+'","Sel3":"'+sel3+'","Sel4":"'+sel4+'","Cookie":"'+coo+'"}';
 
 		var obj = JSON.parse(data1);
 		$.post(url,obj,function(json){
 			//console.log(JSON.stringify(json));
-			wh_info=json.list;
+			bus_info=json.list;
 			updateTable(json);
 		})
 
