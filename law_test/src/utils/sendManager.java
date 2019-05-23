@@ -45,6 +45,10 @@ public class sendManager {
         return sendJSON(response,jsonObject);
     }
 
+    public static HttpServletResponse sendErrorJSONWithMsg(HttpServletResponse response){
+
+    }
+
     /**
      * 发送简单成功信息的工具方法，其内容为:{"status","ok"}
      * @param response

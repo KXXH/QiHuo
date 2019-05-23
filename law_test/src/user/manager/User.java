@@ -208,6 +208,7 @@ public class User {
         return true;
     }
 
+
     public String getPhone() {
         return Phone;
     }
@@ -238,5 +239,28 @@ public class User {
     public void setRole_id(String role_id) throws SQLException {
         executeUpdate(role_id,"role_id");
         this.role_id = role_id;
+    }
+
+    public boolean setRole_id(String role_id,User opUser) throws SQLException {
+        switch(role_id){
+            case "unchecked":case "normal":
+                switch(opUser.getRole_id()){
+                    case "admin":case "super_admin":
+                        setRole_id(role_id);
+                        return true;
+                    default:
+                        return false;
+                }
+            case "admin":
+                switch(opUser.getRole_id()){
+                    case "super_admin":
+                        setRole_id(role_id);
+                        return true;
+                    default:
+                        return false;
+                }
+            case "super_admin":default:
+                return false;
+        }
     }
 }

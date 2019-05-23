@@ -59,7 +59,9 @@ public class editAction extends javax.servlet.http.HttpServlet {
                 }
                 targetUser.setPhone(phone);
                 targetUser.setWechatId(wechat_id);
+                if(!targetUser.setRole_id(role_id,operateUser)){
 
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
