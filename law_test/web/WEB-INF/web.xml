@@ -264,6 +264,6 @@
     </servlet-mapping>
     
     <listener>
-        <listener-class>news.getNews.autoRun</listener-class>
+        <listener-class>autoRun.autoRun</listener-class>
     </listener>
 </web-app>

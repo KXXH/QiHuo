@@ -17,12 +17,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import utils.dbOpener;
+import utils.networkOpener;
 /**
  * Created by 11913 on 2019/5/22.
  */
 public class mainGetNews {
     public static void main(String args[]){
-        GetNewsThread T = new GetNewsThread("Thread-1");
+        GetNewsThread T = new GetNewsThread("Thread-news");
         T.start();
     }
 }
@@ -43,43 +44,7 @@ class GetNewsThread extends Thread {
             String param = "key=133bd0946b87b54855e18fae608c9fc1&type=caijing";
             String url = "http://v.juhe.cn/toutiao/index";
             String urlNameString = url + "?" + param;
-            BufferedReader in = null;
-            try {
-                URL realUrl = new URL(urlNameString);
-                URLConnection conn = realUrl.openConnection();
-                conn.setRequestProperty("accept", "*/*");
-                conn.setRequestProperty("connection", "Keep-Alive");
-                conn.setRequestProperty("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
-                conn.setRequestProperty("Content-Type", "application/json");
-                // 发送POST请求必须设置如下两行
-                // 建立实际的连接
-                conn.connect();
-                // 获取所有响应头字段
-                Map<String, List<String>> map = conn.getHeaderFields();
-                // 遍历所有的响应头字段
-                for (String key : map.keySet()) {
-                    System.out.println(key + "--->" + map.get(key));
-                }
-
-                in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"));
-                String line;
-                while ((line = in.readLine()) != null) {
-                    //line = new String(line.getBytes("iso8859-1"), "utf-8");
-                    response += line;
-                }
-            } catch (MalformedURLException e1) {
-                e1.printStackTrace();
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            } finally {
-                try {
-                    if (in != null) {
-                        in.close();
-                    }
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            }
+            response = networkOpener.getResponse(urlNameString,"utf-8");
             System.out.println(response);
             JSONObject rootObject, jsonObject;
             JSONArray jsonArray = null;
