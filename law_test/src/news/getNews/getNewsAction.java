@@ -2,6 +2,7 @@ package news.getNews;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import permission.manager.permissionChecker;
 import user.manager.User;
 import utils.dbOpener;
 import utils.sendManager;
@@ -28,6 +29,7 @@ import java.util.Map;
 @WebServlet(name = "getNewsAction")
 public class getNewsAction extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        /*
         //得到token
         String token = tokenExtractor.extractToken(request);
         //从token得到user实例
@@ -37,7 +39,9 @@ public class getNewsAction extends HttpServlet {
             System.out.println("user==null");
             sendManager.sendSimpleErrorJSON(response);
             return;
-        }
+        }*/
+
+        if(!permissionChecker.checkPermissionAndResponse(request,response,this)) return;
 
         //主线程从数据库中获得10条最新新闻返回
         try{

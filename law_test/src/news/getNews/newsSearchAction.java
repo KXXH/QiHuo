@@ -2,6 +2,7 @@ package news.getNews;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import permission.manager.permissionChecker;
 import utils.dbOpener;
 
 import javax.servlet.ServletException;
@@ -24,6 +25,9 @@ import java.util.Map;
 @WebServlet(name = "newsSearchAction")
 public class newsSearchAction extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        if(!permissionChecker.checkPermissionAndResponse(request,response,this)) return;
+
         String search = request.getParameter("search");
         try {
             Connection conn = dbOpener.getDB();

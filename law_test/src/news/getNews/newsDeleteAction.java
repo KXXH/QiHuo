@@ -2,6 +2,7 @@ package news.getNews;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import permission.manager.permissionChecker;
 import utils.dbOpener;
 
 import javax.servlet.ServletException;
@@ -20,6 +21,9 @@ import java.sql.SQLException;
 @WebServlet(name = "newsDeleteAction")
 public class newsDeleteAction extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        if(!permissionChecker.checkPermissionAndResponse(request,response,this)) return;
+
         String delete_id = request.getParameter("id");
         System.out.println(delete_id);
         JSONObject jsonObject = new JSONObject();

@@ -1,5 +1,6 @@
 package news.getNews;
 
+import permission.manager.permissionChecker;
 import utils.dbOpener;
 
 import javax.servlet.ServletException;
@@ -41,6 +42,8 @@ public class newsExportAction extends HttpServlet {
         }
 
         protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+            if(!permissionChecker.checkPermissionAndResponse(request,response,this)) return;
             String csv = getCSV();
             byte[] b = csv.getBytes();
             String filename = "导出.csv";
