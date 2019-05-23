@@ -45,8 +45,27 @@ public class sendManager {
         return sendJSON(response,jsonObject);
     }
 
-    public static HttpServletResponse sendErrorJSONWithMsg(HttpServletResponse response){
+    public static HttpServletResponse sendErrorJSONWithMsg(HttpServletResponse response,String msg){
+        JSONObject jsonObject=new JSONObject();
+        try {
+            jsonObject.put("status","error");
+            jsonObject.put("error",msg);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return sendJSON(response,jsonObject);
+    }
 
+    public static HttpServletResponse sendErrorJSONWithMsgAndCode(HttpServletResponse response,String msg,int code){
+        JSONObject jsonObject=new JSONObject();
+        try {
+            jsonObject.put("status","error");
+            jsonObject.put("error",msg);
+            jsonObject.put("code",code);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return sendJSON(response,jsonObject);
     }
 
     /**
