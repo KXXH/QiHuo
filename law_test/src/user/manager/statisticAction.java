@@ -39,32 +39,16 @@ public class statisticAction extends javax.servlet.http.HttpServlet {
             boolean flag=permissionChecker.checkPermission(this,tokenChecker.tokenToUser(token));
             if(flag){
                 System.out.println("权限正确!");
+            }else{
+                System.out.println("权限错误!");
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         System.out.println("user_role="+user_role);
         List jsonList = new ArrayList();
-        if(!Objects.equals(user_role, "admin")){
-            try{
-                JSONObject json = new JSONObject();
-                json.put("status","error");
-                response.setContentType("application/json; charset=UTF-8");
-                try{
-                    response.getWriter().print(json);
-                    response.getWriter().flush();
-                    response.getWriter().close();
-                }
-                catch(IOException e){
-                    e.printStackTrace();
-                }
-                return;
-            }catch(JSONException e){
-                e.printStackTrace();
-            }
-        }
         try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb?user=root&password=123456&useUnicode=true&characterEncoding=UTF-8");
+            Connection conn = dbOpener.getDB();
             String sql = "SELECT * FROM tbl_userinfo ORDER BY CreateAt";
             PreparedStatement ptmt = conn.prepareStatement(sql);
             ResultSet rs = ptmt.executeQuery();
@@ -91,15 +75,7 @@ public class statisticAction extends javax.servlet.http.HttpServlet {
                 JSONObject json = new JSONObject();
                 json.put("status","ok");
                 json.put("data",jsonList);
-                response.setContentType("application/json; charset=UTF-8");
-                try{
-                    response.getWriter().print(json);
-                    response.getWriter().flush();
-                    response.getWriter().close();
-                }
-                catch(IOException e){
-                    e.printStackTrace();
-                }
+                sendManager.sendJSON(response,json);
                 return;
             }catch(JSONException e){
                 e.printStackTrace();
