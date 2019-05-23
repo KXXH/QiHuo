@@ -188,7 +188,7 @@ function get_all_news(){
         var obj = JSON.parse(data);
         $.post(url,obj,function(json){
             if(json.status==1)
-                alert("请刷新!");
+                window.location.href = "news_manager.html";
             else
                 alert("删除失败!");
         })
@@ -228,7 +228,7 @@ function get_all_news(){
         var obj = JSON.parse(data);
         $.post(url,obj,function(json){
             if(json.status=="1")
-                alert("修改成功！");
+                window.location.href = "news_manager.html";
             else
                 alert("修改失败！");
         })

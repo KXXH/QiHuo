@@ -2,6 +2,7 @@ package news.getNews;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import permission.manager.permissionChecker;
 import user.manager.User;
 import utils.dbOpener;
 import utils.sendManager;
@@ -30,6 +31,7 @@ import java.util.Objects;
 public class newsManagerAction extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        /*
         //得到token
         String token = tokenExtractor.extractToken(request);
         //从token得到user实例
@@ -39,6 +41,9 @@ public class newsManagerAction extends HttpServlet {
                 sendManager.sendSimpleErrorJSON(response);
                 return;
         }
+        */
+
+        if(!permissionChecker.checkPermissionAndResponse(request,response,this)) return;
 
         String order_1 = request.getParameter("order_1");
         String order_2 = request.getParameter("order_2");
