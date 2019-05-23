@@ -327,15 +327,34 @@
         <servlet-name>buschaxunAction</servlet-name>
         <url-pattern>/buschaxunAction</url-pattern>
     </servlet-mapping>
-    
+
+    <servlet>
+        <servlet-name>getDataToShowAction</servlet-name>
+        <servlet-class>quotation.getXLdata.getDataToShowAction</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>getDataToShowAction</servlet-name>
+        <url-pattern>/getDataToShowAction</url-pattern>
+    </servlet-mapping>
     
     <servlet>
-        <servlet-name>editUserPermissionAction</servlet-name>
-        <servlet-class>permission.manager.editUserPermissionAction</servlet-class>
+        <servlet-name>getTokenAction</servlet-name>
+        <servlet-class>login.manager.getTokenAction</servlet-class>
     </servlet>
     
     <servlet-mapping>
-        <servlet-name>editUserPermissionAction</servlet-name>
-        <url-pattern>/editUserPermissionAction</url-pattern>
+        <servlet-name>getTokenAction</servlet-name>
+        <url-pattern>/getTokenAction</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>delTokenAction</servlet-name>
+        <servlet-class>login.manager.delTokenAction</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>delTokenAction</servlet-name>
+        <url-pattern>/delTokenAction</url-pattern>
     </servlet-mapping>
 </web-app>

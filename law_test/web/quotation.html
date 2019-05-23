@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>行情数据</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta name="keywords" content="" />
+    <link rel="stylesheet" href="//cdnjs.loli.net/ajax/libs/mdui/0.4.2/css/mdui.min.css">
+    <script src="//cdnjs.loli.net/ajax/libs/mdui/0.4.2/js/mdui.min.js"></script>
+    <script src="js/jquery-2.1.4.min.js"></script>
+    <script src="js/index_beta.js"></script>
+</head>
+<body onload="initPage();getQuatations()" class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-pink ">
+    <div class="mdui-appbar mdui-appbar-fixed">
+        <div class="mdui-toolbar mdui-color-theme">
+            <a class="mdui-btn mdui-btn-icon" mdui-drawer="{target: '#left-drawer'}"><i class="mdui-icon material-icons">menu</i></a>
+            <a href="javascript:;" class="mdui-typo-headline">期货交易系统</a>
+            <a href="javascript:;" class="mdui-typo-title">新闻管理</a>
+            <div class="mdui-toolbar-spacer"></div>
+            <a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></a>
+            <a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">refresh</i></a>
+            <a onclick="logOut();" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">exit_to_app</i></a>
+        </div>
+    </div>
+
+    <div class="mdui-drawer mdui-shadow-5" id="left-drawer">
+        <div class="mdui-spinner mdui-spinner-colorful" id="loader" style="display: block;margin-left:auto;margin-right:auto;margin-top: 50%"></div>
+        <div class="mdui-list mdui-collapse" mdui-collapse="{accordion:true}" id="drawer"></div>
+
+    </div>
+    <div class="mdui-container">
+        <div class="mdui-tab" mdui-tab style="margin-top: 1%">
+            <a href="#hs" class="mdui-ripple">沪深</a>
+            <a href="#hk" class="mdui-ripple">香港</a>
+            <a href="#jp" class="mdui-ripple">日本</a>
+            <a href="#eu" class="mdui-ripple">欧洲</a>
+            <a href="#us" class="mdui-ripple">美国</a>
+            <a href="#qh" class="mdui-ripple">期货</a>
+            <a href="#hl" class="mdui-ripple">汇率</a>
+        </div>
+        <div id="hs" class="mdui-p-a-2">
+
+        </div>
+        <div id="hk" class="mdui-p-a-2">
+
+        </div>
+        <div id="jp" class="mdui-p-a-2">
+
+        </div>
+        <div id="eu" class="mdui-p-a-2">
+
+        </div>
+        <div id="us" class="mdui-p-a-2">
+
+        </div>
+        <div id="qh" class="mdui-p-a-2">
+
+        </div>
+        <div id="hl" class="mdui-p-a-2">
+
+        </div>
+    </div>
+
+</body>
+</html>
+
+<script>
+    var list;
+    var length;
+    function getQuatations(){
+        url = "getDataToShowAction";
+        $.post(url,function(json){
+            if(json.status == "error"){
+                alert("必须登录！");
+            }
+            else{
+                setQuatations(json);
+            }
+        })
+    }
+
+    function setQuatations(json){
+        list = json.aaData;
+        length = list.length;
+
+        for(var i = 0; i < length; i++){
+            console.log(list[i])
+            var kind = list[i].kind;
+            var Node = document.createElement("div");
+            Node.className = "mdui-row mdui-row-gapless";
+            Node.style = "margin-top:1%;margin-left:2%";
+            Node.innerHTML = "<div class=\"mdui-col-xs-3\"><h3>"+list[i].name+"</h3></div>";
+            if(list[i].ROFper < 0){
+                Node.innerHTML += "<div class=\"mdui-col-xs-2\"><h4 style='color:green;'>"+list[i].quotation+"</h4></div>";
+                Node.innerHTML += "<div class=\"mdui-col-xs-1\"><h4 style='color:green;'>"+list[i].ROFper+"%</h4></div>";
+                if(list[i].kind!=4&&list[i].kind!=5)
+                    Node.innerHTML += "<div class=\"mdui-col-xs-1\"><h4 style='color:green;'>"+list[i].riseorfall+"</h4></div>";
+            }
+            else{
+                Node.innerHTML += "<div class=\"mdui-col-xs-2\"><h4 style='color:red;'>"+list[i].quotation+"</h4></div>";
+                Node.innerHTML += "<div class=\"mdui-col-xs-1\"><h4 style='color:red;'>"+list[i].ROFper+"%</h4></div>";
+                if(list[i].kind!=4&&list[i].kind!=5)
+                    Node.innerHTML += "<div class=\"mdui-col-xs-1\"><h4 style='color:red;'>"+list[i].riseorfall+"</h4></div>";
+            }
+
+
+            var imageNode = document.createElement("div");
+            switch (kind){
+                case 0:
+                    var parent = document.getElementById("hs");
+                    parent.appendChild(Node);
+                    imageNode.innerHTML = "<img src='http://image.sinajs.cn/newchart/hollow/small/"+ list[i].image+".gif' width='450' height='208'>"
+                    parent.appendChild(imageNode);
+                    break;
+                case 1:
+                    var parent = document.getElementById("hk");
+                    parent.appendChild(Node);
+                    imageNode.innerHTML = "<img src='http://image.sinajs.cn/newchart/hk_stock/min_hollow/"+ list[i].image+".gif' width='450' height='208'>"
+                    parent.appendChild(imageNode);
+                    break;
+                case 2:
+                    var parent = document.getElementById("eu");
+                    parent.appendChild(Node);
+                    imageNode.innerHTML = "<img src='http://image.sinajs.cn/newchart/futures/forex/min5_m_hollow/"+ list[i].image+".gif' width='450' height='208'>"
+                    parent.appendChild(imageNode);
+                    break;
+                case 3:
+                    var parent = document.getElementById("us");
+                    parent.appendChild(Node);
+                    imageNode.innerHTML = "<img src='http://image.sinajs.cn/newchart/usstock/min_idx_py/"+ list[i].image+".gif' width='450' height='208'>"
+                    parent.appendChild(imageNode);
+                    break;
+                case 4:
+                    var parent = document.getElementById("qh");
+                    parent.appendChild(Node);
+                    imageNode.innerHTML = "<img src='http://image.sinajs.cn/newchart/futures/global/mins_hollow/"+ list[i].image+".gif ' width='450' height='208'>"
+                    parent.appendChild(imageNode);
+                    break;
+                case 5:
+                    var parent = document.getElementById("hl");
+                    parent.appendChild(Node);
+                    break;
+                case 6:
+                    var parent = document.getElementById("jp");
+                    parent.appendChild(Node);
+                    imageNode.innerHTML = "<img src='http://image.sinajs.cn/newchart/futures/forex/min5_m_hollow/"+ list[i].image+".gif' width='450' height='208'>"
+                    parent.appendChild(imageNode);
+                    break;
+            }
+        }
+    }
+</script>

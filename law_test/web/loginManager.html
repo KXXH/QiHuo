@@ -1,0 +1,107 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <title>登录管理</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta name="keywords" content="" />
+    <link rel="stylesheet" href="//cdnjs.loli.net/ajax/libs/mdui/0.4.2/css/mdui.min.css">
+    <script src="//cdnjs.loli.net/ajax/libs/mdui/0.4.2/js/mdui.min.js"></script>
+    <script src="js/index_beta.js"></script>
+    <script src="js/jquery-2.1.4.min.js"></script>
+    <script src="https://www.amcharts.com/lib/4/core.js"></script>
+    <script src="https://www.amcharts.com/lib/4/charts.js"></script>
+    <script src="https://www.amcharts.com/lib/4/themes/material.js"></script>
+    <script src="https://www.amcharts.com/lib/4/lang/de_DE.js"></script>
+    <script src="https://www.amcharts.com/lib/4/geodata/germanyLow.js"></script>
+</head>
+
+<body onload="initPage();fetchTokenInfo()" class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-pink ">
+
+
+
+<div class="mdui-appbar mdui-appbar-fixed">
+    <div class="mdui-toolbar mdui-color-theme">
+        <a class="mdui-btn mdui-btn-icon" mdui-drawer="{target: '#left-drawer'}"><i class="mdui-icon material-icons">menu</i></a>
+        <a href="javascript:;" class="mdui-typo-headline">期货交易系统</a>
+        <a href="javascript:;" class="mdui-typo-title">登录管理</a>
+        <div class="mdui-toolbar-spacer"></div>
+        <a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></a>
+        <a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">refresh</i></a>
+        <a onclick="logOut();" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">exit_to_app</i></a>
+    </div>
+</div>
+
+<div class="mdui-drawer mdui-shadow-5" id="left-drawer">
+    <div class="mdui-spinner mdui-spinner-colorful" id="loader" style="display: block;margin-left:auto;margin-right:auto;margin-top: 50%"></div>
+    <div class="mdui-list mdui-collapse" mdui-collapse="{accordion:true}" id="drawer"></div>
+
+</div>
+<div class="mdui-container">
+    <button class="mdui-btn" onclick="delToken()">删除</button>
+    <div class="mdui-table-fluid">
+        <table class="mdui-table mdui-table-hoverable mdui-table-selectable" id="token_table">
+            <tr>
+                <th>ID</th>
+                <th>Token值</th>
+                <th>用户名</th>
+                <th>TTL</th>
+            </tr>
+
+        </table>
+    </div>
+</div>
+<script>
+    var tokenList;
+    function fetchTokenInfo(){
+        var url='/getTokenAction';
+
+        $.post(url,function(json){
+            console.log(JSON.stringify(json));
+            if(json.status=="ok"){
+                tokenList=json.data;
+                initTokenTable();
+            }
+        });
+    }
+
+    function initTokenTable(){
+        var table=document.getElementById("token_table");
+        var rowCount=table.rows.length;
+        for(var i=rowCount-1;i>0;i--){
+            table.deleteRow(i);
+        }
+        for(var i=0;i<tokenList.length;i++){
+            var row=document.getElementById("token_table").insertRow();
+            row.insertCell(0).innerHTML=tokenList[i].id;
+            row.insertCell(1).innerHTML=tokenList[i].tokenValue;
+            row.insertCell(2).innerHTML=tokenList[i].username;
+            row.insertCell(3).innerHTML=tokenList[i].TTL;
+        }
+        mdui.updateTables("#token_table");
+    }
+    function delToken(){
+        var selects=document.getElementsByClassName("mdui-table-row-selected");
+        var ids=new Array();
+        for(var i=0;i<selects.length;i++){
+            console.log(selects[i].cells[1].innerHTML);
+            ids.push(selects[i].cells[1].innerHTML);
+        }
+        var j={'selects':ids};
+        var url='/delTokenAction';
+        $.post(url,j, function (json) {
+            if(json.status=="ok"){
+                mdui.snackbar("删除成功!");
+
+            }else{
+                mdui.alert(json.error,"出现错误");
+            }
+            fetchTokenInfo();
+        })
+    }
+</script>
+</body>
+</html>
