@@ -43,6 +43,27 @@ public class editAction extends javax.servlet.http.HttpServlet {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        User operateUser = tokenChecker.tokenToUser(token);
+        User targetUser = User.findUserById(userId);
+        if(targetUser==null){
+            sendManager.sendSimpleErrorJSON(response);
+        }else{
+            try {
+                if(!targetUser.setUserName(username)){
+                    sendManager.sendSimpleErrorJSON(response);
+                    return;
+                }
+                if(!targetUser.setEmail(email)){
+                    sendManager.sendSimpleErrorJSON(response);
+                    return;
+                }
+                targetUser.setPhone(phone);
+                targetUser.setWechatId(wechat_id);
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     protected void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, java.io.IOException {

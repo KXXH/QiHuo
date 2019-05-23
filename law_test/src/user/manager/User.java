@@ -176,9 +176,15 @@ public class User {
         return UserName;
     }
 
-    public void setUserName(String userName) throws SQLException {
+    public boolean setUserName(String userName) throws SQLException {
+        if(Objects.equals(userName, getUserName())){return true;}
+        User user=findUser(userName,"UserName");
+        if(user!=null){
+            return false;
+        }
         executeUpdate(userName,"UserName");
         UserName = userName;
+        return true;
     }
 
 
@@ -191,9 +197,15 @@ public class User {
         return Email;
     }
 
-    public void setEmail(String email) throws SQLException {
+    public boolean setEmail(String email) throws SQLException {
+        if(Objects.equals(getEmail(), email)){return true;}
+        User user=findUser(email,"Email");
+        if(user!=null){
+            return false;
+        }
         executeUpdate(email,"Email");
         Email = email;
+        return true;
     }
 
     public String getPhone() {
