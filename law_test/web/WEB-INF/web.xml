@@ -327,4 +327,14 @@
         <servlet-name>buschaxunAction</servlet-name>
         <url-pattern>/buschaxunAction</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>getDataToShowAction</servlet-name>
+        <servlet-class>quotation.getXLdata.getDataToShowAction</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>getDataToShowAction</servlet-name>
+        <url-pattern>/getDataToShowAction</url-pattern>
+    </servlet-mapping>
 </web-app>
