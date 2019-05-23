@@ -16,7 +16,7 @@ function getParam(){
     }
 function showSuccess(json){
 
-    window.location="query_list.html";
+    window.location="wh_query_list.html";
 }
 
 function changestock(){
