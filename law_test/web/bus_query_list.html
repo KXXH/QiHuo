@@ -70,9 +70,29 @@
 			<option value="CreateAt">创建时间</option>
 		</select>
 		<button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="show()">显示</button>
-
+		<div>
+			<button type="button" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="window.location='wh_print.html'">打印</button>
+			<a href = "busdataToCSV" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent">导出</a>
+			<button type="button" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="window.location='wh_statistics.html'">统计</button>
+			<button type="button"class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="home()">仓库主页</button>
+		</div>
 		<div>
 			<div name="chaxunForm" style="float:left;">
+				<div class="mdui-textfield mdui-textfield-floating-label">
+					<label class="mdui-textfield-label" style="width:250px">订单号</label>
+					<input class="mdui-textfield-input" style="width:250px" id="OrderId" name="OrderId" type="text" value=""/>
+				</div>
+
+				<div class="mdui-textfield mdui-textfield-floating-label">
+					<label class="mdui-textfield-label" style="width:250px">用户ID(必填)</label>
+					<input class="mdui-textfield-input" style="width:250px" id="UserId" name="UserId" type="text" value=""/>
+				</div>
+
+				<div class="mdui-textfield mdui-textfield-floating-label">
+					<label class="mdui-textfield-label" style="width:250px">用户名称</label>
+					<input class="mdui-textfield-input" style="width:250px" id="UserName" name="UserName" type="text" value=""/>
+				</div>
+
 				<div class="mdui-textfield mdui-textfield-floating-label">
 					<label class="mdui-textfield-label" style="width:250px">股票ID</label>
 					<input class="mdui-textfield-input" style="width:250px" id="StockId" name="StockId" type="text" value=""/>
@@ -82,15 +102,7 @@
 					<label class="mdui-textfield-label" style="width:250px">股票名称</label>
 					<input class="mdui-textfield-input" style="width:250px" id="StockName" name="StockName" type="text" value=""/>
 				</div>
-
-
 				<button type="button" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="query()">查询</button>
-				<button type="button" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="add()">添加</button>
-				<button type="button"class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="home()">仓库主页</button>
-				<br>
-				<button type="button" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="window.location='wh_print.html'">打印</button>
-				<a href = "dataToCSV" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent">导出</a>
-				<button type="button" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="window.location='wh_statistics.html'">统计</button>
 			</div>
 
 			<div class="mdui-table-fluid">
@@ -121,16 +133,16 @@
 <script>
 	var bus_info;
 	function add(){
-		window.location.href="wh_register.html";
+		window.location.href="bus_register.html";
 	}
 	function modify(id){
-		window.location.href = "wh_change.html?stockid="+id;
+		window.location.href = "bus_change.html?orderid="+id;
 	}
 	function home(){
-		window.location="wh_query_list.html";
+		window.location="bus_query_list.html";
 	}
 	function delet(id){
-		var url = "/deleteAction?StockId="+id;
+		var url = "/busdeleteAction?OrderId="+id;
 
 		var data1 = '{"StockId":"'+id+'"}';
 
@@ -145,7 +157,7 @@
 	}
 
 	function exported(){
-		var url = "/dataToCSV";
+		var url = "/busdataToCSV";
 
 		$.post(url,function(json){
 			console.log(JSON.stringify(json));
@@ -153,20 +165,23 @@
 	}
 
 	function query(){
-		var url = "/chaxunAction";
+		var url = "/buschaxunAction";
 
 		console.log("22222222222222");
+		var orderid = document.getElementById("OrderId").value;
+		var userid = document.getElementById("UserId").value;
+		var username = document.getElementById("UserName").value;
 		var stockid = document.getElementById("StockId").value;
 		var stockname = document.getElementById("StockName").value;
-		var coo = getCookie("tocken");
+		//var coo = getCookie("tocken");
 		console.log("11111111111111111");
-		var data1 = '{"StockId":"'+stockid+'","StockName":"'+stockname+'","Cookie":"'+coo+'"}';
+		var data1 = '{"OrderId":"'+orderid+'","UserId":"'+userid+'","UserName":"'+username+'","StockId":"'+stockid+'","StockName":"'+stockname+'"}';
 		console.log("================");
 		var obj = JSON.parse(data1);
 		console.log(data1);
 		$.post(url,obj,function(json){
 			console.log(JSON.stringify(json));
-			showPage(json);
+			updateTable(json);
 		})
 	}
 

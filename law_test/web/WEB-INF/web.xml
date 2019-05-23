@@ -246,12 +246,12 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>dataToCSV</servlet-name>
-        <servlet-class>warehouse.expor.dataToCSV</servlet-class>
+        <servlet-name>whdataToCSV</servlet-name>
+        <servlet-class>warehouse.expor.whdataToCSV</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>dataToCSV</servlet-name>
-        <url-pattern>/dataToCSV</url-pattern>
+        <servlet-name>whdataToCSV</servlet-name>
+        <url-pattern>/whdataToCSV</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -326,6 +326,33 @@
     <servlet-mapping>
         <servlet-name>buschaxunAction</servlet-name>
         <url-pattern>/buschaxunAction</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>busdeleteAction</servlet-name>
+        <servlet-class>business.delet.busdeleteAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>busdeleteAction</servlet-name>
+        <url-pattern>/busdeleteAction</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>buschangeAction</servlet-name>
+        <servlet-class>business.change.buschangeAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>buschangeAction</servlet-name>
+        <url-pattern>/buschangeAction</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>busdataToCSV</servlet-name>
+        <servlet-class>business.expor.busdataToCSV</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>busdataToCSV</servlet-name>
+        <url-pattern>/busdataToCSV</url-pattern>
     </servlet-mapping>
 
     <servlet>
