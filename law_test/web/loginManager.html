@@ -41,17 +41,37 @@
 
 </div>
 <div class="mdui-container">
-    <button class="mdui-btn" onclick="delToken()">删除</button>
-    <div class="mdui-table-fluid">
-        <table class="mdui-table mdui-table-hoverable mdui-table-selectable" id="token_table">
-            <tr>
-                <th>ID</th>
-                <th>Token值</th>
-                <th>用户名</th>
-                <th>TTL</th>
-            </tr>
+    <div class="mdui-tab" mdui-tab>
+        <a href="#tokenManager" class="mdui-ripple">Token管理</a>
+        <a href="#loginManager" class="mdui-ripple">登录记录查看</a>
+    </div>
+    <div id="tokenManager">
+        <button class="mdui-btn" onclick="delToken()">删除</button>
+        <div class="mdui-table-fluid">
+            <table class="mdui-table mdui-table-hoverable mdui-table-selectable" id="token_table">
+                <tr>
+                    <th>ID</th>
+                    <th>Token值</th>
+                    <th>用户名</th>
+                    <th>TTL</th>
+                </tr>
 
-        </table>
+            </table>
+        </div>
+    </div>
+    <div id="loginManager">
+        <div class="mdui-table-fluid">
+            <table class="mdui-table mdui-table-hoverable mdui-table-selectable" id="login_table">
+                <tr>
+                    <th>ID</th>
+                    <th>用户名</th>
+                    <th>时间</th>
+                    <th>描述</th>
+                    <th>IP</th>
+                </tr>
+
+            </table>
+        </div>
     </div>
 </div>
 <script>
