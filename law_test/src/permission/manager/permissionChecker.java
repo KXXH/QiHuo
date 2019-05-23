@@ -79,13 +79,15 @@ public class permissionChecker {
             if(flag){
                 return true;
             }else{
-                sendManager.sendSimpleErrorJSON(response);
+                sendManager.sendDefaultPermissionError(response);
                 return false;
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        sendManager.sendErrorJSONWithMsgAndCode(response,"权限不足!",123);
+        System.out.println("权限不够!");
+
+        sendManager.sendDefaultPermissionError(response);
         return false;
     }
 }

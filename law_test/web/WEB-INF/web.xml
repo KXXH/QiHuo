@@ -337,4 +337,24 @@
         <servlet-name>getDataToShowAction</servlet-name>
         <url-pattern>/getDataToShowAction</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>getTokenAction</servlet-name>
+        <servlet-class>login.manager.getTokenAction</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>getTokenAction</servlet-name>
+        <url-pattern>/getTokenAction</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>delTokenAction</servlet-name>
+        <servlet-class>login.manager.delTokenAction</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>delTokenAction</servlet-name>
+        <url-pattern>/delTokenAction</url-pattern>
+    </servlet-mapping>
 </web-app>
