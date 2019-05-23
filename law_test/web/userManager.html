@@ -139,27 +139,35 @@
                 <label class="mdui-textfield-label">微信</label>
                 <input class="mdui-textfield-input" type="text" id="wechat_id_edit" name="wechat_id"/>
             </div>
-            <label class="mdui-typo">角色</label>
-            <label class="mdui-radio">
-                <input type="radio" name="role_id_radio" id="role_id_radio_super_admin" value="super_admin" disabled/>
-                <i class="mdui-radio-icon"></i>
-                super_admin
-            </label>
-            <label class="mdui-radio">
-                <input type="radio" name="role_id_radio" id="role_id_radio_admin" value="admin" disabled/>
-                <i class="mdui-radio-icon"></i>
-                admin
-            </label>
-            <label class="mdui-radio">
-                <input type="radio" name="role_id_radio" id="role_id_radio_normal" value="normal" disabled/>
-                <i class="mdui-radio-icon"></i>
-                normal
-            </label>
-            <label class="mdui-radio">
-                <input type="radio" name="role_id_radio" id="role_id_radio_unchecked" value="unchecked" disabled/>
-                <i class="mdui-radio-icon"></i>
-                unchecked
-            </label>
+            <label class="mdui-typo">角色</label><br>
+            <div class="mdui-col-xs-3">
+                <label class="mdui-radio">
+                    <input type="radio" name="role_id_radio" id="role_id_radio_super_admin" value="super_admin" disabled/>
+                    <i class="mdui-radio-icon"></i>
+                    super_admin
+                </label>
+            </div>
+            <div class="mdui-col-xs-3">
+                <label class="mdui-radio">
+                    <input type="radio" name="role_id_radio" id="role_id_radio_admin" value="admin" disabled/>
+                    <i class="mdui-radio-icon"></i>
+                    admin
+                </label>
+            </div>
+            <div class="mdui-col-xs-3">
+                <label class="mdui-radio">
+                    <input type="radio" name="role_id_radio" id="role_id_radio_normal" value="normal" disabled/>
+                    <i class="mdui-radio-icon"></i>
+                    normal
+                </label>
+            </div>
+            <div class="mdui-col-xs-3">
+                <label class="mdui-radio">
+                    <input type="radio" name="role_id_radio" id="role_id_radio_unchecked" value="unchecked" disabled/>
+                    <i class="mdui-radio-icon"></i>
+                    unchecked
+                </label>
+            </div>
             <div class="mdui-dialog-actions" id="submit_btn">
                 <button class="mdui-btn" onclick="submitEdit()">提交</button>
             </div>
@@ -335,23 +343,27 @@
     }
 
     function delUserInfo(i){
-        if(!confirm("你确定要删除这个用户吗?")){
-            return;
-        }
-        var user_id=user_info[i].user_id;
-        console.log(user_id);
-        var j={'user_id':user_id,'token':getCookie('tocken')};
-        console.log(JSON.stringify(j));
-        var url='userDeleteAction';
-        $.post(url,j,function(json){
-            if(json.status=="ok"){
-                mdui.snackbar({'message':'删除成功!'});
-                fetchUserInfo();
-            }
-            else{
-                mdui.snackbar({'message':'删除失败!'});
-            }
-        })
+        mdui.confirm("您确认要删除这个用户吗?<br>注意：删除操作是不可逆的，请仔细考虑!","删除确认",function(){
+            var user_id=user_info[i].user_id;
+            console.log(user_id);
+            var j={'user_id':user_id,'token':getCookie('tocken')};
+            console.log(JSON.stringify(j));
+            var url='userDeleteAction';
+            $.post(url,j,function(json){
+                if(json.status=="ok"){
+                    mdui.snackbar({'message':'删除成功!'});
+                    fetchUserInfo();
+                }
+                else if(json.status=="error"&&json.code==123){
+                    mdui.alert("您没有删除这一级别用户的权限，建议您联系高级管理员处理!","权限错误");
+                }
+                else{
+                    mdui.snackbar({'message':'删除失败!'});
+                }
+            })
+        },function(){
+            ;
+        });
     }
 
     function editUser(i){
@@ -366,26 +378,24 @@
         var url="/editUserPermissionAction";
         $.post(url,j,function(json){
             console.log(JSON.stringify(json));
-            init_role_id_radio();
-            for(var i=0;i<json.choice.length;i++){
-                console.log(json.choice[i]);
-                var option=document.getElementById("role_id_radio_"+json.choice[i]);
-                option.removeAttribute("disabled");
-                option.parentNode.removeAttribute("mdui-tooltip");
+            if(json.status=="ok"){
+                init_role_id_radio();
+                for(var i=0;i<json.choice.length;i++){
+                    console.log(json.choice[i]);
+                    var option=document.getElementById("role_id_radio_"+json.choice[i]);
+                    option.removeAttribute("disabled");
+                    option.parentNode.removeAttribute("mdui-tooltip");
+                    edit_dialog.open();
+                }
+            }else if(json.status=="error"&&json.code==123){
+                mdui.alert("您不具有修改这一级别用户的权限，建议联系高级管理员处理!","权限错误");
             }
 
-            edit_dialog.open();
+
         });
 
     }
 
-    function init_role_id_select(){
-        var options=document.getElementById("role_id_select").children;
-        for(var i=0;i<options.length;i++){
-            options[i].setAttribute("disabled",true);
-            options[i].setAttribute("mdui-tooltip","{content:'您暂时没有权限选择这个选项'}");
-        }
-    }
 
     function init_role_id_radio(){
         var options=document.getElementsByName("role_id_radio");

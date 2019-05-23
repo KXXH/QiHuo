@@ -41,6 +41,8 @@ public class editUserPermissionAction extends javax.servlet.http.HttpServlet {
                 e.printStackTrace();
             }
             sendManager.sendJSON(response,jsonObject);
+        }else{
+            sendManager.sendDefaultPermissionError(response);
         }
     }
 

@@ -27,10 +27,14 @@ public class deleteAction extends javax.servlet.http.HttpServlet {
             User user=User.findUserById(userId);
             if(user==null){
                 sendManager.sendSimpleErrorJSON(response);
+                return;
+            }
+            if(!user.is_Editable(tokenChecker.tokenToUser(token))){
+                sendManager.sendDefaultPermissionError(response);
+                return;
             }
             user.delUser();
             sendManager.sendSimpleOKJSON(response);
-            return;
         } catch (SQLException e) {
             e.printStackTrace();
         }
