@@ -10,7 +10,7 @@
     <script src="js/jquery-2.1.4.min.js"></script>
     <script src="js/index_beta.js"></script>
 </head>
-<body onload="initPage();getQuatations()" class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-pink ">
+<body onload="initPage();getQuatations();flush()" class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-pink ">
     <div class="mdui-appbar mdui-appbar-fixed">
         <div class="mdui-toolbar mdui-color-theme">
             <a class="mdui-btn mdui-btn-icon" mdui-drawer="{target: '#left-drawer'}"><i class="mdui-icon material-icons">menu</i></a>
@@ -83,8 +83,23 @@
         list = json.aaData;
         length = list.length;
 
+        var parents;
+        parents = document.getElementById("hs");
+        parents.innerHTML = "";
+        parents = document.getElementById("hk");
+        parents.innerHTML = "";
+        parents = document.getElementById("jp");
+        parents.innerHTML = "";
+        parents = document.getElementById("eu");
+        parents.innerHTML = "";
+        parents = document.getElementById("us");
+        parents.innerHTML = "";
+        parents = document.getElementById("qh");
+        parents.innerHTML = "";
+        parents = document.getElementById("hl");
+        parents.innerHTML = "";
         for(var i = 0; i < length; i++){
-            console.log(list[i])
+            //console.log(list[i])
             var kind = list[i].kind;
             var Node = document.createElement("div");
             Node.className = "mdui-row mdui-row-gapless";
@@ -148,5 +163,12 @@
                     break;
             }
         }
+    }
+
+    function flush(){
+        setInterval(function(){
+            console.log("123");
+            getQuatations();
+        },5*60*1000);
     }
 </script>
