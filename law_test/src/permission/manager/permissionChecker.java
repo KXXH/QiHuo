@@ -53,13 +53,13 @@ public class permissionChecker {
             System.out.println("code="+code);
             if((code&1)==1){
                 return true;
-            }else if((code&2)==2&& Objects.equals(user.getRole_id(), "unchecked")){
+            }else if((code&2)==2&&user!=null&& Objects.equals(user.getRole_id(), "unchecked")){
                 return  true;
-            }else if((code&4)==4&& Objects.equals(user.getRole_id(), "normal")){
+            }else if((code&4)==4&&user!=null&& Objects.equals(user.getRole_id(), "normal")){
                 return true;
-            }else if((code&8)==8&& Objects.equals(user.getRole_id(), "admin")){
+            }else if((code&8)==8&&user!=null&&Objects.equals(user.getRole_id(), "admin")){
                 return true;
-            }else if((code&16)==16&& Objects.equals(user.getRole_id(), "super_admin")){
+            }else if((code&16)==16&&user!=null&&Objects.equals(user.getRole_id(), "super_admin")){
                 return true;
             } else{
                 return false;
