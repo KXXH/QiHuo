@@ -1,10 +1,11 @@
-package warehouse.query;
+package business.query;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import user.manager.User;
 import utils.dbOpener;
 import utils.tokenChecker;
+
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,23 +21,26 @@ import java.util.List;
 import java.util.Map;
 
 
-@WebServlet(name = "chaxunAction")
-public class chaxunAction extends HttpServlet {
+@WebServlet(name = "busquerylistAction")
+public class busquerylistAction extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 
         List jsonList = new ArrayList();
         //获取add_file.jsp页面提交后传递过来的参数，在form里的参数才能传递过来，注意name和id的区别
 
+        //String userName = request.getParameter("UserName");
+        //String userName=checkTokenName(getCookie(cname));
+        String sel1 = request.getParameter("Sel1");
+        String sel2 = request.getParameter("Sel2");
+        String sel3 = request.getParameter("Sel3");
+        String sel4 = request.getParameter("Sel4");
 
-        String stockid = request.getParameter("StockId");
-        String stockname = request.getParameter("StockName");
         String tocken = request.getParameter("Cookie");
         System.out.println(tocken);
-
-
         User user = tokenChecker.tokenToUser(tocken);
-
+        //String s=String.valueOf(user.getUserId());
+        //链接数据库，加载jdbc的驱动com.mysql.jdbc.Driver
         try {
             Class.forName("com.mysql.jdbc.Driver");
             System.out.println("加载了驱动<br>");
@@ -49,64 +53,46 @@ public class chaxunAction extends HttpServlet {
             //链接数据库，IP地址是localhost，端口是3306，账号和密码是ylx，这些都可以更改
             Connection conn = dbOpener.getDB();
             System.out.println("链接完毕，开始创建准备数据库操作的statement<br>");
-            String sql = "select * from tbl_userrealwh WHERE UserName=? and StockId=? and StockName=?";
+
+            String sql = "select * from tbl_userwh ORDER BY " +sel1+','+sel2+','+sel3+','+sel4;
             System.out.println("即将执行的SQL语句是：" + sql);
 
-            /*PreparedStatement statement = conn.createStatement();
-            statement.setString(stockid);
+
+            Statement statement = conn.createStatement();
             System.out.println("Connect Database Ok！！！");
             //执行查询语句，返回结果集
             ResultSet rs = statement.executeQuery(sql);
-            
+
             System.out.println("执行完毕，逐条显示<br>");
             //如果查询有结果，则循环显示查询出来的记录
             System.out.println("<br>====================开始输出====================");
             while (rs.next()) {
 
-                Map map = new HashMap();
-                map.put("stockid",rs.getString("StockId"));
-                map.put("stockname",rs.getString("StockName"));
-                map.put("quantity",rs.getString("Quantity"));
-                map.put("bunitprice",rs.getString("BUnitPrice"));
+                JSONObject json = new JSONObject();
 
-                jsonList.add(map);
+                json.put("orderid",rs.getString("OrderId"));
+                json.put("userid",rs.getString("UserId"));
+                json.put("username",rs.getString("UserName"));
+                json.put("stockid",rs.getString("StockId"));
+                json.put("stockname",rs.getString("StockName"));
+                json.put("quantity",rs.getString("Quantity"));
+                json.put("bunitprice",rs.getString("BUnitPrice"));
+                json.put("createat",rs.getString("CreateAt"));
+                //map.put("bunitprice",rs.getString("BUnitPrice"));
+
+                jsonList.add(json);
             }
             //加个断行
             System.out.println("<br>");
-            System.out.println("====================显示完毕====================<br>");*/
-
-            System.out.println(stockid);
-            PreparedStatement ps;
-            try {
-                ps = conn.prepareStatement(sql);    //实例化PreparedStatement对象
-                ps.setString(1,user.getUserName());
-                ps.setString(2,stockid);       //设置预处理语句参数
-                ps.setString(3,stockname);
-                ResultSet rs = ps.executeQuery();   //执行预处理语句获取查询结果集
-                System.out.println("执行完毕，逐条显示<br>");
-                //如果查询有结果，则循环显示查询出来的记录
-                System.out.println("<br>====================开始输出====================");
-                while(rs.next()){       //循环遍历查询结果集
-                    JSONObject json = new JSONObject();
-                    json.put("stockid",rs.getString("StockId"));
-                    json.put("stockname",rs.getString("StockName"));
-                    json.put("quantity",rs.getString("Quantity"));
-
-                jsonList.add(json);
-                }
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            System.out.println("<br>");
             System.out.println("====================显示完毕====================<br>");
-           // statement.close();
+
+            statement.close();
             conn.close();
             System.out.println("Database Closed！！！");
         } catch (SQLException sqlexception) {
             sqlexception.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
 
         //////////数据库查询完毕，得到了json数组jsonList//////////

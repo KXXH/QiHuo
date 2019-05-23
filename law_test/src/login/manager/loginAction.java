@@ -1,4 +1,4 @@
-package trade.menu;
+package login.manager;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -78,12 +78,6 @@ public class loginAction extends HttpServlet {
             return;
         }
 
-        if(session.getAttribute("token")!=null){
-            token=(String)session.getAttribute("token");
-        }
-        else if(tokenCookie!=null){
-            token=tokenCookie.getValue();
-        }
 
         try {
             System.out.println("连接了数据库");
@@ -97,7 +91,7 @@ public class loginAction extends HttpServlet {
                     utils.sendManager.sendJSON(response,jsonObject);
                     return;
                 }
-
+                loginRecorder.loginWithToken(request);
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("status", "success");
                 jsonObject.put("tocken", token);
@@ -136,6 +130,7 @@ public class loginAction extends HttpServlet {
                 }
                 return;
             }
+            loginRecorder.loginWithPassword(user,request);
             token=tokenGenerator.getAndStoreToken(userName,Objects.equals(rememberPassword, "true"));
             System.out.println("tocken="+token);
             JSONObject jsonObject = new JSONObject();
@@ -157,4 +152,5 @@ public class loginAction extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }
+
 }

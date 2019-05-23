@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.Objects;
 import java.util.Date;
 import utils.*;
+import permission.manager.*;
 /**
  * Created by zjm97 on 2019/4/18.
  */
@@ -27,11 +28,8 @@ public class addAction extends javax.servlet.http.HttpServlet {
         System.out.println("token="+token);
         String user_role= tokenChecker.checkToken(token);
         User user=tokenChecker.tokenToUser(token);
+        if(!permissionChecker.checkPermissionAndResponse(request,response,this)) return;
         System.out.println("user_role="+user_role);
-        if(!Objects.equals(user.getRole_id(), "admin")){
-            sendManager.sendSimpleErrorJSON(response);
-            return;
-        }
         try{
             User userNew=User.addUser(username,password,email,phone,wechat_id,role_id);
             if(userNew==null){
@@ -46,4 +44,5 @@ public class addAction extends javax.servlet.http.HttpServlet {
     protected void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, java.io.IOException {
 
     }
+
 }

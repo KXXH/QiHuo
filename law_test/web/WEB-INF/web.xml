@@ -15,7 +15,7 @@
     
     <servlet>
         <servlet-name>loginAction</servlet-name>
-        <servlet-class>trade.menu.loginAction</servlet-class>
+        <servlet-class>login.manager.loginAction</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -25,7 +25,7 @@
 
     <servlet>
         <servlet-name>login</servlet-name>
-        <servlet-class>trade.menu.login</servlet-class>
+        <servlet-class>login.manager.login</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -35,7 +35,7 @@
     
     <servlet>
         <servlet-name>logoutAction</servlet-name>
-        <servlet-class>trade.menu.logoutAction</servlet-class>
+        <servlet-class>login.manager.logoutAction</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -266,4 +266,65 @@
     <listener>
         <listener-class>autoRun.autoRun</listener-class>
     </listener>
+    
+    
+    <servlet>
+        <servlet-name>checkEmailAvailable</servlet-name>
+        <servlet-class>user.manager.checkEmailAvailable</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>checkEmailAvailable</servlet-name>
+        <url-pattern>/checkEmailAvailable</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>checkUsernameAvailable</servlet-name>
+        <servlet-class>user.manager.checkUsernameAvailable</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>checkUsernameAvailable</servlet-name>
+        <url-pattern>/checkUsernameAvailable</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>userRegisterAction</servlet-name>
+        <servlet-class>user.manager.userRegisterAction</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>userRegisterAction</servlet-name>
+        <url-pattern>/userRegisterAction</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>enableAccountAction</servlet-name>
+        <servlet-class>user.manager.enableAccountAction</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>enableAccountAction</servlet-name>
+        <url-pattern>/enableAccountAction</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>busquerylistAction</servlet-name>
+        <servlet-class>business.query.busquerylistAction</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>busquerylistAction</servlet-name>
+        <url-pattern>/busquerylistAction</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>buschaxunAction</servlet-name>
+        <servlet-class>business.query.buschaxunAction</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>buschaxunAction</servlet-name>
+        <url-pattern>/buschaxunAction</url-pattern>
+    </servlet-mapping>
 </web-app>

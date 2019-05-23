@@ -15,7 +15,8 @@ import com.sun.mail.util.MailSSLSocketFactory;
  * Created by zjm97 on 2019/5/15.
  */
 public class sendMail {
-    public static void sendForgetPasswdURL(String targetEmail,String url) throws GeneralSecurityException {
+
+    private static void sendQQEmail(String targetEmail,String subject,String text) throws GeneralSecurityException {
         // 收件人电子邮箱
         String to = targetEmail;
 
@@ -55,10 +56,10 @@ public class sendMail {
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
 
             // Set Subject: 头部头字段
-            message.setSubject("[期货交易平台]密码重置邮件");
+            message.setSubject(subject);
 
             // 设置消息体
-            message.setText("请点击下面链接重置密码,如非本人操作请忽略!\n"+url);
+            message.setText(text);
 
             // 发送消息
             Transport.send(message);
@@ -67,4 +68,13 @@ public class sendMail {
             mex.printStackTrace();
         }
     }
+
+    public static void sendForgetPasswdURL(String targetEmail,String url) throws GeneralSecurityException {
+        sendQQEmail(targetEmail,"[期货交易平台]密码重置邮件","请点击下面链接重置密码,如非本人操作请忽略!\n"+url);
+    }
+
+    public static void sendEnableAccountEmail(String targetEmail,String url) throws GeneralSecurityException {
+        sendQQEmail(targetEmail,"[期货交易平台]帐号激活邮件","请点击下面链接激活帐号,如非本人操作请忽略!\n"+url);
+    }
+
 }

@@ -15,7 +15,7 @@ import utils.*;
 /**
  * Created by zjm97 on 2019/3/27.
  */
-public class queryAction extends javax.servlet.http.HttpServlet {
+public class queryAction extends javax.servlet.http.HttpServlet{
     protected void doPost(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
         System.out.println("执行了post");
         //String token=tokenExtractor.extractToken(request);
@@ -56,4 +56,6 @@ public class queryAction extends javax.servlet.http.HttpServlet {
     protected void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
 
     }
+
+
 }

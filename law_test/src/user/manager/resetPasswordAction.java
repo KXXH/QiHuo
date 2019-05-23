@@ -5,6 +5,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.sql.SQLException;
+
+import permission.manager.permissionChecker;
 import utils.*;
 /**
  * Created by zjm97 on 2019/5/15.
@@ -14,6 +16,7 @@ public class resetPasswordAction extends javax.servlet.http.HttpServlet {
         String token = tokenExtractor.extractToken(request);
         String newPassword = request.getParameter("newPassword");
         User user= utils.tokenChecker.tokenToUser(token);
+        if(!permissionChecker.checkPermissionAndResponse(request,response,this)) return;
         JSONObject json = new JSONObject();
         if(user==null){
             try {

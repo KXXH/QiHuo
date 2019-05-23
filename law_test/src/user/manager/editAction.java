@@ -9,6 +9,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Objects;
+
+import permission.manager.permissionChecker;
 import utils.*;
 /**
  * Created by zjm97 on 2019/4/17.
@@ -25,12 +27,7 @@ public class editAction extends javax.servlet.http.HttpServlet {
         String role_id = request.getParameter("role_id");
         String token = tokenExtractor.extractToken(request);
         System.out.println("token="+token);
-        String user_role= utils.tokenChecker.checkToken(token);
-        System.out.println("user_role="+user_role);
-        if(!Objects.equals(user_role, "admin")){
-            sendManager.sendSimpleErrorJSON(response);
-            return;
-        }
+        if(!permissionChecker.checkPermissionAndResponse(request,response,this)) return;
         try {
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb?user=root&password=123456&useUnicode=true&characterEncoding=UTF-8");
             String sql = "UPDATE tbl_userinfo SET UserName=?,Email=?,Phone=?,WeChatId=?,role_id=? WHERE UserId=?";
