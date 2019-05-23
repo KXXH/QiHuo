@@ -68,16 +68,17 @@ public class querylistAction extends HttpServlet {
             System.out.println("<br>====================开始输出====================");
             while (rs.next()) {
 
-                Map map = new HashMap();
+                JSONObject json = new JSONObject();
 
-                map.put("stockid",rs.getString("StockId"));
-                map.put("stockname",rs.getString("StockName"));
-                map.put("quantity",rs.getString("Quantity"));
-                map.put("userid",rs.getInt("UserId"));
-                map.put("userrealid",user.getUserId());
+                json.put("stockid",rs.getString("StockId"));
+                json.put("stockname",rs.getString("StockName"));
+                json.put("quantity",rs.getString("Quantity"));
+                json.put("userid",rs.getInt("UserId"));
+                json.put("createat",rs.getString("CreateAt"));
+                json.put("userrealid",user.getUserId());
                 //map.put("bunitprice",rs.getString("BUnitPrice"));
 
-                jsonList.add(map);
+                jsonList.add(json);
             }
             //加个断行
             System.out.println("<br>");
@@ -88,30 +89,24 @@ public class querylistAction extends HttpServlet {
             System.out.println("Database Closed！！！");
         } catch (SQLException sqlexception) {
             sqlexception.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
 
         //////////数据库查询完毕，得到了json数组jsonList//////////
         //下面开始构建返回的json
-        JSONObject json=new JSONObject();
+        JSONObject jsonObject=new JSONObject();
         try {
-            json.put("aaData",jsonList);
+            jsonObject.put("list",jsonList);
+            jsonObject.put("status","ok");	//如果发生错误就设置成"error"等
+            jsonObject.put("result_code",0);	//返回0表示正常，不等于0就表示有错误产生，错误代码
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        try {
-            json.put("result_msg","ok");	//如果发生错误就设置成"error"等
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        try {
-            json.put("result_code",0);	//返回0表示正常，不等于0就表示有错误产生，错误代码
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        System.out.println("最后构造得到的json是："+json.toString());
+        System.out.println("最后构造得到的json是："+jsonObject.toString());
         response.setContentType("application/json; charset=UTF-8");
         try {
-            response.getWriter().print(json);
+            response.getWriter().print(jsonObject);
             response.getWriter().flush();
             response.getWriter().close();
         } catch (IOException e) {

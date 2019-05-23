@@ -64,7 +64,7 @@
 				<button type="button"class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="home()">仓库主页</button>
 				<br>
 				<button type="button" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="window.location='wh_print.html'">打印</button>
-				<a href = "dataToCSV" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent">导出</a>
+				<a href = "whdataToCSV" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent">导出</a>
 				<button type="button" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="window.location='wh_statistics.html'">统计</button>
 			</div>
 
@@ -116,9 +116,14 @@
 	}
 
 	function exported(){
-		var url = "/dataToCSV";
+		var url = "/whdataToCSV";
+		var coo = getCookie("tocken");
 
-		$.post(url,function(json){
+		var data1 = '{"Cookie":"'+coo+'"}';
+		console.log("================");
+		var obj = JSON.parse(data1);
+		console.log(data1);
+		$.post(url,obj,function(json){
 			console.log(JSON.stringify(json));
 		})
 	}
