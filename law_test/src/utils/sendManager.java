@@ -82,4 +82,8 @@ public class sendManager {
         }
         return sendJSON(response,jsonObject);
     }
+
+    public static HttpServletResponse sendDefaultPermissionError(HttpServletResponse response){
+        return sendManager.sendErrorJSONWithMsgAndCode(response,"权限不足!",123);
+    }
 }

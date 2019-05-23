@@ -241,7 +241,31 @@ public class User {
         this.role_id = role_id;
     }
 
+    public boolean is_Editable(User opUser){
+        switch(this.role_id){
+            case "unchecked":case "normal":
+                switch(opUser.getRole_id()){
+                    case "admin":case "super_admin":
+                        return true;
+                    default:
+                        return false;
+                }
+            case "admin":
+                switch(opUser.getRole_id()){
+                    case "super_admin":
+                        return true;
+                    default:
+                        return false;
+                }
+            case "super_admin":default:
+                return false;
+        }
+    }
+
     public boolean setRole_id(String role_id,User opUser) throws SQLException {
+
+        if(!is_Editable(opUser)) return false;
+
         switch(role_id){
             case "unchecked":case "normal":
                 switch(opUser.getRole_id()){

@@ -327,4 +327,15 @@
         <servlet-name>buschaxunAction</servlet-name>
         <url-pattern>/buschaxunAction</url-pattern>
     </servlet-mapping>
+    
+    
+    <servlet>
+        <servlet-name>editUserPermissionAction</servlet-name>
+        <servlet-class>permission.manager.editUserPermissionAction</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>editUserPermissionAction</servlet-name>
+        <url-pattern>/editUserPermissionAction</url-pattern>
+    </servlet-mapping>
 </web-app>

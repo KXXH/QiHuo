@@ -28,21 +28,6 @@ public class editAction extends javax.servlet.http.HttpServlet {
         String token = tokenExtractor.extractToken(request);
         System.out.println("token="+token);
         if(!permissionChecker.checkPermissionAndResponse(request,response,this)) return;
-        try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb?user=root&password=123456&useUnicode=true&characterEncoding=UTF-8");
-            String sql = "UPDATE tbl_userinfo SET UserName=?,Email=?,Phone=?,WeChatId=?,role_id=? WHERE UserId=?";
-            PreparedStatement ptmt = conn.prepareStatement(sql);
-            ptmt.setString(1,username);
-            ptmt.setString(2,email);
-            ptmt.setString(3,phone);
-            ptmt.setString(4,wechat_id);
-            ptmt.setString(5,role_id);
-            ptmt.setInt(6,userId);
-            ptmt.execute();
-            sendManager.sendSimpleOKJSON(response);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
         User operateUser = tokenChecker.tokenToUser(token);
         User targetUser = User.findUserById(userId);
         if(targetUser==null){
@@ -60,8 +45,9 @@ public class editAction extends javax.servlet.http.HttpServlet {
                 targetUser.setPhone(phone);
                 targetUser.setWechatId(wechat_id);
                 if(!targetUser.setRole_id(role_id,operateUser)){
-
+                    sendManager.sendDefaultPermissionError(response);
                 }
+                sendManager.sendSimpleOKJSON(response);
             } catch (SQLException e) {
                 e.printStackTrace();
             }

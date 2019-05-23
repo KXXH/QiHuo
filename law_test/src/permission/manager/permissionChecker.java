@@ -37,6 +37,8 @@ import javax.servlet.http.HttpServletResponse;
  * 4(00100):仅对已经验证邮箱的用户开放
  * 2(00010):仅对尚未验证邮箱，且已经注册的用户开放
  * 1(00001):仅对尚未注册的用户开放
+ *
+ * 对于权限不足的情况，返回123作为错误码
  */
 public class permissionChecker {
 
@@ -83,7 +85,7 @@ public class permissionChecker {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        sendManager.sendSimpleErrorJSON(response);
+        sendManager.sendErrorJSONWithMsgAndCode(response,"权限不足!",123);
         return false;
     }
 }

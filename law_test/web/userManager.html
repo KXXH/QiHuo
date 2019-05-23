@@ -139,10 +139,27 @@
                 <label class="mdui-textfield-label">微信</label>
                 <input class="mdui-textfield-input" type="text" id="wechat_id_edit" name="wechat_id"/>
             </div>
-            <div class="mdui-textfield">
-                <label class="mdui-textfield-label">角色</label>
-                <input class="mdui-textfield-input" type="text" id="role_id_edit" name="role_id"/>
-            </div>
+            <label class="mdui-typo">角色</label>
+            <label class="mdui-radio">
+                <input type="radio" name="role_id_radio" id="role_id_radio_super_admin" value="super_admin" disabled/>
+                <i class="mdui-radio-icon"></i>
+                super_admin
+            </label>
+            <label class="mdui-radio">
+                <input type="radio" name="role_id_radio" id="role_id_radio_admin" value="admin" disabled/>
+                <i class="mdui-radio-icon"></i>
+                admin
+            </label>
+            <label class="mdui-radio">
+                <input type="radio" name="role_id_radio" id="role_id_radio_normal" value="normal" disabled/>
+                <i class="mdui-radio-icon"></i>
+                normal
+            </label>
+            <label class="mdui-radio">
+                <input type="radio" name="role_id_radio" id="role_id_radio_unchecked" value="unchecked" disabled/>
+                <i class="mdui-radio-icon"></i>
+                unchecked
+            </label>
             <div class="mdui-dialog-actions" id="submit_btn">
                 <button class="mdui-btn" onclick="submitEdit()">提交</button>
             </div>
@@ -179,7 +196,7 @@
 </body>
 <script>
 
-
+    var $$ = mdui.JQ;
     var user_info;
     var edit_dialog=new mdui.Dialog("#edit_dialog");
     var search_dialog=new mdui.Dialog("#search_dialog");
@@ -199,9 +216,19 @@
         document.forms['user_edit_form']['email'].value="";
         document.forms['user_edit_form']['phone'].value="";
         document.forms['user_edit_form']['wechat_id'].value="";
-        document.forms['user_edit_form']['role_id'].value="";
+        document.forms['user_edit_form']['role_id_radio'].value="normal";
         document.getElementById("password_box").style.display="block";
         document.getElementById("submit_btn").innerHTML='<button class="mdui-btn" id="submit_btn" onclick="addUserInfo()">提交</button>'
+        var url="/editUserPermissionAction";
+        $.post(url,function(json){
+            console.log(JSON.stringify(json));
+            init_role_id_radio();
+            for(var i=0;i<json.choice.length;i++){
+                console.log(json.choice[i]);
+                var option=document.getElementById("role_id_radio_"+json.choice[i]);
+                option.removeAttribute("disabled");
+                option.parentNode.removeAttribute("mdui-tooltip");
+            }});
         edit_dialog.open();
     }
     function submitEdit(){
@@ -292,7 +319,7 @@
         var email=document.forms['user_edit_form']['email'].value;
         var phone=document.forms['user_edit_form']['phone'].value;
         var wechat_id=document.forms['user_edit_form']['wechat_id'].value;
-        var role_id=document.forms['user_edit_form']['role_id'].value;
+        var role_id=document.forms['user_edit_form']['role_id_radio'].value;
         var token=getCookie("tocken");
         var j={'user_id':user_id,'username':username,'email':email,'phone':phone,'wechat_id':wechat_id,'role_id':role_id,'token':token};
         var url='/userEditAction';
@@ -333,9 +360,39 @@
         document.forms['user_edit_form']['email'].value=user_info[i].email;
         document.forms['user_edit_form']['phone'].value=user_info[i].phone;
         document.forms['user_edit_form']['wechat_id'].value=user_info[i].wechat_id;
-        document.forms['user_edit_form']['role_id'].value=user_info[i].role_id;
+        document.forms['user_edit_form']['role_id_radio'].value=user_info[i].role_id;
         document.getElementById("password_box").style.display="none";
-        edit_dialog.open();
+        var j={'user_id':user_info[i].user_id};
+        var url="/editUserPermissionAction";
+        $.post(url,j,function(json){
+            console.log(JSON.stringify(json));
+            init_role_id_radio();
+            for(var i=0;i<json.choice.length;i++){
+                console.log(json.choice[i]);
+                var option=document.getElementById("role_id_radio_"+json.choice[i]);
+                option.removeAttribute("disabled");
+                option.parentNode.removeAttribute("mdui-tooltip");
+            }
+
+            edit_dialog.open();
+        });
+
+    }
+
+    function init_role_id_select(){
+        var options=document.getElementById("role_id_select").children;
+        for(var i=0;i<options.length;i++){
+            options[i].setAttribute("disabled",true);
+            options[i].setAttribute("mdui-tooltip","{content:'您暂时没有权限选择这个选项'}");
+        }
+    }
+
+    function init_role_id_radio(){
+        var options=document.getElementsByName("role_id_radio");
+        for(var i=0;i<options.length;i++){
+            options[i].setAttribute("disabled",true);
+            options[i].parentNode.setAttribute("mdui-tooltip","{content:'您暂时没有权限选择这个选项'}");
+        }
     }
 
     function fetchUserInfo(){
