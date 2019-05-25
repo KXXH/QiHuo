@@ -394,4 +394,14 @@
         <servlet-name>editUserPermissionAction</servlet-name>
         <url-pattern>/editUserPermissionAction</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>getLoginRecordAction</servlet-name>
+        <servlet-class>login.manager.getLoginRecordAction</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>getLoginRecordAction</servlet-name>
+        <url-pattern>/getLoginRecordAction</url-pattern>
+    </servlet-mapping>
 </web-app>

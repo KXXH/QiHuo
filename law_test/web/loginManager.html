@@ -19,7 +19,7 @@
     <script src="https://www.amcharts.com/lib/4/geodata/germanyLow.js"></script>
 </head>
 
-<body onload="initPage();fetchTokenInfo()" class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-pink ">
+<body onload="initPage();fetchTokenInfo();loadMoreLoginRecord();" class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-pink ">
 
 
 
@@ -69,13 +69,14 @@
                     <th>描述</th>
                     <th>IP</th>
                 </tr>
-
             </table>
+            <button class="mdui-btn" onclick="loadMoreLoginRecord()" style="width: 100%">加载更多</button>
         </div>
     </div>
 </div>
 <script>
     var tokenList;
+    var login_username="";
     function fetchTokenInfo(){
         var url='/getTokenAction';
 
@@ -103,6 +104,43 @@
         }
         mdui.updateTables("#token_table");
     }
+
+    function clearLoginTable(){
+        var table=document.getElementById("login_table");
+        var rowCount=table.rows.length;
+        for(var i=rowCount-1;i>0;i--){
+            table.deleteRow(i);
+        }
+        mdui.updateTables("#login_table");
+    }
+
+    function updateLoginTable(data){
+        for(var i=0;i<data.length;i++){
+            var row=document.getElementById("login_table").insertRow();
+            row.insertCell(0).innerHTML=data[i].id;
+            row.insertCell(1).innerHTML=data[i].username;
+            row.insertCell(2).innerHTML=data[i].time;
+            row.insertCell(3).innerHTML=data[i].action;
+            row.insertCell(4).innerHTML=data[i].ip;
+        }
+        mdui.updateTables("#login_table");
+    }
+
+    function loadMoreLoginRecord(){
+        var j={'username':login_username};
+        var url='/getLoginRecordAction';
+        $.post(url,j,function(json){
+            if(json.status=="ok"){
+                updateLoginTable(json.data);
+            }else if(json.status=="error"){
+                mdui.alert(json.error,"错误");
+            }else if(json.status=="end"){
+                mdui.snackbar("已经到达最后了!");
+                updateLoginTable(json.data);
+            }
+        })
+    }
+
     function delToken(){
         var selects=document.getElementsByClassName("mdui-table-row-selected");
         var ids=new Array();
