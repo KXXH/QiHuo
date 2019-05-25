@@ -43,25 +43,6 @@
         <url-pattern>/logoutAction</url-pattern>
     </servlet-mapping>
 
-
-    <servlet-mapping>
-        <servlet-name>fileUpload</servlet-name>
-        <url-pattern>/fileUpload</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>fileUpload</servlet-name>
-        <servlet-class>file.upload.uploadAction</servlet-class>
-    </servlet>
-    
-    <servlet>
-        <servlet-name>getImageAction</servlet-name>
-        <servlet-class>image.show.getImageAction</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>getImageAction</servlet-name>
-        <url-pattern>/getImageAction</url-pattern>
-    </servlet-mapping>
-    
     <servlet>
         <servlet-name>userQueryAction</servlet-name>
         <servlet-class>user.manager.queryAction</servlet-class>
