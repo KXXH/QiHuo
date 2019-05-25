@@ -404,4 +404,44 @@
         <servlet-name>getLoginRecordAction</servlet-name>
         <url-pattern>/getLoginRecordAction</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>getPermissionAction</servlet-name>
+        <servlet-class>permission.manager.getPermissionAction</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>getPermissionAction</servlet-name>
+        <url-pattern>/getPermissionAction</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>editPermissionAction</servlet-name>
+        <servlet-class>permission.manager.editPermissionAction</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>editPermissionAction</servlet-name>
+        <url-pattern>/editPermissionAction</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>delPermissionAction</servlet-name>
+        <servlet-class>permission.manager.delPermissionAction</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>delPermissionAction</servlet-name>
+        <url-pattern>/delPermissionAction</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>addPermissionAction</servlet-name>
+        <servlet-class>permission.manager.addPermissionAction</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>addPermissionAction</servlet-name>
+        <url-pattern>/addPermissionAction</url-pattern>
+    </servlet-mapping>
 </web-app>

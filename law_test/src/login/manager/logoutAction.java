@@ -31,7 +31,11 @@ public class logoutAction extends HttpServlet{
             e.printStackTrace();
         }
         HttpSession session=request.getSession();
-        session.invalidate();
+        try{
+            session.invalidate();
+        }catch(IllegalStateException ignored){
+            ;
+        }
         System.out.println("删除了cookie");
     }
 
