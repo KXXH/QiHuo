@@ -30,7 +30,7 @@
         <a href="javascript:;" class="mdui-typo-title">权限管理</a>
         <div class="mdui-toolbar-spacer"></div>
         <a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></a>
-        <a class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons" onclick="showHelp();">help</i></a>
+        <button class="mdui-btn mdui-btn-icon" mdui-dialog="{target: '#help_dlg'}"><i class="mdui-icon material-icons">help</i></button>
         <a onclick="logOut();" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">exit_to_app</i></a>
     </div>
 </div>
@@ -47,6 +47,10 @@
         </div>
         <div class="mdui-dialog-content mdui-typo">
             <p><strong>本页面的内容具有危险性,仅限开发人员使用</strong></p>
+            本功能旨在允许开发者动态修改各服务的访问权限。但这可能会导致不可预料的问题（例如，如果您禁止了非登录用户访问登录模块，那么您将永远无法再登录）。
+            因此，除非您确切地知道您在做什么，否则请不要修改本页面的任何信息！
+            <p>此外，本功能尚处于试验性阶段，不能保证所有权限修改都能正确应用。</p>
+            <p>如果您想要修改功能权限但不了解这个页面的意义，建议您联系平台开发人员。</p>
         </div>
     </div>
 

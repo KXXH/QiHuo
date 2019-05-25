@@ -30,7 +30,7 @@
         <a href="javascript:;" class="mdui-typo-title">登录管理</a>
         <div class="mdui-toolbar-spacer"></div>
         <a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></a>
-        <a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">refresh</i></a>
+        <button class="mdui-btn mdui-btn-icon" mdui-dialog="{target: '#help_dlg'}"><i class="mdui-icon material-icons">help</i></button>
         <a onclick="logOut();" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">exit_to_app</i></a>
     </div>
 </div>
@@ -41,6 +41,19 @@
 
 </div>
 <div class="mdui-container">
+    <div class="mdui-dialog" id="help_dlg">
+        <div class="mdui-dialog-title">
+            帮助
+        </div>
+        <div class="mdui-dialog-content mdui-typo">
+            <p><strong>什么是Token管理?</strong></p>
+            <p>Token是用户唯一身份认证凭证，记录用户的登录状态。Token在所有需要登录的服务中都需要使用，用于权限的识别。因此，管理Token就等同于管理用户的真正登录状态。</p>
+            <p><strong>Token管理有什么用？</strong></p>
+            <p>您可以在本页面删除一个或多个Token。一般来说，删除Token可以让用户紧急下线，例如用户帐户被盗需要立刻止损的场合。
+                您也可以删除所有Token，相当于所有记住密码立刻失效，所有用户必须重新使用帐号密码登录。在系统发生大调整时可以使用这个功能来让用户刷新缓存。</p>
+        </div>
+    </div>
+
     <div class="mdui-tab" mdui-tab>
         <a href="#tokenManager" class="mdui-ripple">Token管理</a>
         <a href="#loginManager" class="mdui-ripple">登录记录查看</a>
