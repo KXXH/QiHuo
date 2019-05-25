@@ -25,11 +25,15 @@ public class getLoginRecordAction extends javax.servlet.http.HttpServlet {
         if(!permissionChecker.checkPermissionAndResponse(request,response,this)) return;
         HttpSession session=request.getSession();
         int count=0;
+        if(request.getParameter("count")!=null){
+            count=Integer.parseInt(request.getParameter("count"));
+        }
         int rowCount=0;
         int page_size=15;
         String user=request.getParameter("username");
         String lastUser=(String)session.getAttribute("lastUsername");
         User opUser= tokenChecker.tokenToUser(tokenExtractor.extractToken(request));
+        /*
         if((user==null||user.length()==0)&&(lastUser==null||lastUser.length()==0)){
             //上次访问未指定用户且本次访问未指定用户,则按照标准惰性加载
         }else if(!(user==null||user.length()==0)&&(lastUser==null||lastUser.length()==0)){
@@ -43,12 +47,10 @@ public class getLoginRecordAction extends javax.servlet.http.HttpServlet {
             count=0;
         }else if(!(user==null||user.length()==0)&&!(lastUser==null||lastUser.length()==0)&&user.equals(lastUser)){
             //否则,则不改变惰性加载记忆
-        }
+        }*/
         if(!Objects.equals(user, opUser.getUserName())&&!Objects.equals(opUser.getRole_id(), "super_admin")){
             sendManager.sendDefaultPermissionError(response);
         }
-        if(session.getAttribute("count")!=null)
-            count = (int)session.getAttribute("count");
         System.out.println("count="+count);
         try {
             Connection conn= dbOpener.getDB();
@@ -90,13 +92,18 @@ public class getLoginRecordAction extends javax.servlet.http.HttpServlet {
                 if(rs.getRow()>rowCount)rowCount=rs.getRow();
             }
             System.out.println("行数="+rs.getRow());
-            session.setAttribute("count",count);
+            if(array.length()==0){
+                JSONObject j=new JSONObject();
+                j.put("status","end");
+                sendManager.sendJSON(response,j);
+                return;
+            }
+            //session.setAttribute("count",count);
             JSONObject jsonObject=new JSONObject();
-            if(rowCount<page_size){
-                jsonObject.put("status","end");
-            }else
-                jsonObject.put("status","ok");
+            jsonObject.put("status","ok");
+
             jsonObject.put("data",array);
+            jsonObject.put("count",count);
             assert response != null;
             sendManager.sendJSON(response,jsonObject);
         } catch (SQLException e) {

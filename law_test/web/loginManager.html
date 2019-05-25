@@ -61,7 +61,7 @@
     </div>
     <div id="loginManager">
         <div class="mdui-table-fluid">
-            <table class="mdui-table mdui-table-hoverable mdui-table-selectable" id="login_table">
+            <table class="mdui-table mdui-table-hoverable" id="login_table">
                 <tr>
                     <th>ID</th>
                     <th>用户名</th>
@@ -77,6 +77,7 @@
 <script>
     var tokenList;
     var login_username="";
+    var login_count=0;
     function fetchTokenInfo(){
         var url='/getTokenAction';
 
@@ -127,11 +128,12 @@
     }
 
     function loadMoreLoginRecord(){
-        var j={'username':login_username};
+        var j={'username':login_username,'count':login_count};
         var url='/getLoginRecordAction';
         $.post(url,j,function(json){
             if(json.status=="ok"){
                 updateLoginTable(json.data);
+                login_count=json.count;
             }else if(json.status=="error"){
                 mdui.alert(json.error,"错误");
             }else if(json.status=="end"){
