@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50151
 File Encoding         : 65001
 
-Date: 2019-05-23 15:33:10
+Date: 2019-05-25 18:00:22
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -24,7 +24,7 @@ CREATE TABLE `tbl_permission` (
   `className` varchar(255) NOT NULL,
   `permissionCode` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tbl_permission
@@ -43,3 +43,13 @@ INSERT INTO `tbl_permission` VALUES ('11', 'user.manager.forgetPasswordAction', 
 INSERT INTO `tbl_permission` VALUES ('12', 'user.manager.queryAction', '24');
 INSERT INTO `tbl_permission` VALUES ('13', 'user.manager.resetPasswordAction', '28');
 INSERT INTO `tbl_permission` VALUES ('14', 'user.manager.userRegisterAction', '31');
+INSERT INTO `tbl_permission` VALUES ('15', 'news.getNews.getNewsAction', '30');
+INSERT INTO `tbl_permission` VALUES ('16', 'news.getNews.newsDeleteAction', '24');
+INSERT INTO `tbl_permission` VALUES ('17', 'news.getNews.newsExportAction', '24');
+INSERT INTO `tbl_permission` VALUES ('18', 'news.getNews.newsManagerAction', '24');
+INSERT INTO `tbl_permission` VALUES ('19', 'news.getNews.newsModifyAction', '24');
+INSERT INTO `tbl_permission` VALUES ('20', 'news.getNews.newsSearchAction', '24');
+INSERT INTO `tbl_permission` VALUES ('21', 'news.getNews.newsStatisticsAction', '24');
+INSERT INTO `tbl_permission` VALUES ('22', 'quotation.getXLdata.getDataToShowAction', '30');
+INSERT INTO `tbl_permission` VALUES ('23', 'quotation.getXLdata.showUSDCNYdataAction', '28');
+INSERT INTO `tbl_permission` VALUES ('24', 'quotation.getXLdata.showUSDCNYupdateAction', '28');
