@@ -50,7 +50,7 @@ public class newsManagerAction extends HttpServlet {
         try{
             Connection conn = dbOpener.getDB();
             Statement statement = conn.createStatement();
-            String sql = "SELECT * FROM tbl_news ORDER BY " + order_1 +"," +order_2;
+            String sql = "SELECT * FROM tbl_news ORDER BY " + order_1 +"," +order_2 + "OFFSET";
             ResultSet rs = statement.executeQuery(sql);
             JSONObject jsonObject = new JSONObject();
             ArrayList list = new ArrayList();

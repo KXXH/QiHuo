@@ -394,4 +394,26 @@
         <servlet-name>editUserPermissionAction</servlet-name>
         <url-pattern>/editUserPermissionAction</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>showUSDCNYdataAction</servlet-name>
+        <servlet-class>quotation.getXLdata.showUSDCNYdataAction</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>showUSDCNYdataAction</servlet-name>
+        <url-pattern>/showUSDCNYdataAction</url-pattern>
+    </servlet-mapping>
+
+
+
+    <servlet>
+        <servlet-name>showUSDCNYupdateAction</servlet-name>
+        <servlet-class>quotation.getXLdata.showUSDCNYupdateAction</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>showUSDCNYupdateAction</servlet-name>
+        <url-pattern>/showUSDCNYupdateAction</url-pattern>
+    </servlet-mapping>
 </web-app>
