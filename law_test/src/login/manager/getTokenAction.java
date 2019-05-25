@@ -18,11 +18,18 @@ import java.sql.SQLException;
 public class getTokenAction extends javax.servlet.http.HttpServlet {
     protected void doPost(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, java.io.IOException {
         if(!permissionChecker.checkPermissionAndResponse(request,response,this)) return;
+        String username=request.getParameter("username");
         try {
             System.out.println("执行了这个！！");
             Connection connection= dbOpener.getDB();
-            String sql="SELECT * FROM tbl_tockeninfo";
+            String sql=null;
+            if(username==null||username.length()==0)
+                sql="SELECT * FROM tbl_tockeninfo";
+            else
+                sql="SELECT * FROM tbl_tokeninfo WHERE UserName=?";
             PreparedStatement ptmt=connection.prepareStatement(sql);
+            if(!(username==null||username.length()==0))
+                ptmt.setString(1,username);
             ResultSet rs=ptmt.executeQuery();
             JSONObject json=new JSONObject();
             JSONArray jsonArray=new JSONArray();
