@@ -338,6 +338,15 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>busstatisticAction</servlet-name>
+        <servlet-class>business.statistic.busstatisticAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>busstatisticAction</servlet-name>
+        <url-pattern>/busstatisticAction</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
         <servlet-name>getDataToShowAction</servlet-name>
         <servlet-class>quotation.getXLdata.getDataToShowAction</servlet-class>
     </servlet>
