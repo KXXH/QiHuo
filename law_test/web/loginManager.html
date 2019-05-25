@@ -47,6 +47,7 @@
     </div>
     <div id="tokenManager">
         <button class="mdui-btn" onclick="delToken()">删除</button>
+        <button class="mdui-btn" onclick="queryToken()">查找</button>
         <div class="mdui-table-fluid">
             <table class="mdui-table mdui-table-hoverable mdui-table-selectable" id="token_table">
                 <tr>
@@ -60,7 +61,9 @@
         </div>
     </div>
     <div id="loginManager">
+        <button class="mdui-btn" onclick="queryLoginRecord()">查找</button>
         <div class="mdui-table-fluid">
+
             <table class="mdui-table mdui-table-hoverable" id="login_table">
                 <tr>
                     <th>ID</th>
@@ -141,6 +144,15 @@
                 updateLoginTable(json.data);
             }
         })
+    }
+
+    function queryLoginRecord(){
+        mdui.prompt('请输入查询的用户名:','查找',function(value){
+            login_username=value;
+            login_count=0;
+            clearLoginTable();
+            loadMoreLoginRecord();
+        });
     }
 
     function delToken(){
