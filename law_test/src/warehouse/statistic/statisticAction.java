@@ -2,6 +2,7 @@ package warehouse.statistic;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import permission.manager.permissionChecker;
 import utils.dbOpener;
 
 import javax.servlet.http.HttpSession;
@@ -26,6 +27,7 @@ public class statisticAction extends javax.servlet.http.HttpServlet {
         }
     }
     protected void doPost(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, java.io.IOException {
+        if(!permissionChecker.checkPermissionAndResponse(request,response,this)) return;
         System.out.println("执行了POST-stat");
         HashMap map=new HashMap<Date,Integer>();
         List jsonList = new ArrayList();

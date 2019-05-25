@@ -2,6 +2,7 @@ package business.delet;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import permission.manager.permissionChecker;
 import utils.dbOpener;
 
 import javax.servlet.ServletException;
@@ -22,7 +23,7 @@ import java.util.Map;
 public class busdeleteAction extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-
+        if(!permissionChecker.checkPermissionAndResponse(request,response,this)) return;
         String orderid = request.getParameter("OrderId");
             System.out.println("前端页面传过来的ID是："+orderid+"<br>");
             request.setCharacterEncoding("UTF-8");

@@ -2,6 +2,7 @@ package business.query;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import permission.manager.permissionChecker;
 import user.manager.User;
 import utils.dbOpener;
 import utils.tokenChecker;
@@ -24,7 +25,7 @@ import java.util.Map;
 public class buschaxunAction extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-
+        if(!permissionChecker.checkPermissionAndResponse(request,response,this)) return;
         List jsonList = new ArrayList();
         //获取add_file.jsp页面提交后传递过来的参数，在form里的参数才能传递过来，注意name和id的区别
 

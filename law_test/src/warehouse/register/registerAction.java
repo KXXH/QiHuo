@@ -2,6 +2,7 @@ package warehouse.register;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import permission.manager.permissionChecker;
 import user.manager.User;
 import utils.dbOpener;
 import utils.tokenChecker;
@@ -23,8 +24,8 @@ import java.util.Map;
 @WebServlet(name = "registerAction")
 public class registerAction extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        
 
+        if(!permissionChecker.checkPermissionAndResponse(request,response,this)) return;
         //获取add_file.jsp页面提交后传递过来的参数，在form里的参数才能传递过来，注意name和id的区别
 
         Date currDate = Calendar.getInstance().getTime();

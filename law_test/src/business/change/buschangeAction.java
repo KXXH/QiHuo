@@ -2,6 +2,7 @@ package business.change;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import permission.manager.permissionChecker;
 import user.manager.User;
 import utils.dbOpener;
 import utils.tokenChecker;
@@ -21,7 +22,7 @@ import java.io.PrintWriter;
 public class buschangeAction extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-
+        if(!permissionChecker.checkPermissionAndResponse(request,response,this)) return;
         String orderid = request.getParameter("OrderId");
         String userid = request.getParameter("UserId");
         String username = request.getParameter("UserName");

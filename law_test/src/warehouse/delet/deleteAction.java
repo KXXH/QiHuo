@@ -2,6 +2,7 @@ package warehouse.delet;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import permission.manager.permissionChecker;
 import utils.dbOpener;
 
 import javax.servlet.ServletException;
@@ -23,6 +24,7 @@ public class deleteAction extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 
+        if(!permissionChecker.checkPermissionAndResponse(request,response,this)) return;
         String stockid = request.getParameter("StockId");
             System.out.println("前端页面传过来的ID是："+stockid+"<br>");
             request.setCharacterEncoding("UTF-8");

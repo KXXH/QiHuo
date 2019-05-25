@@ -2,6 +2,7 @@ package warehouse.change;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import permission.manager.permissionChecker;
 import user.manager.User;
 import utils.dbOpener;
 import utils.tokenChecker;
@@ -23,7 +24,7 @@ import java.util.*;
 public class changeAction extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-
+        if(!permissionChecker.checkPermissionAndResponse(request,response,this)) return;
         java.util.Date currDate = Calendar.getInstance().getTime();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String createTime = sdf.format(currDate);

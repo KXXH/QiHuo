@@ -2,6 +2,7 @@ package business.expor;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import permission.manager.permissionChecker;
 import user.manager.User;
 import utils.dbOpener;
 import utils.tokenChecker;
@@ -54,7 +55,7 @@ public class busdataToCSV extends javax.servlet.http.HttpServlet {
     }
 
     protected void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, java.io.IOException {
-
+        if(!permissionChecker.checkPermissionAndResponse(request,response,this)) return;
         String csv = getCSV();
         byte[] b=csv.getBytes();
         System.out.println("!!!!!!！！！");

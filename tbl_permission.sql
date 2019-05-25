@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50151
 File Encoding         : 65001
 
-Date: 2019-05-25 18:00:22
+Date: 2019-05-25 18:30:46
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -24,7 +24,7 @@ CREATE TABLE `tbl_permission` (
   `className` varchar(255) NOT NULL,
   `permissionCode` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tbl_permission
@@ -53,3 +53,16 @@ INSERT INTO `tbl_permission` VALUES ('21', 'news.getNews.newsStatisticsAction', 
 INSERT INTO `tbl_permission` VALUES ('22', 'quotation.getXLdata.getDataToShowAction', '30');
 INSERT INTO `tbl_permission` VALUES ('23', 'quotation.getXLdata.showUSDCNYdataAction', '28');
 INSERT INTO `tbl_permission` VALUES ('24', 'quotation.getXLdata.showUSDCNYupdateAction', '28');
+INSERT INTO `tbl_permission` VALUES ('25', 'business.change.buschangeAction', '24');
+INSERT INTO `tbl_permission` VALUES ('26', 'business.delet.busdeleteAction', '24');
+INSERT INTO `tbl_permission` VALUES ('27', 'business.expor.busdataToCSV', '24');
+INSERT INTO `tbl_permission` VALUES ('28', 'business.query.buschaxunAction', '24');
+INSERT INTO `tbl_permission` VALUES ('29', 'business.query.busquerylistAction', '24');
+INSERT INTO `tbl_permission` VALUES ('30', 'business.statistic.busstatisticAction', '24');
+INSERT INTO `tbl_permission` VALUES ('31', 'warehouse.change.changeAction', '28');
+INSERT INTO `tbl_permission` VALUES ('32', 'warehouse.delet.deleteAction', '28');
+INSERT INTO `tbl_permission` VALUES ('33', 'warehouse.expor.whdataToCSV', '28');
+INSERT INTO `tbl_permission` VALUES ('34', 'warehouse.query.chaxunAction', '28');
+INSERT INTO `tbl_permission` VALUES ('35', 'warehouse.query.querylistAction', '28');
+INSERT INTO `tbl_permission` VALUES ('36', 'warehouse.register.registerAction', '28');
+INSERT INTO `tbl_permission` VALUES ('37', 'warehouse.statistic.statisticAction', '28');
