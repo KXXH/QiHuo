@@ -73,7 +73,7 @@
 		<div>
 			<button type="button" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="window.location='wh_print.html'">打印</button>
 			<a href = "busdataToCSV" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent">导出</a>
-			<button type="button" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="window.location='wh_statistics.html'">统计</button>
+			<button type="button" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="window.location='bus_statistics.html'">统计</button>
 			<button type="button"class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="home()">仓库主页</button>
 		</div>
 		<div>
@@ -106,7 +106,7 @@
 			</div>
 
 			<div class="mdui-table-fluid">
-				<table class="mdui-table mdui-table-hoverable">
+				<table class="mdui-table mdui-table-hoverable" id="bus_table">
 					<thead>
 					<tr>
 						<th>订单号</th>
@@ -124,17 +124,29 @@
 
 					</tbody>
 				</table>
+				<button class="mdui-btn" onclick="show()" style="width: 100%">加载更多</button>
+			</div>
+
+			<div class="mdui-typo">
+				<h1>交易记录新增统计</h1>
+				<div class="mdui-img-fluid" id="chartdiv">
+
+				</div>
 			</div>
 		</div>
 
 	</body>
 </html>
 
+<script src="https://www.amcharts.com/lib/4/core.js"></script>
+<script src="https://www.amcharts.com/lib/4/charts.js"></script>
+<script src="https://www.amcharts.com/lib/4/themes/material.js"></script>
+<script src="https://www.amcharts.com/lib/4/lang/de_DE.js"></script>
+<script src="https://www.amcharts.com/lib/4/geodata/germanyLow.js"></script>
+
 <script>
 	var bus_info;
-	function add(){
-		window.location.href="bus_register.html";
-	}
+	var bus_count=0;
 	function modify(id){
 		window.location.href = "bus_change.html?orderid="+id;
 	}
@@ -188,7 +200,7 @@
 	function updateTable(json){
 		bus_info=json.list;
 		var table = document.getElementById('bus_list');
-		table.innerHTML="";
+
 		for(var i=0;i<json.list.length;i++){
 			var row = document.createElement('tr');
 			var id=json.list[i].orderid;
@@ -251,9 +263,7 @@
 		}
 		mdui.updateTables("#bus_list")
 	}
-
-
-
+	
 
 	function show(){
 
@@ -264,18 +274,67 @@
 		var sel3 = document.getElementById("sel3").value;
 		var sel4 = document.getElementById("sel4").value;
 
-		var coo = getCookie("tocken");
 
-		var data1 = '{"Sel1":"'+sel1+'","Sel2":"'+sel2+'","Sel3":"'+sel3+'","Sel4":"'+sel4+'","Cookie":"'+coo+'"}';
+		var data1 = '{"Sel1":"'+sel1+'","Sel2":"'+sel2+'","Sel3":"'+sel3+'","Sel4":"'+sel4+'","count":"'+bus_count+'"}';
 
-		var obj = JSON.parse(data1);
-		$.post(url,obj,function(json){
+		var j = JSON.parse(data1);
+		$.post(url,j,function(json){
 			//console.log(JSON.stringify(json));
 			bus_info=json.list;
-			updateTable(json);
-		})
 
+			if(json.status=="ok"){
+				updateTable(json);
+				bus_count=json.count;
+			}else if(json.status=="error"){
+				mdui.alert(json.error,"错误");
+			}else if(json.status=="end"){
+				mdui.snackbar("已经到达最后了!");
+				updateTable(json);
+			}
+		})
+		statistics();
 	}
 
+
+
+	function  drawChart(json){
+		console.log('开始绘图');
+		var chart=am4core.create("chartdiv",am4charts.XYChart);
+		chart.dateFormatter.inputDateFormat="yyyy-MM-dd";
+		chart.data=json.data;
+		var dateAxis=chart.xAxes.push(new am4charts.DateAxis());
+		var valueAxix=chart.yAxes.push(new am4charts.ValueAxis());
+		var lineSeries=chart.series.push(new am4charts.LineSeries());
+		lineSeries.tooltipText = "{value}"
+		lineSeries.dataFields.valueY="value";
+		lineSeries.dataFields.dateX="date";
+		lineSeries.tooltip.background.cornerRadius = 20;
+		lineSeries.tooltip.background.strokeOpacity = 0;
+		lineSeries.tooltip.pointerOrientation = "vertical";
+		lineSeries.tooltip.label.minWidth = 40;
+		lineSeries.tooltip.label.minHeight = 40;
+		lineSeries.tooltip.label.textAlign = "middle";
+		lineSeries.tooltip.label.textValign = "middle";
+
+		var bullet = lineSeries.bullets.push(new am4charts.CircleBullet());
+		bullet.circle.strokeWidth = 2;
+		bullet.circle.radius = 4;
+		bullet.circle.fill = am4core.color("#fff");
+		var bullethover = bullet.states.create("hover");
+		bullethover.properties.scale = 1.3;
+		chart.cursor = new am4charts.XYCursor();
+		chart.cursor.behavior = "panXY";
+		chart.cursor.xAxis = dateAxis;
+		chart.cursor.snapToSeries = lineSeries;
+		lineSeries.name="Sales";
+	}
+
+	function statistics(){
+		var url = "/busstatisticAction";
+		$.post(url,function(json){
+			console.log(JSON.stringify(json));
+			drawChart(json);
+		})
+	}
 
 </script>

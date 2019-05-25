@@ -4,6 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import user.manager.User;
 import utils.dbOpener;
+import utils.sendManager;
 import utils.tokenChecker;
 
 
@@ -24,7 +25,7 @@ import java.util.Map;
 @WebServlet(name = "busquerylistAction")
 public class busquerylistAction extends HttpServlet {
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+    protected void doPost(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, java.io.IOException {
 
         List jsonList = new ArrayList();
         //获取add_file.jsp页面提交后传递过来的参数，在form里的参数才能传递过来，注意name和id的区别
@@ -36,9 +37,13 @@ public class busquerylistAction extends HttpServlet {
         String sel3 = request.getParameter("Sel3");
         String sel4 = request.getParameter("Sel4");
 
-        String tocken = request.getParameter("Cookie");
-        System.out.println(tocken);
-        User user = tokenChecker.tokenToUser(tocken);
+        int count=0;
+        int page_size=15;
+        int rowCount=0;
+        if(request.getParameter("count")!=null){
+            count=Integer.parseInt(request.getParameter("count"));
+        }
+        System.out.println("count="+count);
         //String s=String.valueOf(user.getUserId());
         //链接数据库，加载jdbc的驱动com.mysql.jdbc.Driver
         try {
@@ -54,14 +59,17 @@ public class busquerylistAction extends HttpServlet {
             Connection conn = dbOpener.getDB();
             System.out.println("链接完毕，开始创建准备数据库操作的statement<br>");
 
-            String sql = "select * from tbl_userwh ORDER BY " +sel1+','+sel2+','+sel3+','+sel4;
+            String sql = "select * from tbl_userwh ORDER BY '"+sel1+"','"+sel2+"','"+sel3+"','"+sel4+"' DESC LIMIT ? OFFSET ?";
             System.out.println("即将执行的SQL语句是：" + sql);
 
 
-            Statement statement = conn.createStatement();
             System.out.println("Connect Database Ok！！！");
             //执行查询语句，返回结果集
-            ResultSet rs = statement.executeQuery(sql);
+            PreparedStatement ps = conn.prepareStatement(sql);    //实例化PreparedStatement对象
+
+            ps.setInt(1,page_size);
+            ps.setInt(2,count);
+            ResultSet rs = ps.executeQuery();   //执行预处理语句获取查询结果集
 
             System.out.println("执行完毕，逐条显示<br>");
             //如果查询有结果，则循环显示查询出来的记录
@@ -79,14 +87,17 @@ public class busquerylistAction extends HttpServlet {
                 json.put("bunitprice",rs.getString("BUnitPrice"));
                 json.put("createat",rs.getString("CreateAt"));
                 //map.put("bunitprice",rs.getString("BUnitPrice"));
-
                 jsonList.add(json);
+
+                count++;
+                System.out.println("行数="+rs.getRow());
+                if(rs.getRow()>rowCount)rowCount=rs.getRow();
             }
             //加个断行
             System.out.println("<br>");
             System.out.println("====================显示完毕====================<br>");
 
-            statement.close();
+            ps.close();
             conn.close();
             System.out.println("Database Closed！！！");
         } catch (SQLException sqlexception) {
@@ -100,8 +111,15 @@ public class busquerylistAction extends HttpServlet {
         JSONObject jsonObject=new JSONObject();
         try {
             jsonObject.put("list",jsonList);
+            if(jsonList.isEmpty()){
+                JSONObject j=new JSONObject();
+                j.put("status","end");
+                sendManager.sendJSON(response,j);
+                return;
+            }
             jsonObject.put("status","ok");	//如果发生错误就设置成"error"等
             jsonObject.put("result_code",0);	//返回0表示正常，不等于0就表示有错误产生，错误代码
+            jsonObject.put("count",count);
         } catch (JSONException e) {
             e.printStackTrace();
         }

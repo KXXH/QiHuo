@@ -12,7 +12,7 @@
         <servlet-name>queryAction</servlet-name>
         <url-pattern>/query</url-pattern>
     </servlet-mapping>
-    
+
     <servlet>
         <servlet-name>loginAction</servlet-name>
         <servlet-class>login.manager.loginAction</servlet-class>
@@ -32,7 +32,7 @@
         <servlet-name>loginAction</servlet-name>
         <url-pattern>/loginAction</url-pattern>
     </servlet-mapping>
-    
+
     <servlet>
         <servlet-name>logoutAction</servlet-name>
         <servlet-class>login.manager.logoutAction</servlet-class>
@@ -42,6 +42,7 @@
         <servlet-name>logoutAction</servlet-name>
         <url-pattern>/logoutAction</url-pattern>
     </servlet-mapping>
+    
 
     <servlet>
         <servlet-name>userQueryAction</servlet-name>
@@ -243,12 +244,12 @@
         <servlet-name>statisticAction</servlet-name>
         <url-pattern>/statisticAction</url-pattern>
     </servlet-mapping>
-    
+
     <listener>
         <listener-class>autoRun.autoRun</listener-class>
     </listener>
-    
-    
+
+
     <servlet>
         <servlet-name>checkEmailAvailable</servlet-name>
         <servlet-class>user.manager.checkEmailAvailable</servlet-class>
@@ -257,22 +258,22 @@
         <servlet-name>checkEmailAvailable</servlet-name>
         <url-pattern>/checkEmailAvailable</url-pattern>
     </servlet-mapping>
-    
+
     <servlet>
         <servlet-name>checkUsernameAvailable</servlet-name>
         <servlet-class>user.manager.checkUsernameAvailable</servlet-class>
     </servlet>
-    
+
     <servlet-mapping>
         <servlet-name>checkUsernameAvailable</servlet-name>
         <url-pattern>/checkUsernameAvailable</url-pattern>
     </servlet-mapping>
-    
+
     <servlet>
         <servlet-name>userRegisterAction</servlet-name>
         <servlet-class>user.manager.userRegisterAction</servlet-class>
     </servlet>
-    
+
     <servlet-mapping>
         <servlet-name>userRegisterAction</servlet-name>
         <url-pattern>/userRegisterAction</url-pattern>
@@ -283,7 +284,7 @@
         <servlet-name>enableAccountAction</servlet-name>
         <servlet-class>user.manager.enableAccountAction</servlet-class>
     </servlet>
-    
+
     <servlet-mapping>
         <servlet-name>enableAccountAction</servlet-name>
         <url-pattern>/enableAccountAction</url-pattern>
@@ -337,6 +338,15 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>busstatisticAction</servlet-name>
+        <servlet-class>business.statistic.busstatisticAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>busstatisticAction</servlet-name>
+        <url-pattern>/busstatisticAction</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
         <servlet-name>getDataToShowAction</servlet-name>
         <servlet-class>quotation.getXLdata.getDataToShowAction</servlet-class>
     </servlet>
@@ -345,12 +355,12 @@
         <servlet-name>getDataToShowAction</servlet-name>
         <url-pattern>/getDataToShowAction</url-pattern>
     </servlet-mapping>
-    
+
     <servlet>
         <servlet-name>getTokenAction</servlet-name>
         <servlet-class>login.manager.getTokenAction</servlet-class>
     </servlet>
-    
+
     <servlet-mapping>
         <servlet-name>getTokenAction</servlet-name>
         <url-pattern>/getTokenAction</url-pattern>
@@ -360,12 +370,12 @@
         <servlet-name>delTokenAction</servlet-name>
         <servlet-class>login.manager.delTokenAction</servlet-class>
     </servlet>
-    
+
     <servlet-mapping>
         <servlet-name>delTokenAction</servlet-name>
         <url-pattern>/delTokenAction</url-pattern>
     </servlet-mapping>
-    
+
     <servlet>
         <servlet-name>editUserPermissionAction</servlet-name>
         <servlet-class>permission.manager.editUserPermissionAction</servlet-class>
@@ -374,6 +384,56 @@
     <servlet-mapping>
         <servlet-name>editUserPermissionAction</servlet-name>
         <url-pattern>/editUserPermissionAction</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>getLoginRecordAction</servlet-name>
+        <servlet-class>login.manager.getLoginRecordAction</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>getLoginRecordAction</servlet-name>
+        <url-pattern>/getLoginRecordAction</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>getPermissionAction</servlet-name>
+        <servlet-class>permission.manager.getPermissionAction</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>getPermissionAction</servlet-name>
+        <url-pattern>/getPermissionAction</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>editPermissionAction</servlet-name>
+        <servlet-class>permission.manager.editPermissionAction</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>editPermissionAction</servlet-name>
+        <url-pattern>/editPermissionAction</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>delPermissionAction</servlet-name>
+        <servlet-class>permission.manager.delPermissionAction</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>delPermissionAction</servlet-name>
+        <url-pattern>/delPermissionAction</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>addPermissionAction</servlet-name>
+        <servlet-class>permission.manager.addPermissionAction</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>addPermissionAction</servlet-name>
+        <url-pattern>/addPermissionAction</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -386,12 +446,11 @@
         <url-pattern>/showUSDCNYdataAction</url-pattern>
     </servlet-mapping>
 
-
-
     <servlet>
         <servlet-name>showUSDCNYupdateAction</servlet-name>
         <servlet-class>quotation.getXLdata.showUSDCNYupdateAction</servlet-class>
     </servlet>
+
 
     <servlet-mapping>
         <servlet-name>showUSDCNYupdateAction</servlet-name>
