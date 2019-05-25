@@ -47,20 +47,10 @@ public class newsManagerAction extends HttpServlet {
 
         String order_1 = request.getParameter("order_1");
         String order_2 = request.getParameter("order_2");
-        int count=0;
-        int limit = 0;
-        if(request.getParameter("count")!=null){
-            count=Integer.parseInt(request.getParameter("count"));
-        }
-        if(request.getParameter("limit")!=null){
-            limit=Integer.parseInt(request.getParameter("limit"));
-        }
-        int page_size=15;
         try{
             Connection conn = dbOpener.getDB();
             Statement statement = conn.createStatement();
-            String sql = "SELECT * FROM tbl_news ORDER BY " + order_1 +"," +order_2 + " desc LIMIT " +limit +" OFFSET " + count;
-            System.out.println(sql);
+            String sql = "SELECT * FROM tbl_news ORDER BY " + order_1 +"," +order_2;
             ResultSet rs = statement.executeQuery(sql);
             JSONObject jsonObject = new JSONObject();
             ArrayList list = new ArrayList();
@@ -77,13 +67,8 @@ public class newsManagerAction extends HttpServlet {
                 String author_name = rs.getString("author_name");
                 map.put("author_name",author_name);
                 list.add(map);
-                count++;
-            }
-            if(list.size()==0){
-                jsonObject.put("end",1);
             }
             jsonObject.put("aaData",list);
-            jsonObject.put("count",count);
             System.out.println(jsonObject.getString("aaData"));
             response.setContentType("application/json; charset=UTF-8");
             try {

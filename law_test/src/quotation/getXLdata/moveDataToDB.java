@@ -26,19 +26,19 @@ public class moveDataToDB {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println(line[21]);
+        System.out.println(line[22]);
         try {
             Connection conn = dbOpener.getDB();
             String sql = "INSERT IGNORE INTO tbl_USDCNY (date,open,high,low,close) VALUES(?,?,?,?,?)";
             PreparedStatement ptmt = conn.prepareStatement(sql);
             ptmt = conn.prepareStatement(sql);
-            for (int k = 21; k >= 0; k--) {
+            for (int k = 22; k >= 0; k--) {
                 System.out.println(k);
                 ptmt.setString(1,line[k].split(",")[0]);
-                ptmt.setDouble(2, Double.parseDouble(line[k].split(",")[2]));
-                ptmt.setDouble(3, Double.parseDouble(line[k].split(",")[3]));
-                ptmt.setDouble(4, Double.parseDouble(line[k].split(",")[4]));
-                ptmt.setDouble(5, Double.parseDouble(line[k].split(",")[1]));
+                ptmt.setDouble(2, Double.parseDouble(line[k].split(",")[1]));
+                ptmt.setDouble(3, Double.parseDouble(line[k].split(",")[2]));
+                ptmt.setDouble(4, Double.parseDouble(line[k].split(",")[3]));
+                ptmt.setDouble(5, Double.parseDouble(line[k].split(",")[4]));
                 ptmt.execute();
             }
         } catch (SQLException e) {

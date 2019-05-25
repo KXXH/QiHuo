@@ -105,9 +105,6 @@
             Node.className = "mdui-row mdui-row-gapless";
             Node.style = "margin-top:1%;margin-left:2%";
             Node.innerHTML = "<div class=\"mdui-col-xs-3\"><h3>"+list[i].name+"</h3></div>";
-            if(list[i].name == "在岸人民币"){
-                Node.innerHTML = "<div class=\"mdui-col-xs-3\"><h3><a href='USDCNY.html'> "+list[i].name+"</a></h3></div>";
-            }
             if(list[i].ROFper < 0){
                 Node.innerHTML += "<div class=\"mdui-col-xs-2\"><h4 style='color:green;'>"+list[i].quotation+"</h4></div>";
                 Node.innerHTML += "<div class=\"mdui-col-xs-1\"><h4 style='color:green;'>"+list[i].ROFper+"%</h4></div>";

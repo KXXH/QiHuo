@@ -140,8 +140,6 @@
 
             </tbody>
         </table>
-
-        <button class="mdui-btn" onclick="get_all_news()" style="width: 100%">加载更多</button>
     </div>
 
     <div class="mdui-typo">
@@ -154,34 +152,27 @@
 
 </div>
 </body>
-<script>
-    var list;
-    var count = 0;
-    var limit = 15;
+<script>var list;
 function get_all_news(){
     url = "newsManagerAction";
     var order_1 = $("input[type=radio][name=group1]:checked").val();
     var order_2 = $("input[type=radio][name=group2]:checked").val();
-    var data = {'order_1':order_1,'order_2':order_2,'count':count,'limit':limit}
-    $.post(url,data,function(json){
+    var data = '{"order_1":"'+order_1+'","order_2":"'+order_2+'"}';
+    var obj = JSON.parse(data);
+    $.post(url,obj,function(json){
         if(json.status == "error"){
             alert("您不是管理员！");
         }
         else{
-            if(json.end == 1)
-                mdui.snackbar("已经到达最后了!");
-            else{
-                var parent = document.getElementById("tbody");
-                initTable(json);
-            }
+            var parent = document.getElementById("tbody");
+            parent.innerHTML = "";
+            initTable(json);
         }
 
     })
 }
     function initTable(json){
         list = json.aaData;
-        count = json.count;
-        console.log(list)
         for(var i = 0; i < list.length; i++){
             var newNode = document.createElement("tr");
             newNode.innerHTML = "<td>"+list[i].id+"</td>"
@@ -204,13 +195,7 @@ function get_all_news(){
     }
     function order(){
         $("input[type=radio]").change(function(){
-            var parent = document.getElementById("tbody");
-            parent.innerHTML = "";
-            limit = count;
-            count = 0;
             get_all_news();
-            count = limit;
-            limit = 15;
         });
     }
     function search(){
