@@ -9,6 +9,7 @@
     <script src="//cdnjs.loli.net/ajax/libs/mdui/0.4.2/js/mdui.min.js"></script>
     <script src="js/jquery-2.1.4.min.js"></script>
     <script src="js/index_beta.js"></script>
+    <script src="js/utils.js"></script>
     <!-- Resources -->
     <script src="https://www.amcharts.com/lib/4/core.js"></script>
     <script src="https://www.amcharts.com/lib/4/charts.js"></script>
@@ -35,7 +36,8 @@
     var data;
 
     function getdata(){
-        url = "/showUSDCNYupdateAction"
+        url = "showUSDCNYupdateAction"
+        url = getQueryPath(url)
         $.post(url,function(json){
             if(json.status == "error"){
                 alert("必须登录！");
@@ -60,7 +62,8 @@
         parent.appendChild(Node);
     }
     function getdatapic(){
-        url = "/showUSDCNYdataAction"
+        url = "showUSDCNYdataAction"
+        url = getQueryPath(url)
         $.post(url,function(json){
             if(json.status == "error"){
                 alert("必须登录！");
