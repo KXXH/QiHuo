@@ -11,6 +11,7 @@
 		<script src="//cdnjs.loli.net/ajax/libs/mdui/0.4.2/js/mdui.min.js"></script>
 		<script src="js/jquery-2.1.4.min.js"></script>
 		<script src="js/index_beta.js"></script>
+		<script src="js/utils.js"></script>
 	</head>
 	<body onload="initPage();" class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-pink ">
 		<div class="mdui-appbar mdui-appbar-fixed">
@@ -78,7 +79,8 @@
 
 	function changestock(){
 		var stockid = getParam();
-		var url = "/changeAction";
+		var url = "changeAction";
+		url=getQueryPath(url);
 		console.log("22222222222222");
 		var quantity = document.getElementById("Quantity").value;
 		var bunitprice = document.getElementById("BUnitPrice").value;
