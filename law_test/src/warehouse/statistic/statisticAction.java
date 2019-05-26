@@ -55,6 +55,7 @@ public class statisticAction extends javax.servlet.http.HttpServlet {
                 jsonList.add(json);
             }
             jsonList.sort(new DataComp());
+            conn.close();
             try{
                 JSONObject json = new JSONObject();
                 json.put("status","ok");

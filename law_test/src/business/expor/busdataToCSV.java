@@ -42,6 +42,7 @@ public class busdataToCSV extends javax.servlet.http.HttpServlet {
                 System.out.println();
 
             }
+            conn.close();
             return stringBuilder.toString();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -65,6 +66,7 @@ public class busdataToCSV extends javax.servlet.http.HttpServlet {
         response.setHeader("Content-Disposition", "attachment;filename=" + filename);
         OutputStream output = response.getOutputStream();
         System.out.println("1111111");
+
         output.write(b);
         output.close();
     }

@@ -38,6 +38,7 @@ public class whdataToCSV extends javax.servlet.http.HttpServlet {
                 System.out.println();
 
             }
+            conn.close();
             return stringBuilder.toString();
         } catch (SQLException e) {
             e.printStackTrace();

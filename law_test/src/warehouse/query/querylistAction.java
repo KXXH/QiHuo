@@ -84,7 +84,7 @@ public class querylistAction extends HttpServlet {
             //加个断行
             System.out.println("<br>");
             System.out.println("====================显示完毕====================<br>");
-
+            conn.close();
             statement.close();
             conn.close();
             System.out.println("Database Closed！！！");
