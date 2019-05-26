@@ -34,6 +34,7 @@ public class newsExportAction extends HttpServlet {
                     stringBuilder.append("," + rs.getString("date"));
                     stringBuilder.append("," + rs.getString("author_name")+"\n");
                 }
+                conn.close();
                 return stringBuilder.toString();
             } catch (SQLException e) {
                 e.printStackTrace();

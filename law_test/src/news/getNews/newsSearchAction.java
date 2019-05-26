@@ -48,6 +48,7 @@ public class newsSearchAction extends HttpServlet {
                 map.put("author_name",author_name);
                 list.add(map);
             }
+            conn.close();
             jsonObject.put("aaData",list);
             System.out.println(jsonObject.getString("aaData"));
             response.setContentType("application/json; charset=UTF-8");

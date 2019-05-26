@@ -50,6 +50,7 @@ public class getDataToShowAction extends javax.servlet.http.HttpServlet {
 
                 list.add(map);
             }
+            conn.close();
             jsonObject.put("aaData",list);
             System.out.println(jsonObject.getString("aaData"));
             response.setContentType("application/json; charset=UTF-8");

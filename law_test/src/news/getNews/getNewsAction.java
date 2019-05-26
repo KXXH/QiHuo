@@ -65,6 +65,7 @@ public class getNewsAction extends HttpServlet {
                 map.put("thumbnail_pic_s",thumbnail_pic_s);
                 list.add(map);
             }
+            conn.close();
             jsonObject.put("aaData",list);
             System.out.println(jsonObject.getString("aaData"));
             response.setContentType("application/json; charset=UTF-8");

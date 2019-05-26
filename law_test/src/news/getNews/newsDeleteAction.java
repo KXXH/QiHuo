@@ -34,6 +34,7 @@ public class newsDeleteAction extends HttpServlet {
             ptmt = conn.prepareStatement(sql);
             ptmt.setString(1, delete_id);
             ptmt.execute();
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
             try {

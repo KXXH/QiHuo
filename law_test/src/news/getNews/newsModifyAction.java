@@ -39,6 +39,7 @@ public class newsModifyAction extends HttpServlet {
             ptmt.setString(3, author_name);
             ptmt.setString(4, id);
             ptmt.execute();
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
             try {

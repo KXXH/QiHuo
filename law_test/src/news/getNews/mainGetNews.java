@@ -70,7 +70,7 @@ class GetNewsThread extends Thread {
                     ptmt.setString(5, jsonArray.getJSONObject(i).getString("thumbnail_pic_s"));
                     ptmt.execute();
                 }
-
+                conn.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             } catch (JSONException e) {

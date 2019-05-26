@@ -73,6 +73,7 @@ class updateThread extends Thread {
                         ptmt.setDouble(4, low);
                         ptmt.setDouble(5, close);
                         ptmt.execute();
+                        conn.close();
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
