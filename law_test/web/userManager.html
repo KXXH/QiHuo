@@ -17,6 +17,7 @@
     <script src="https://www.amcharts.com/lib/4/themes/material.js"></script>
     <script src="https://www.amcharts.com/lib/4/lang/de_DE.js"></script>
     <script src="https://www.amcharts.com/lib/4/geodata/germanyLow.js"></script>
+    <script src="js/utils.js"></script>
 </head>
 
 <body onload="initPage();fetchUserInfo()" class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-pink ">
@@ -227,7 +228,7 @@
         document.forms['user_edit_form']['role_id_radio'].value="normal";
         document.getElementById("password_box").style.display="block";
         document.getElementById("submit_btn").innerHTML='<button class="mdui-btn" id="submit_btn" onclick="addUserInfo()">提交</button>'
-        var url="/editUserPermissionAction";
+        var url=getQueryPath("editUserPermissionAction");
         $.post(url,function(json){
             console.log(JSON.stringify(json));
             init_role_id_radio();
@@ -252,7 +253,7 @@
         var password=document.forms['user_edit_form']['password'].value;
         var token=getCookie("tocken");
         var j={'username':username,'email':email,'phone':phone,'wechat_id':wechat_id,'role_id':role_id,'token':token,'password':password};
-        var url='/userAddAction';
+        var url=getQueryPath('userAddAction');
         $.post(url,j,function(json){
             if(json.status=="ok"){
                 mdui.snackbar({'message':'添加成功!'});
@@ -299,7 +300,7 @@
 
         var token=getCookie("tocken");
         var j={'token':token};
-        var url='/userStatisticAction';
+        var url=getQueryPath('userStatisticAction');
         $.post(url,j,function(json){
             console.log(JSON.stringify(json));
             drawChart(json);
@@ -312,7 +313,7 @@
         var sort2=$('input[type=radio][name=sorted_by2]:checked').val();
         var username=document.forms['user_search_form']['username_search'].value;
         var token=getCookie('tocken');
-        var url='/userQueryAction';
+        var url=getQueryPath('userQueryAction');
         var j={'token':token,'username':username,'sorted_by':sort,'sorted_by2':sort2};
         $.post(url,j,function(json){
             user_info=json.list;
@@ -330,7 +331,7 @@
         var role_id=document.forms['user_edit_form']['role_id_radio'].value;
         var token=getCookie("tocken");
         var j={'user_id':user_id,'username':username,'email':email,'phone':phone,'wechat_id':wechat_id,'role_id':role_id,'token':token};
-        var url='/userEditAction';
+        var url=getQueryPath('userEditAction');
         $.post(url,j,function(json){
             if(json.status=="ok"){
                 mdui.snackbar({'message':'修改成功!'});
@@ -348,7 +349,7 @@
             console.log(user_id);
             var j={'user_id':user_id,'token':getCookie('tocken')};
             console.log(JSON.stringify(j));
-            var url='userDeleteAction';
+            var url=getQueryPath('userDeleteAction');
             $.post(url,j,function(json){
                 if(json.status=="ok"){
                     mdui.snackbar({'message':'删除成功!'});
@@ -375,7 +376,7 @@
         document.forms['user_edit_form']['role_id_radio'].value=user_info[i].role_id;
         document.getElementById("password_box").style.display="none";
         var j={'user_id':user_info[i].user_id};
-        var url="/editUserPermissionAction";
+        var url=getQueryPath("editUserPermissionAction");
         $.post(url,j,function(json){
             console.log(JSON.stringify(json));
             if(json.status=="ok"){
@@ -410,7 +411,7 @@
         var sort2=$('input[type=radio][name=sorted_by2]:checked').val();
         console.log(sort2);
         var t={'token':getCookie("tocken"),'sorted_by':sort,'sorted_by2':sort2};
-        var url="/userQueryAction";
+        var url=getQueryPath("userQueryAction");
         $.post(url,t,function(json){
             console.log("收到JSON");
             console.log(JSON.stringify(json));

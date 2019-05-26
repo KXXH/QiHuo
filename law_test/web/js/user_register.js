@@ -9,7 +9,7 @@ var is_captcha_ready=false;
 function checkUsername(){
     var username=document.getElementById("UserName").value;
     var j={'username':username};
-    var url="/checkUsernameAvailable"
+    var url=getQueryPath("checkUsernameAvailable");
     $.post(url,j,function(json){
         if(json.status=="ok"){
             is_username_ok=true;
@@ -40,7 +40,7 @@ function checkPassword(){
 function checkEmail(){
     var email=document.getElementById("email").value;
     var j={'email':email};
-    var url="/checkEmailAvailable";
+    var url=getQueryPath("checkEmailAvailable");
     $.post(url,j,function(json){
         if(json.status=="error"){
             is_email_ok=false;
@@ -82,7 +82,7 @@ function register(){
         var phone=document.getElementById("phone").value;
         var jcaptcha=document.getElementById("jcaptcha").value;
         var j={'username':username,'password':password,'email':email,'phone':phone,'jcaptcha':jcaptcha};
-        var url='/userRegisterAction';
+        var url=getQueryPath('userRegisterAction');
         $.post(url,j,function(json){
             if(json.status=='ok'){
                 alert("帐户注册成功，请前往邮箱激活帐户!");

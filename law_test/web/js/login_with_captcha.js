@@ -55,7 +55,7 @@ function initPage(){
 }
 
 function loginWithTocken(tocken){
-    var url = "/loginAction";
+    var url = getQueryPath("loginAction");
     var username = document.getElementById("UserName").value;
     var password = document.getElementById("PassWd").value;
     var data = '{"UserName":"'+username+'","PassWd":"'+password+'","rememberPassword":"'+document.getElementById("rememberPassword").checked+'","tocken":"'+tocken+'"}';
@@ -71,7 +71,7 @@ function loginWithTocken(tocken){
 function loginTask(){
     mdui.mutation();
     //process_dialog.open();
-    var url = "/loginAction";
+    var url = getQueryPath("loginAction");
     var username = document.getElementById("UserName").value;
     var password = document.getElementById("PassWd").value;
     var captcha=document.getElementById("jcaptcha").value;

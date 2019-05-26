@@ -96,7 +96,7 @@ function updatePermissionTable(data){
 
 function loadMorePermission(){
     var j={'classname':permission_classname,'count':permission_count};
-    var url='/getPermissionAction';
+    var url=getQueryPath('getPermissionAction');
     $.post(url,j,function(json){
         if(json.status=="ok"){
             updatePermissionTable(json.data);
@@ -138,7 +138,7 @@ function submitEdit(){
     if(document.getElementById('permission_checkbox_others').checked){
         code=code|1;
     }
-    var url='/editPermissionAction';
+    var url=getQueryPath('editPermissionAction');
     var j={'permission_code':code,'id':id,'classname':classname};
     $.post(url,j,function(json){
         if(json.status=='ok'){
@@ -171,7 +171,7 @@ function addPermission(){
     if(document.getElementById('permission_checkbox_others').checked){
         code=code|1;
     }
-    var url='/addPermissionAction';
+    var url=getQueryPath('addPermissionAction');
     var j={'permission_code':code,'classname':classname};
     $.post(url,j,function(json){
         if(json.status=='ok'){
@@ -188,7 +188,7 @@ function addPermission(){
 function submitDelete(){
     var id=document.forms['permission_edit']['id'].value;
     console.log(id);
-    var url='/delPermissionAction';
+    var url=getQueryPath('delPermissionAction');
     var js={'id':id};
     console.log(JSON.stringify(js));
     $.post(url,js,function(json){

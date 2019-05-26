@@ -4,7 +4,7 @@ var login_count=0;
 var token_username="";
 var token_count=0;
 function fetchTokenInfo(){
-    var url='/getTokenAction';
+    var url=getQueryPath('getTokenAction');
 
     $.post(url,function(json){
         console.log(JSON.stringify(json));
@@ -54,7 +54,7 @@ function updateLoginTable(data){
 
 function loadMoreLoginRecord(){
     var j={'username':login_username,'count':login_count};
-    var url='/getLoginRecordAction';
+    var url=getQueryPath('getLoginRecordAction');
     $.post(url,j,function(json){
         if(json.status=="ok"){
             updateLoginTable(json.data);
@@ -85,7 +85,7 @@ function delToken(){
         ids.push(selects[i].cells[1].innerHTML);
     }
     var j={'selects':ids};
-    var url='/delTokenAction';
+    var url=getQueryPath('delTokenAction');
     $.post(url,j, function (json) {
         if(json.status=="ok"){
             mdui.snackbar("删除成功!");

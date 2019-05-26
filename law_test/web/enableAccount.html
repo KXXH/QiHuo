@@ -6,6 +6,7 @@
     <script src="js/jquery-2.1.4.min.js"></script>
     <link rel="stylesheet" href="//cdnjs.loli.net/ajax/libs/mdui/0.4.2/css/mdui.min.css">
     <script src="//cdnjs.loli.net/ajax/libs/mdui/0.4.2/js/mdui.min.js"></script>
+    <script src="js/utils.js"></script>
 </head>
 <body onload="send()">
 <div class="mdui-appbar mdui-theme-primary-pink">
@@ -23,7 +24,7 @@
 <script>
     function send(){
         var token=window.location.search.substring(1);
-        var url="/enableAccountAction";
+        var url=getQueryPath("enableAccountAction");
         var j={'token':token};
         $.post(url,j,function(json){
             console.log(JSON.stringify(json));
