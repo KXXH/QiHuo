@@ -9,6 +9,7 @@
     <script src="//cdnjs.loli.net/ajax/libs/mdui/0.4.2/js/mdui.min.js"></script>
     <script src="js/jquery-2.1.4.min.js"></script>
     <script src="js/index_beta.js"></script>
+    <script src="js/utils.js"></script>
 </head>
 <body onload="initPage();getQuatations();flush()" class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-pink ">
     <div class="mdui-appbar mdui-appbar-fixed">
@@ -69,6 +70,7 @@
     var length;
     function getQuatations(){
         url = "getDataToShowAction";
+        url = getQueryPath(url)
         $.post(url,function(json){
             if(json.status == "error"){
                 alert("必须登录！");

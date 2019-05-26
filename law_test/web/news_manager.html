@@ -12,6 +12,7 @@
     <script src="//cdnjs.loli.net/ajax/libs/mdui/0.4.2/js/mdui.min.js"></script>
     <script src="js/jquery-2.1.4.min.js"></script>
     <script src="js/index_beta.js"></script>
+    <script src="js/utils.js"></script>
     <script src="https://www.amcharts.com/lib/4/core.js"></script>
     <script src="https://www.amcharts.com/lib/4/charts.js"></script>
     <script src="https://www.amcharts.com/lib/4/themes/material.js"></script>
@@ -160,6 +161,7 @@
     var limit = 15;
 function get_all_news(){
     url = "newsManagerAction";
+    url = getQueryPath(url)
     var order_1 = $("input[type=radio][name=group1]:checked").val();
     var order_2 = $("input[type=radio][name=group2]:checked").val();
     var data = {'order_1':order_1,'order_2':order_2,'count':count,'limit':limit}
@@ -193,6 +195,7 @@ function get_all_news(){
     }
     function delete_record(id) {
         url = "newsDeleteAction"
+        url = getQueryPath(url)
         var data = '{"id":"'+id+'"}';
         var obj = JSON.parse(data);
         $.post(url,obj,function(json){
@@ -215,6 +218,7 @@ function get_all_news(){
     }
     function search(){
         url = "newsSearchAction"
+        url = getQueryPath(url)
         var search = document.getElementById("search").value;
         var data = '{"search":"'+search+'"}';
         var obj = JSON.parse(data);
@@ -235,6 +239,7 @@ function get_all_news(){
     }
     function modify(){
         url = "newsModifyAction";
+        url = getQueryPath(url)
         var id = document.getElementById("id").value;
         var title = document.getElementById("title").value;
         var date = document.getElementById("date").value;
@@ -285,6 +290,7 @@ function get_all_news(){
         var data = '{"order_1":"'+order_1+'","order_2":"'+order_2+'"}';
         var obj = JSON.parse(data);
         url = "newsStatisticsAction";
+        url = getQueryPath(url)
         $.post(url,obj,function(json){
             if(json.status == "error"){
                 return;
