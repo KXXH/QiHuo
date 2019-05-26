@@ -23,6 +23,7 @@ public class addPermissionAction extends javax.servlet.http.HttpServlet {
             ptmt.setString(1,classname);
             ptmt.execute();
             sendManager.sendSimpleOKJSON(response);
+            conn.close();
         }catch(NullPointerException e){
             sendManager.sendErrorJSONWithMsg(response,"传参错误");
             e.printStackTrace();

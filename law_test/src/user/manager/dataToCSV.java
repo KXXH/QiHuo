@@ -32,6 +32,7 @@ public class dataToCSV extends javax.servlet.http.HttpServlet {
                 stringBuilder.append(","+rs.getString("CreateAt"));
                 stringBuilder.append(","+rs.getString("role_id")+"\n");
             }
+            conn.close();
             return stringBuilder.toString();
         } catch (SQLException e) {
             e.printStackTrace();

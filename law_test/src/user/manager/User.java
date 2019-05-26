@@ -136,6 +136,7 @@ public class User {
         }
         user=findUser(userName,"Email");
         if(user!=null){
+            conn.close();
             return null;
         }
         String sql="INSERT INTO tbl_userinfo (UserName,Passwd,Email,Phone,WeChatId,CreateAt,role_id) VALUES(?,?,?,?,?,?,?)";
@@ -162,6 +163,7 @@ public class User {
         if(rs.next()){
             id=rs.getInt("UserId");
         }
+        conn.close();
         user=new User(id,userName,passwd,email,phone,wechatId,sdate,role_id);
         return user;
 

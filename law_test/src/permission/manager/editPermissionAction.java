@@ -25,6 +25,7 @@ public class editPermissionAction extends javax.servlet.http.HttpServlet {
             ptmt.setInt(3,id);
             ptmt.execute();
             sendManager.sendSimpleOKJSON(response);
+            conn.close();
         }catch(NullPointerException e){
             sendManager.sendErrorJSONWithMsg(response,"传参错误");
             e.printStackTrace();

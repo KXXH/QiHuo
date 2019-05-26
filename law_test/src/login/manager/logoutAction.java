@@ -27,6 +27,7 @@ public class logoutAction extends HttpServlet{
             PreparedStatement ptmt = conn.prepareStatement(sql);
             ptmt.setString(1,token);
             ptmt.execute();
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -41,6 +41,7 @@ public class queryAction extends javax.servlet.http.HttpServlet{
                 list.add(rs.getInt("parent_id"));
                 jsonList.add(list);
             }
+            conn.close();
         } catch (SQLException e1) {
             e1.printStackTrace();
         }

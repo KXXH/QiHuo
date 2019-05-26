@@ -62,6 +62,7 @@ public class tokenGenerator {
             ptmt.setInt(4, User.findUser(userName,"UserName").getUserId());
             System.out.println("执行的SQL语句是"+ptmt.toString());
             ptmt.execute();
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
             return "error";

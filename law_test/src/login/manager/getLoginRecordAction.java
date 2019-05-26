@@ -96,6 +96,7 @@ public class getLoginRecordAction extends javax.servlet.http.HttpServlet {
                 JSONObject j=new JSONObject();
                 j.put("status","end");
                 sendManager.sendJSON(response,j);
+                conn.close();
                 return;
             }
             //session.setAttribute("count",count);
@@ -106,6 +107,7 @@ public class getLoginRecordAction extends javax.servlet.http.HttpServlet {
             jsonObject.put("count",count);
             assert response != null;
             sendManager.sendJSON(response,jsonObject);
+            conn.close();
         } catch (SQLException e) {
             assert response != null;
             sendManager.sendErrorJSONWithMsg(response,"SQL 错误");

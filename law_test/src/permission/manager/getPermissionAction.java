@@ -62,6 +62,7 @@ public class getPermissionAction extends javax.servlet.http.HttpServlet {
                 sendManager.sendJSON(response,jsonObject);
                 return;
             }
+            conn.close();
             jsonObject.put("data",jsonArray);
             jsonObject.put("status","ok");
             jsonObject.put("count",count);

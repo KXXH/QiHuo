@@ -53,6 +53,7 @@ public class tokenChecker {
                         ptmt = conn.prepareStatement(sql);
                         ptmt.setString(1,token);
                         ptmt.execute();
+                        conn.close();
                         return "timeout";
                     }
                     //如果token有效则续期
@@ -73,10 +74,12 @@ public class tokenChecker {
                     rs = ptmt.executeQuery();
                     if(rs.next()){
                         userType = rs.getString("role_id");
+                        conn.close();
                         return userType;
                     }
                     else{
                         System.out.println("没有找到user!");
+                        conn.close();
                         return "error";
                     }
                 }
@@ -102,10 +105,12 @@ public class tokenChecker {
                 ptmt.setString(1,token);
                 ResultSet rs = ptmt.executeQuery();
                 if(!rs.next()){
+                    conn.close();
                     return null;
                 }
                 else{
                     User user=User.findUser(rs.getString("UserName"),"UserName");
+                    conn.close();
                     return user;
                 }
             }

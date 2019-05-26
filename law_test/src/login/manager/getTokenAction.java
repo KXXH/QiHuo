@@ -48,6 +48,7 @@ public class getTokenAction extends javax.servlet.http.HttpServlet {
             json.put("data",jsonArray);
             json.put("status","ok");
             sendManager.sendJSON(response,json);
+            connection.close();
         } catch (SQLException | JSONException e) {
             e.printStackTrace();
         }

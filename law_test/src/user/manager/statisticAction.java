@@ -76,6 +76,7 @@ public class statisticAction extends javax.servlet.http.HttpServlet {
                 json.put("status","ok");
                 json.put("data",jsonList);
                 sendManager.sendJSON(response,json);
+                conn.close();
                 return;
             }catch(JSONException e){
                 e.printStackTrace();
