@@ -14,6 +14,6 @@ public class dbOpener {
         } catch (ClassNotFoundException classNotFoundException) {
             classNotFoundException.printStackTrace();
         }
-        return DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb?user=root&password=123456&useUnicode=true&characterEncoding=UTF-8");
+        return DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb?user=xm10&password=qihuoqihuoqihuo&useUnicode=true&characterEncoding=UTF-8");
     }
 }
