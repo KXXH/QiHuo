@@ -9,6 +9,7 @@
 		<link rel="stylesheet" href="//cdnjs.loli.net/ajax/libs/mdui/0.4.2/css/mdui.min.css">
 		<script src="//cdnjs.loli.net/ajax/libs/mdui/0.4.2/js/mdui.min.js"></script>
 		<script src="js/jquery-2.1.4.min.js"></script>
+		<script src="js/utils.js"></script>
         <script src="js/index_beta.js"></script>
 	</head>
 
@@ -76,7 +77,8 @@
 
 	function addstock(){
 
-		var url = "/registerAction";
+		var url = "registerAction";
+		url=getQueryPath(url);
 		var stockid = document.getElementById("StockId").value;
 		var stockname = document.getElementById("StockName").value;
 		var quantity = document.getElementById("Quantity").value;

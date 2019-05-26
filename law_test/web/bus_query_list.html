@@ -10,6 +10,7 @@
 		<script src="//cdnjs.loli.net/ajax/libs/mdui/0.4.2/js/mdui.min.js"></script>
 		<script src="js/jquery-2.1.4.min.js"></script>
 		<script src="js/index_beta.js"></script>
+		<script src="js/utils.js"></script>
 	</head>
 	<body onload="initPage();" class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-pink ">
 		<div class="mdui-appbar mdui-appbar-fixed">
@@ -154,8 +155,8 @@
 		window.location="bus_query_list.html";
 	}
 	function delet(id){
-		var url = "/busdeleteAction?OrderId="+id;
-
+		var url = "busdeleteAction?OrderId="+id;
+		url=getQueryPath(url);
 		var data1 = '{"StockId":"'+id+'"}';
 
 		var obj = JSON.parse(data1);
@@ -169,16 +170,16 @@
 	}
 
 	function exported(){
-		var url = "/busdataToCSV";
-
+		var url = "busdataToCSV";
+		url=getQueryPath(url);
 		$.post(url,function(json){
 			console.log(JSON.stringify(json));
 		})
 	}
 
 	function query(){
-		var url = "/buschaxunAction";
-
+		var url = "buschaxunAction";
+		url=getQueryPath(url);
 		console.log("22222222222222");
 		var orderid = document.getElementById("OrderId").value;
 		var userid = document.getElementById("UserId").value;
@@ -267,8 +268,8 @@
 
 	function show(){
 
-		var url = "/busquerylistAction";
-
+		var url = "busquerylistAction";
+		url=getQueryPath(url);
 		var sel1 = document.getElementById("sel1").value;
 		var sel2 = document.getElementById("sel2").value;
 		var sel3 = document.getElementById("sel3").value;
@@ -330,7 +331,8 @@
 	}
 
 	function statistics(){
-		var url = "/busstatisticAction";
+		var url = "busstatisticAction";
+		url=getQueryPath(url);
 		$.post(url,function(json){
 			console.log(JSON.stringify(json));
 			drawChart(json);

@@ -25,8 +25,8 @@ xmlns="http://www.w3.org/TR/REC-html40">
 <link rel="stylesheet" href="//cdnjs.loli.net/ajax/libs/mdui/0.4.2/css/mdui.min.css">
 <script src="//cdnjs.loli.net/ajax/libs/mdui/0.4.2/js/mdui.min.js"></script>
 <script src="js/jquery-2.1.4.min.js"></script>
- <script src="js/query_list.js"></script>
  <script src="js/index_beta.js"></script>
+ <script src="js/utils.js"></script>
 <link rel=File-List href="news_print.files/filelist.xml">
 <!--[if gte mso 9]><xml>
  <o:DocumentProperties>
@@ -930,8 +930,8 @@ table.MsoTable15Plain1OddRow
  }
 
  function get_all_news(){
-  var url = "/querylistAction";
-
+    var url = "querylistAction";
+    url=getQueryPath(url);
     var sel1 = "StockId";
     var sel2 = "StockName";
     var sel3 = "Quantity";

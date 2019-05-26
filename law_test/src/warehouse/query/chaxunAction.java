@@ -92,6 +92,7 @@ public class chaxunAction extends HttpServlet {
                     json.put("stockid",rs.getString("StockId"));
                     json.put("stockname",rs.getString("StockName"));
                     json.put("quantity",rs.getString("Quantity"));
+                    json.put("createat",rs.getString("CreateAt"));
 
                 jsonList.add(json);
                 }
