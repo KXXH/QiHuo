@@ -62,6 +62,7 @@ public class newsStatisticsAction extends HttpServlet {
                     map.put(date,"1");
                 }
             }
+            conn.close();
             Set set=map.keySet();
             Object[] arr=set.toArray();
             Arrays.sort(arr);

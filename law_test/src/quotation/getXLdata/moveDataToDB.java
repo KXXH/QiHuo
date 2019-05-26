@@ -41,6 +41,7 @@ public class moveDataToDB {
                 ptmt.setDouble(5, Double.parseDouble(line[k].split(",")[1]));
                 ptmt.execute();
             }
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

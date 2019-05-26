@@ -79,6 +79,7 @@ public class newsManagerAction extends HttpServlet {
                 list.add(map);
                 count++;
             }
+            conn.close();
             if(list.size()==0){
                 jsonObject.put("end",1);
             }

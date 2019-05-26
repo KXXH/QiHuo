@@ -169,6 +169,7 @@ class GetDataThread extends Thread {
                     ptmt.setString(4, q[i].getCode());
                     ptmt.execute();
                 }
+                conn.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
