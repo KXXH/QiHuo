@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50151
 File Encoding         : 65001
 
-Date: 2019-05-25 18:30:46
+Date: 2019-05-26 12:17:15
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -24,7 +24,7 @@ CREATE TABLE `tbl_permission` (
   `className` varchar(255) NOT NULL,
   `permissionCode` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tbl_permission
@@ -43,26 +43,34 @@ INSERT INTO `tbl_permission` VALUES ('11', 'user.manager.forgetPasswordAction', 
 INSERT INTO `tbl_permission` VALUES ('12', 'user.manager.queryAction', '24');
 INSERT INTO `tbl_permission` VALUES ('13', 'user.manager.resetPasswordAction', '28');
 INSERT INTO `tbl_permission` VALUES ('14', 'user.manager.userRegisterAction', '31');
-INSERT INTO `tbl_permission` VALUES ('15', 'news.getNews.getNewsAction', '30');
-INSERT INTO `tbl_permission` VALUES ('16', 'news.getNews.newsDeleteAction', '24');
-INSERT INTO `tbl_permission` VALUES ('17', 'news.getNews.newsExportAction', '24');
-INSERT INTO `tbl_permission` VALUES ('18', 'news.getNews.newsManagerAction', '24');
-INSERT INTO `tbl_permission` VALUES ('19', 'news.getNews.newsModifyAction', '24');
-INSERT INTO `tbl_permission` VALUES ('20', 'news.getNews.newsSearchAction', '24');
-INSERT INTO `tbl_permission` VALUES ('21', 'news.getNews.newsStatisticsAction', '24');
-INSERT INTO `tbl_permission` VALUES ('22', 'quotation.getXLdata.getDataToShowAction', '30');
-INSERT INTO `tbl_permission` VALUES ('23', 'quotation.getXLdata.showUSDCNYdataAction', '28');
-INSERT INTO `tbl_permission` VALUES ('24', 'quotation.getXLdata.showUSDCNYupdateAction', '28');
-INSERT INTO `tbl_permission` VALUES ('25', 'business.change.buschangeAction', '24');
-INSERT INTO `tbl_permission` VALUES ('26', 'business.delet.busdeleteAction', '24');
-INSERT INTO `tbl_permission` VALUES ('27', 'business.expor.busdataToCSV', '24');
-INSERT INTO `tbl_permission` VALUES ('28', 'business.query.buschaxunAction', '24');
-INSERT INTO `tbl_permission` VALUES ('29', 'business.query.busquerylistAction', '24');
-INSERT INTO `tbl_permission` VALUES ('30', 'business.statistic.busstatisticAction', '24');
-INSERT INTO `tbl_permission` VALUES ('31', 'warehouse.change.changeAction', '28');
-INSERT INTO `tbl_permission` VALUES ('32', 'warehouse.delet.deleteAction', '28');
-INSERT INTO `tbl_permission` VALUES ('33', 'warehouse.expor.whdataToCSV', '28');
-INSERT INTO `tbl_permission` VALUES ('34', 'warehouse.query.chaxunAction', '28');
-INSERT INTO `tbl_permission` VALUES ('35', 'warehouse.query.querylistAction', '28');
-INSERT INTO `tbl_permission` VALUES ('36', 'warehouse.register.registerAction', '28');
-INSERT INTO `tbl_permission` VALUES ('37', 'warehouse.statistic.statisticAction', '28');
+INSERT INTO `tbl_permission` VALUES ('19', 'permission.manager.editUserPermissionAction', '24');
+INSERT INTO `tbl_permission` VALUES ('20', 'login.manager.getTokenAction', '16');
+INSERT INTO `tbl_permission` VALUES ('21', 'login.manager.delTokenAction', '16');
+INSERT INTO `tbl_permission` VALUES ('22', 'login.manager.getLoginRecordAction', '16');
+INSERT INTO `tbl_permission` VALUES ('23', 'permission.manager.getPermissionAction', '16');
+INSERT INTO `tbl_permission` VALUES ('24', 'permission.manager.editPermissionAction', '16');
+INSERT INTO `tbl_permission` VALUES ('25', 'permission.manager.addPermissionAction', '16');
+INSERT INTO `tbl_permission` VALUES ('26', 'permission.manager.delPermissionAction', '16');
+INSERT INTO `tbl_permission` VALUES ('31', 'news.getNews.getNewsAction', '30');
+INSERT INTO `tbl_permission` VALUES ('32', 'news.getNews.newsDeleteAction', '24');
+INSERT INTO `tbl_permission` VALUES ('33', 'news.getNews.newsExportAction', '24');
+INSERT INTO `tbl_permission` VALUES ('34', 'news.getNews.newsManagerAction', '24');
+INSERT INTO `tbl_permission` VALUES ('35', 'news.getNews.newsModifyAction', '24');
+INSERT INTO `tbl_permission` VALUES ('36', 'news.getNews.newsSearchAction', '24');
+INSERT INTO `tbl_permission` VALUES ('37', 'news.getNews.newsStatisticsAction', '24');
+INSERT INTO `tbl_permission` VALUES ('38', 'quotation.getXLdata.getDataToShowAction', '30');
+INSERT INTO `tbl_permission` VALUES ('39', 'quotation.getXLdata.showUSDCNYdataAction', '28');
+INSERT INTO `tbl_permission` VALUES ('40', 'quotation.getXLdata.showUSDCNYupdateAction', '28');
+INSERT INTO `tbl_permission` VALUES ('41', 'business.change.buschangeAction', '24');
+INSERT INTO `tbl_permission` VALUES ('42', 'business.delet.busdeleteAction', '24');
+INSERT INTO `tbl_permission` VALUES ('43', 'business.expor.busdataToCSV', '24');
+INSERT INTO `tbl_permission` VALUES ('44', 'business.query.buschaxunAction', '24');
+INSERT INTO `tbl_permission` VALUES ('45', 'business.query.busquerylistAction', '24');
+INSERT INTO `tbl_permission` VALUES ('46', 'business.statistic.busstatisticAction', '24');
+INSERT INTO `tbl_permission` VALUES ('47', 'warehouse.change.changeAction', '28');
+INSERT INTO `tbl_permission` VALUES ('48', 'warehouse.delet.deleteAction', '28');
+INSERT INTO `tbl_permission` VALUES ('49', 'warehouse.expor.whdataToCSV', '28');
+INSERT INTO `tbl_permission` VALUES ('50', 'warehouse.query.chaxunAction', '28');
+INSERT INTO `tbl_permission` VALUES ('51', 'warehouse.query.querylistAction', '28');
+INSERT INTO `tbl_permission` VALUES ('52', 'warehouse.register.registerAction', '28');
+INSERT INTO `tbl_permission` VALUES ('53', 'warehouse.statistic.statisticAction', '28');
