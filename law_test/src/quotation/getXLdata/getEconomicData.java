@@ -151,7 +151,7 @@ class GetDataThread extends Thread {
                         break;
                     case 5:
                         q[i].setName(content.split(",")[9]);
-                        q[i].setQuotation(Double.parseDouble(content.split(",")[1]));
+                        q[i].setQuotation(Double.parseDouble(content.split(",")[2]));
                         q[i].setROFper(Double.parseDouble(content.split(",")[10]));
                         break;
                 }
