@@ -1,7 +1,7 @@
 package login.manager;
 
 import user.manager.User;
-import utils.dbOpener;
+import utils.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -35,7 +35,7 @@ public class logoutAction extends HttpServlet{
         try{
             session.invalidate();
         }catch(IllegalStateException ignored){
-            ;
+            exceptionManager.logException(ignored,this,tokenChecker.tokenToUser(tokenExtractor.extractToken(request)));
         }
         System.out.println("删除了cookie");
     }

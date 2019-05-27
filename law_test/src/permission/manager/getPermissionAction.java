@@ -3,8 +3,7 @@ package permission.manager;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import utils.dbOpener;
-import utils.sendManager;
+import utils.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -69,9 +68,11 @@ public class getPermissionAction extends javax.servlet.http.HttpServlet {
             sendManager.sendJSON(response,jsonObject);
         } catch (SQLException e) {
             sendManager.sendErrorJSONWithMsg(response,"SQL错误");
+            exceptionManager.logException(e,this,tokenChecker.tokenToUser(tokenExtractor.extractToken(request)));
             e.printStackTrace();
         } catch (JSONException e) {
             sendManager.sendErrorJSONWithMsg(response,"JSON错误");
+            exceptionManager.logException(e,this,tokenChecker.tokenToUser(tokenExtractor.extractToken(request)));
             e.printStackTrace();
         }
     }

@@ -24,6 +24,7 @@ public class enableAccountAction extends javax.servlet.http.HttpServlet {
             session.setAttribute("token",token);
             sendManager.sendSimpleOKJSON(response);
         } catch (SQLException e) {
+            exceptionManager.logException(e,this,tokenChecker.tokenToUser(tokenExtractor.extractToken(request)));
             e.printStackTrace();
         }
     }

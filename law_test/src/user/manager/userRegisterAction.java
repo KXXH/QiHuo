@@ -3,6 +3,7 @@ package user.manager;
 import com.octo.captcha.module.servlet.image.SimpleImageCaptchaServlet;
 import org.json.JSONException;
 import org.json.JSONObject;
+import utils.exceptionManager;
 import utils.sendManager;
 import utils.tokenGenerator;
 
@@ -39,6 +40,7 @@ public class userRegisterAction extends javax.servlet.http.HttpServlet {
                 jsonObject.put("code",11);
                 sendManager.sendJSON(response,jsonObject);
             } catch (JSONException e) {
+                exceptionManager.logException(e,this);
                 e.printStackTrace();
             }
             return;
@@ -59,6 +61,7 @@ public class userRegisterAction extends javax.servlet.http.HttpServlet {
                 mailService.sendMail.sendEnableAccountEmail(user.getEmail(),"http://localhost:8080/enableAccount.html?"+token);
             }
         } catch (SQLException | JSONException | GeneralSecurityException e) {
+            exceptionManager.logException(e,this);
             e.printStackTrace();
         }
     }

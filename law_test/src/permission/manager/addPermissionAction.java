@@ -1,7 +1,6 @@
 package permission.manager;
 
-import utils.dbOpener;
-import utils.sendManager;
+import utils.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -26,8 +25,10 @@ public class addPermissionAction extends javax.servlet.http.HttpServlet {
             conn.close();
         }catch(NullPointerException e){
             sendManager.sendErrorJSONWithMsg(response,"传参错误");
+            exceptionManager.logException(e,this, tokenChecker.tokenToUser(tokenExtractor.extractToken(request)));
             e.printStackTrace();
         } catch (SQLException e) {
+            exceptionManager.logException(e,this,tokenChecker.tokenToUser(tokenExtractor.extractToken(request)));
             sendManager.sendErrorJSONWithMsg(response,"SQL错误");
             e.printStackTrace();
         }

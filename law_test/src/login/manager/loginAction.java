@@ -61,6 +61,8 @@ public class loginAction extends HttpServlet {
                 jsonObject.put("error",11);
                 jsonObject.put("status","error");
             } catch (JSONException e) {
+                exceptionManager.logException(e,this,tokenChecker.tokenToUser(tokenExtractor.extractToken(request)));
+                exceptionManager.logException(e,this,tokenChecker.tokenToUser(tokenExtractor.extractToken(request)));
                 e.printStackTrace();
             }
             sendManager.sendJSON(response,jsonObject);
@@ -72,6 +74,7 @@ public class loginAction extends HttpServlet {
                 jsonObject.put("error",10);
                 jsonObject.put("status","error");
             } catch (JSONException e) {
+                exceptionManager.logException(e,this,tokenChecker.tokenToUser(tokenExtractor.extractToken(request)));
                 e.printStackTrace();
             }
             sendManager.sendJSON(response,jsonObject);
@@ -145,6 +148,7 @@ public class loginAction extends HttpServlet {
             utils.sendManager.sendJSON(response,jsonObject);
             System.out.println("发送回复成功");
         } catch (JSONException e) {
+            exceptionManager.logException(e,this,tokenChecker.tokenToUser(tokenExtractor.extractToken(request)));
             e.printStackTrace();
         }
 

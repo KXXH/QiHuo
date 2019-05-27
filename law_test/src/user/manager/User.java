@@ -1,6 +1,7 @@
 package user.manager;
 
 import utils.dbOpener;
+import utils.exceptionManager;
 
 import java.sql.*;
 import java.text.SimpleDateFormat;
@@ -57,6 +58,7 @@ public class User {
                 return findUser(userName,"UserName");
             }
         } catch (SQLException e) {
+            exceptionManager.logException(e,Thread.currentThread().getStackTrace()[1].getClassName());
             e.printStackTrace();
             return null;
         }
@@ -83,6 +85,7 @@ public class User {
                 return user;
             }
         } catch (SQLException e) {
+            exceptionManager.logException(e,Thread.currentThread().getStackTrace()[1].getClassName());
             e.printStackTrace();
             return null;
         }
@@ -109,6 +112,7 @@ public class User {
                 return user;
             }
         } catch (SQLException e) {
+            exceptionManager.logException(e,Thread.currentThread().getStackTrace()[1].getClassName());
             e.printStackTrace();
             return null;
         }

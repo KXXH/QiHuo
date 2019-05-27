@@ -31,6 +31,7 @@ public class loginRecorder {
             ptmt.execute();
             conn.close();
         } catch (SQLException e) {
+            exceptionManager.logException(e,Thread.currentThread().getStackTrace()[1].getClassName());
             e.printStackTrace();
         }
     }

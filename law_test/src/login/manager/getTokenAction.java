@@ -4,8 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import permission.manager.permissionChecker;
-import utils.dbOpener;
-import utils.sendManager;
+import utils.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -42,6 +41,7 @@ public class getTokenAction extends javax.servlet.http.HttpServlet {
                     jsonObject.put("tokenValue",rs.getString("tockenValue"));
                     jsonArray.put(jsonObject);
                 } catch (JSONException e) {
+                    exceptionManager.logException(e,this,tokenChecker.tokenToUser(tokenExtractor.extractToken(request)));
                     e.printStackTrace();
                 }
             }
@@ -50,6 +50,7 @@ public class getTokenAction extends javax.servlet.http.HttpServlet {
             sendManager.sendJSON(response,json);
             connection.close();
         } catch (SQLException | JSONException e) {
+            exceptionManager.logException(e,this,tokenChecker.tokenToUser(tokenExtractor.extractToken(request)));
             e.printStackTrace();
         }
     }

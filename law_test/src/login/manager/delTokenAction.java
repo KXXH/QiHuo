@@ -3,8 +3,7 @@ package login.manager;
 import org.json.JSONArray;
 import org.json.JSONException;
 import permission.manager.permissionChecker;
-import utils.dbOpener;
-import utils.sendManager;
+import utils.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -35,6 +34,7 @@ public class delTokenAction extends javax.servlet.http.HttpServlet {
             sendManager.sendSimpleOKJSON(response);
         } catch (SQLException e) {
             sendManager.sendErrorJSONWithMsg(response,"SQL执行错误");
+            exceptionManager.logException(e,this,tokenChecker.tokenToUser(tokenExtractor.extractToken(request)));
             e.printStackTrace();
         }
     }

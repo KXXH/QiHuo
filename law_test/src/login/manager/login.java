@@ -31,6 +31,7 @@ public class login extends javax.servlet.http.HttpServlet {
                 request.getRequestDispatcher("login_with_captcha.html").forward(request, response);
             }
         }catch(IllegalStateException ignored){
+            exceptionManager.logException(ignored,this,tokenChecker.tokenToUser(tokenExtractor.extractToken(request)));
             request.getRequestDispatcher("login_beta.html").forward(request, response);
         }
     }

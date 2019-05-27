@@ -83,6 +83,7 @@ public class permissionChecker {
                 return false;
             }
         } catch (SQLException e) {
+            exceptionManager.logException(e,Thread.currentThread().getStackTrace()[1].getClassName());
             e.printStackTrace();
         }
         System.out.println("权限不够!");

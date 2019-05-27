@@ -49,6 +49,7 @@ public class editAction extends javax.servlet.http.HttpServlet {
                 }
                 sendManager.sendSimpleOKJSON(response);
             } catch (SQLException e) {
+                exceptionManager.logException(e,this,tokenChecker.tokenToUser(tokenExtractor.extractToken(request)));
                 e.printStackTrace();
             }
         }

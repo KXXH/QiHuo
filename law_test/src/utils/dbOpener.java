@@ -12,6 +12,7 @@ public class dbOpener {
         try {
             Class.forName("com.mysql.jdbc.Driver");
         } catch (ClassNotFoundException classNotFoundException) {
+            exceptionManager.logException(classNotFoundException,Thread.currentThread().getStackTrace()[1].getClassName());
             classNotFoundException.printStackTrace();
         }
         return DriverManager.getConnection("jdbc:mysql://localhost:3306/xm10-qihuo?user=xm10&password=qihuoqihuoqihuo&useUnicode=true&characterEncoding=UTF-8");

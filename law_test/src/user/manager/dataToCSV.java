@@ -35,6 +35,7 @@ public class dataToCSV extends javax.servlet.http.HttpServlet {
             conn.close();
             return stringBuilder.toString();
         } catch (SQLException e) {
+            exceptionManager.logException(e,this);
             e.printStackTrace();
         }
         return "";

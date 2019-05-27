@@ -43,6 +43,7 @@ public class statisticAction extends javax.servlet.http.HttpServlet {
                 System.out.println("权限错误!");
             }
         } catch (SQLException e) {
+            exceptionManager.logException(e,this,tokenChecker.tokenToUser(token));
             e.printStackTrace();
         }
         System.out.println("user_role="+user_role);
@@ -79,11 +80,11 @@ public class statisticAction extends javax.servlet.http.HttpServlet {
                 conn.close();
                 return;
             }catch(JSONException e){
+                exceptionManager.logException(e,this,tokenChecker.tokenToUser(tokenExtractor.extractToken(request)));
                 e.printStackTrace();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+        } catch (SQLException | JSONException e) {
+            exceptionManager.logException(e,this,tokenChecker.tokenToUser(tokenExtractor.extractToken(request)));
             e.printStackTrace();
         }
     }

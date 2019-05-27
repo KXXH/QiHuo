@@ -23,6 +23,7 @@ public class resetPasswordAction extends javax.servlet.http.HttpServlet {
                 json.put("error","can not find user!");
                 json.put("status","error");
             } catch (JSONException e) {
+                exceptionManager.logException(e,this,null);
                 e.printStackTrace();
             }
         }
@@ -42,6 +43,7 @@ public class resetPasswordAction extends javax.servlet.http.HttpServlet {
 
                 e.printStackTrace();
             } catch (JSONException e) {
+                exceptionManager.logException(e,this,user);
                 e.printStackTrace();
             }
 

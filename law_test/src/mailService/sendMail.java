@@ -10,6 +10,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import com.sun.mail.util.MailSSLSocketFactory;
+import utils.exceptionManager;
 
 /**
  * Created by zjm97 on 2019/5/15.
@@ -65,6 +66,7 @@ public class sendMail {
             Transport.send(message);
             System.out.println("Sent message successfully....");
         }catch (MessagingException mex) {
+            exceptionManager.logException(mex,Thread.currentThread().getStackTrace()[1].getClassName());
             mex.printStackTrace();
         }
     }

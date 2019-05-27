@@ -26,6 +26,7 @@ public class forgetPasswordAction extends javax.servlet.http.HttpServlet {
                     json.put("error","邮箱不存在!");
                     sendManager.sendJSON(response,json);
                 } catch (JSONException e) {
+                    exceptionManager.logException(e,this,tokenChecker.tokenToUser(tokenExtractor.extractToken(request)));
                     e.printStackTrace();
                 }
             }
@@ -34,6 +35,7 @@ public class forgetPasswordAction extends javax.servlet.http.HttpServlet {
                 sendMail.sendForgetPasswdURL(email,"http://localhost:8080/resetPassword.html?"+token);
                 sendManager.sendSimpleOKJSON(response);
             } catch (GeneralSecurityException e) {
+                exceptionManager.logException(e,this,tokenChecker.tokenToUser(tokenExtractor.extractToken(request)));
                 e.printStackTrace();
             }
         }else{
@@ -45,6 +47,7 @@ public class forgetPasswordAction extends javax.servlet.http.HttpServlet {
                 json.put("status","error");
                 sendManager.sendJSON(response,json);
             } catch (JSONException e) {
+                exceptionManager.logException(e,this,tokenChecker.tokenToUser(tokenExtractor.extractToken(request)));
                 e.printStackTrace();
             }
         }
@@ -67,9 +70,11 @@ public class forgetPasswordAction extends javax.servlet.http.HttpServlet {
                     return;
                 }
                 catch(IOException e){
+                    exceptionManager.logException(e,this,tokenChecker.tokenToUser(tokenExtractor.extractToken(request)));
                     e.printStackTrace();
                 }
             } catch (JSONException e) {
+                exceptionManager.logException(e,this,tokenChecker.tokenToUser(tokenExtractor.extractToken(request)));
                 e.printStackTrace();
             }
         }
@@ -86,9 +91,8 @@ public class forgetPasswordAction extends javax.servlet.http.HttpServlet {
             catch(IOException e){
                 e.printStackTrace();
             }
-        } catch (GeneralSecurityException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+        } catch (GeneralSecurityException | JSONException e) {
+            exceptionManager.logException(e,this,tokenChecker.tokenToUser(tokenExtractor.extractToken(request)));
             e.printStackTrace();
         }
     }

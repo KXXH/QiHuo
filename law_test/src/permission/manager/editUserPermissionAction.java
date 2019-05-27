@@ -4,9 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import user.manager.User;
-import utils.sendManager;
-import utils.tokenChecker;
-import utils.tokenExtractor;
+import utils.*;
 
 /**
  * Created by zjm97 on 2019/5/23.
@@ -38,6 +36,7 @@ public class editUserPermissionAction extends javax.servlet.http.HttpServlet {
                 jsonObject.put("status","ok");
                 jsonObject.put("choice",jsonArray);
             } catch (JSONException e) {
+                exceptionManager.logException(e,this,tokenChecker.tokenToUser(tokenExtractor.extractToken(request)));
                 e.printStackTrace();
             }
             sendManager.sendJSON(response,jsonObject);

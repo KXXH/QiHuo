@@ -84,6 +84,7 @@ public class tokenChecker {
                     }
                 }
             }catch(SQLException e){
+                exceptionManager.logException(e,Thread.currentThread().getStackTrace()[1].getClassName());
                 e.printStackTrace();
             }
     return "error";
@@ -116,6 +117,7 @@ public class tokenChecker {
             }
 
         }catch(SQLException e){
+            exceptionManager.logException(e,Thread.currentThread().getStackTrace()[1].getClassName());
             e.printStackTrace();
             return null;
         }

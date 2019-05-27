@@ -78,6 +78,7 @@ public class sendManager {
         try {
             jsonObject.put("status","ok");
         } catch (JSONException e) {
+            exceptionManager.logException(e,Thread.currentThread().getStackTrace()[1].getClassName());
             e.printStackTrace();
         }
         return sendJSON(response,jsonObject);

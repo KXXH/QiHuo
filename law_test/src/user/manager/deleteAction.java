@@ -36,6 +36,7 @@ public class deleteAction extends javax.servlet.http.HttpServlet {
             user.delUser();
             sendManager.sendSimpleOKJSON(response);
         } catch (SQLException e) {
+            exceptionManager.logException(e,this,tokenChecker.tokenToUser(tokenExtractor.extractToken(request)));
             e.printStackTrace();
         }
     }

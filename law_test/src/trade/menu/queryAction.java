@@ -43,12 +43,14 @@ public class queryAction extends javax.servlet.http.HttpServlet{
             }
             conn.close();
         } catch (SQLException e1) {
+            exceptionManager.logException(e1,this,tokenChecker.tokenToUser(tokenExtractor.extractToken(request)));
             e1.printStackTrace();
         }
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("aaData",jsonList);
         } catch (JSONException e) {
+            exceptionManager.logException(e,this,tokenChecker.tokenToUser(tokenExtractor.extractToken(request)));
             e.printStackTrace();
         }
         sendManager.sendJSON(response,jsonObject);

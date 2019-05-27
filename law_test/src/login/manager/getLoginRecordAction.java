@@ -5,10 +5,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import permission.manager.permissionChecker;
 import user.manager.User;
-import utils.dbOpener;
-import utils.sendManager;
-import utils.tokenChecker;
-import utils.tokenExtractor;
+import utils.*;
 
 import javax.servlet.http.HttpSession;
 import java.sql.Connection;
@@ -111,10 +108,13 @@ public class getLoginRecordAction extends javax.servlet.http.HttpServlet {
         } catch (SQLException e) {
             assert response != null;
             sendManager.sendErrorJSONWithMsg(response,"SQL 错误");
+            exceptionManager.logException(e,this,tokenChecker.tokenToUser(tokenExtractor.extractToken(request)));
             e.printStackTrace();
         } catch (JSONException e) {
             assert response != null;
             sendManager.sendErrorJSONWithMsg(response,"JSON 解析错误");
+
+            exceptionManager.logException(e,this,tokenChecker.tokenToUser(tokenExtractor.extractToken(request)));
             e.printStackTrace();
         }
 

@@ -131,6 +131,7 @@ public class queryAction extends javax.servlet.http.HttpServlet {
             return;
 
         }catch (SQLException | JSONException e){
+            exceptionManager.logException(e,this,tokenChecker.tokenToUser(tokenExtractor.extractToken(request)));
             e.printStackTrace();
         }
 
