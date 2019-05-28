@@ -34,12 +34,12 @@ function delCookie(name)
 }
 
 function logOut(){
-    var url = "/logoutAction";
+    var url = getQueryPath("logoutAction");
     var data = '{"tocken":"'+getCookie("tocken")+'"}';
     var obj = JSON.parse(data);
     $.post(url,obj);
     delCookie("tocken");
-    window.location.href = "login";
+    window.location.href = getQueryPath("login");
 
 }
 
