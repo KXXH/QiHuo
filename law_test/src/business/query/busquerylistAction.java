@@ -38,13 +38,21 @@ public class busquerylistAction extends HttpServlet {
         String sel3 = request.getParameter("Sel3");
         String sel4 = request.getParameter("Sel4");
 
+        String orderid = request.getParameter("OrderId");
+        String userid = request.getParameter("UserId");
+        String username = request.getParameter("UserName");
+        String stockid = request.getParameter("StockId");
+        String stockname = request.getParameter("StockName");
+
+
+
         int count=0;
         int page_size=15;
         int rowCount=0;
-        if(request.getParameter("count")!=null){
-            count=Integer.parseInt(request.getParameter("count"));
+        if(request.getParameter("page_size")!=null){
+            page_size=Integer.parseInt(request.getParameter("page_size"));
         }
-        System.out.println("count="+count);
+        System.out.println("page_size="+page_size);
         //String s=String.valueOf(user.getUserId());
         //链接数据库，加载jdbc的驱动com.mysql.jdbc.Driver
         try {
@@ -59,17 +67,28 @@ public class busquerylistAction extends HttpServlet {
             //链接数据库，IP地址是localhost，端口是3306，账号和密码是ylx，这些都可以更改
             Connection conn = dbOpener.getDB();
             System.out.println("链接完毕，开始创建准备数据库操作的statement<br>");
-
-            String sql = "select * from tbl_userwh ORDER BY '"+sel1+"','"+sel2+"','"+sel3+"','"+sel4+"' DESC LIMIT ? OFFSET ?";
+            String sql;
+            if(orderid.length()==0 && userid.length()==0 && username.length()==0 && stockid.length()==0 && stockname.length()==0)
+            {
+                sql = "select * from tbl_userwh ORDER BY '"+sel1+"','"+sel2+"','"+sel3+"','"+sel4+"' DESC LIMIT ? ";
+            }
+            else
+            {
+                sql = "select * from tbl_userwh WHERE UserId='"+userid+"' or UserName='"+username+"' or StockId='"+stockid+"' or StockName='"+stockname+"' or OrderId='"+orderid+"' ORDER BY '"+sel1+"','"+sel2+"','"+sel3+"','"+sel4+"' DESC LIMIT ? ";
+            }
             System.out.println("即将执行的SQL语句是：" + sql);
 
-
+            System.out.println("userid="+userid);
+            System.out.println("username="+username);
+            System.out.println("stockid="+stockid);
+            System.out.println("stockname="+stockname);
+            System.out.println("orderid="+orderid);
+            System.out.println("page_size="+page_size);
             System.out.println("Connect Database Ok！！！");
             //执行查询语句，返回结果集
             PreparedStatement ps = conn.prepareStatement(sql);    //实例化PreparedStatement对象
 
             ps.setInt(1,page_size);
-            ps.setInt(2,count);
             ResultSet rs = ps.executeQuery();   //执行预处理语句获取查询结果集
 
             System.out.println("执行完毕，逐条显示<br>");
@@ -112,7 +131,7 @@ public class busquerylistAction extends HttpServlet {
         JSONObject jsonObject=new JSONObject();
         try {
             jsonObject.put("list",jsonList);
-            if(jsonList.isEmpty()){
+            if(page_size==count){
                 JSONObject j=new JSONObject();
                 j.put("status","end");
                 sendManager.sendJSON(response,j);
@@ -120,7 +139,7 @@ public class busquerylistAction extends HttpServlet {
             }
             jsonObject.put("status","ok");	//如果发生错误就设置成"error"等
             jsonObject.put("result_code",0);	//返回0表示正常，不等于0就表示有错误产生，错误代码
-            jsonObject.put("count",count);
+            jsonObject.put("page_size",page_size);
         } catch (JSONException e) {
             e.printStackTrace();
         }

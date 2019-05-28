@@ -72,7 +72,7 @@
 		</select>
 		<button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="show()">显示</button>
 		<div>
-			<button type="button" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="window.location='wh_print.html'">打印</button>
+			<button type="button" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="window.location='bus_print.html'">打印</button>
 			<a href = "busdataToCSV" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent">导出</a>
 			<button type="button" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="window.location='bus_statistics.html'">统计</button>
 			<button type="button"class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="home()">仓库主页</button>
@@ -108,7 +108,6 @@
 
 			<div class="mdui-table-fluid">
 				<table class="mdui-table mdui-table-hoverable" id="bus_table">
-					<thead>
 					<tr>
 						<th>订单号</th>
 						<th>用户ID</th>
@@ -120,12 +119,8 @@
 						<th>交易日期</th>
 						<th>操作</th>
 					</tr>
-					</thead>
-					<tbody id="bus_list">
-
-					</tbody>
 				</table>
-				<button class="mdui-btn" onclick="show()" style="width: 100%">加载更多</button>
+				<button class="mdui-btn" onclick="queryMore()" style="width: 100%">加载更多</button>
 			</div>
 
 			<div class="mdui-typo">
@@ -148,6 +143,13 @@
 <script>
 	var bus_info;
 	var bus_count=0;
+	var page_size=15;
+	var orderid="";
+	var userid="";
+	var username="";
+	var stockid="";
+	var stockname="";
+
 	function modify(id){
 		window.location.href = "bus_change.html?orderid="+id;
 	}
@@ -181,27 +183,39 @@
 		var url = "buschaxunAction";
 		url=getQueryPath(url);
 		console.log("22222222222222");
-		var orderid = document.getElementById("OrderId").value;
-		var userid = document.getElementById("UserId").value;
-		var username = document.getElementById("UserName").value;
-		var stockid = document.getElementById("StockId").value;
-		var stockname = document.getElementById("StockName").value;
+		orderid = document.getElementById("OrderId").value;
+		userid = document.getElementById("UserId").value;
+		username = document.getElementById("UserName").value;
+		stockid = document.getElementById("StockId").value;
+		stockname = document.getElementById("StockName").value;
 		//var coo = getCookie("tocken");
 		console.log("11111111111111111");
-		var data1 = '{"OrderId":"'+orderid+'","UserId":"'+userid+'","UserName":"'+username+'","StockId":"'+stockid+'","StockName":"'+stockname+'"}';
+		clearBusTable();
+		show();
+		/*var data1 = '{"OrderId":"'+orderid+'","UserId":"'+userid+'","UserName":"'+username+'","StockId":"'+stockid+'","StockName":"'+stockname+'"}';
 		console.log("================");
 		var obj = JSON.parse(data1);
 		console.log(data1);
 		$.post(url,obj,function(json){
 			console.log(JSON.stringify(json));
 			updateTable(json);
-		})
+		})*/
 	}
+	function clearBusTable()
+	{
+		var table=document.getElementById("bus_table");
+		var rowCount=table.rows.length;
+		for(var i=rowCount-1;i>0;i--){
+			table.deleteRow(i);
+		}
+		mdui.updateTables("#bus_table");
+	}
+
 
 	function updateTable(json){
 		bus_info=json.list;
-		var table = document.getElementById('bus_list');
-
+		var table = document.getElementById('bus_table');
+		table.innerHTML="";
 		for(var i=0;i<json.list.length;i++){
 			var row = document.createElement('tr');
 			var id=json.list[i].orderid;
@@ -262,10 +276,14 @@
 			row.appendChild(buttonBox);
 			table.appendChild(row);
 		}
-		mdui.updateTables("#bus_list")
+		mdui.updateTables("#bus_table")
 	}
 	
-
+	function queryMore()
+	{
+		page_size+=15;
+		show();
+	}
 	function show(){
 
 		var url = "busquerylistAction";
@@ -274,9 +292,9 @@
 		var sel2 = document.getElementById("sel2").value;
 		var sel3 = document.getElementById("sel3").value;
 		var sel4 = document.getElementById("sel4").value;
+		bus_count=0;
 
-
-		var data1 = '{"Sel1":"'+sel1+'","Sel2":"'+sel2+'","Sel3":"'+sel3+'","Sel4":"'+sel4+'","count":"'+bus_count+'"}';
+		var data1 = '{"Sel1":"'+sel1+'","Sel2":"'+sel2+'","Sel3":"'+sel3+'","Sel4":"'+sel4+'","page_size":"'+page_size+'","OrderId":"'+orderid+'","UserId":"'+userid+'","UserName":"'+username+'","StockId":"'+stockid+'","StockName":"'+stockname+'"}';
 
 		var j = JSON.parse(data1);
 		$.post(url,j,function(json){
@@ -285,7 +303,7 @@
 
 			if(json.status=="ok"){
 				updateTable(json);
-				bus_count=json.count;
+				//page_size=json.page_size;
 			}else if(json.status=="error"){
 				mdui.alert(json.error,"错误");
 			}else if(json.status=="end"){
