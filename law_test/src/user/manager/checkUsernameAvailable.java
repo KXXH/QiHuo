@@ -10,7 +10,7 @@ public class checkUsernameAvailable extends javax.servlet.http.HttpServlet {
         if(user==null){
             sendManager.sendSimpleOKJSON(response);
         }else{
-            sendManager.sendSimpleErrorJSON(response);
+            sendManager.sendErrorJSONWithMsg(response,"用户未找到");
         }
     }
 

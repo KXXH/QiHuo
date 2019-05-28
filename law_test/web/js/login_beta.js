@@ -95,13 +95,13 @@ function loginTask(){
 function checkResult(json){
     var result=json.status;
     if(result=="success"){
-
+        /*
         if(document.getElementById("rememberPassword").checked){
-            setCookieDays("tocken",json.tocken,10);
+            setCookieDays("tocken",json.tocken,30);
         }
         else{
             setCookieMins("tocken",json.tocken,5);
-        }
+        }*/
         window.location.href = "index_beta.html";
     }
     else{

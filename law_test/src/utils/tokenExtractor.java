@@ -2,6 +2,7 @@ package utils;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Objects;
 
 /**
  * Created by zjm97 on 2019/5/16.
@@ -21,17 +22,22 @@ public class tokenExtractor {
     public static String extractToken(HttpServletRequest request){
         String token;
         token=request.getParameter("tocken");
-        if(token==null){
+
+        if(token==null||token.length()==0|| Objects.equals(token, "false")){
+            System.out.println("没有找到显式传递的tocken!");
             token=request.getParameter("token");
         }else{
+
             request.getSession().setAttribute("token",token);
         }
-        if(token==null){
+        if(token==null||token.length()==0|| Objects.equals(token, "false")){
+            System.out.println("没有找到显式传递的token!");
             token=(String)request.getSession(true).getAttribute("token");
         }else{
             request.getSession(true).setAttribute("token",token);
         }
-        if(token==null){
+        if(token==null||token.length()==0|| Objects.equals(token, "false")){
+            System.out.println("没有找到session传递的token!");
             Cookie cookie=cookieManager.getCookieByName(request,"token");
             if(cookie!=null){
                 token=cookie.getValue();
