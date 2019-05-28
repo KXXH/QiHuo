@@ -54,7 +54,7 @@
         if(json.nowData.now < json.nowData.open)
             Node.innerHTML = "<div class=\"mdui-row\" style='margin-left: 2%'><h2 class=\"mdui-col-xs-2\">在岸人民币： </h2><h2 class=\"mdui-col-xs-2\" style='color: green'>"+ json.nowData.now+"</h2></div>"
         else
-            Node.innerHTML = "<h2>在岸人民币： </h2><h4 style='color: red'>"+ json.nowData.now+"</h4>"
+            Node.innerHTML = "<div class=\"mdui-row\" style='margin-left: 2%'><h2 class=\"mdui-col-xs-2\">在岸人民币： </h2><h2 class=\"mdui-col-xs-2\" style='color: red'>"+ json.nowData.now+"</h2></div>"
         Node.innerHTML += "<div class=\"mdui-row\" style='margin-left: 2%'><h4 class=\"mdui-col-xs-4\">昨收："+json.nowData.close+ "</h4><h4 class=\"mdui-col-xs-4\">今开："+json.nowData.open+ "</h4></div>";
         Node.innerHTML += "<div class=\"mdui-row\" style='margin-left: 2%'><h4 class=\"mdui-col-xs-4\">最低："+json.nowData.low+ "</h4><h4 class=\"mdui-col-xs-4\">最高："+json.nowData.high+ "</h4></div>";
         var parent = document.getElementById("nowData");
