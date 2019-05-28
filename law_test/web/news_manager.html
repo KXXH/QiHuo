@@ -20,7 +20,7 @@
     <script src="https://www.amcharts.com/lib/4/geodata/germanyLow.js"></script>
 </head>
 
-<body onload="initPage();get_all_news();order();statistics()" class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-pink ">
+<body onload="initPage();get_all_news(0);order();statistics()" class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-pink ">
 <div class="mdui-appbar mdui-appbar-fixed">
     <div class="mdui-toolbar mdui-color-theme">
         <a class="mdui-btn mdui-btn-icon" mdui-drawer="{target: '#left-drawer'}"><i class="mdui-icon material-icons">menu</i></a>
@@ -86,12 +86,12 @@
         <div class="mdui-dialog-title">查找新闻</div>
         <form name="user_search_form" class="mdui-dialog-content">
             <div class="mdui-textfield">
-                <label class="mdui-textfield-label">内容</label>
+                <label class="mdui-textfield-label">标题关键字</label>
                 <input class="mdui-textfield-input" id="search" name="search"/>
             </div>
         </form>
         <div class="mdui-dialog-actions">
-            <button class="mdui-btn" onclick="search()" mdui-dialog-confirm>
+            <button class="mdui-btn" onclick="search_news()" mdui-dialog-confirm>
                 搜索
             </button>
         </div>
@@ -142,7 +142,7 @@
             </tbody>
         </table>
 
-        <button class="mdui-btn" onclick="get_all_news()" style="width: 100%">加载更多</button>
+        <button class="mdui-btn" onclick="get_all_news(0)" style="width: 100%">加载更多</button>
     </div>
 
     <div class="mdui-typo">
@@ -157,23 +157,29 @@
 </body>
 <script>
     var list;
-    var count = 0;
     var limit = 15;
-function get_all_news(){
-    url = "newsManagerAction";
-    url = getQueryPath(url)
     var order_1 = $("input[type=radio][name=group1]:checked").val();
     var order_2 = $("input[type=radio][name=group2]:checked").val();
-    var data = {'order_1':order_1,'order_2':order_2,'count':count,'limit':limit}
+    var search = document.getElementById("search").value;
+    var len = 0;
+    var Order = 0;
+
+
+function get_all_news(Order){
+    url = "newsManagerAction";
+    url = getQueryPath(url)
+    order_1 = $("input[type=radio][name=group1]:checked").val();
+    order_2 = $("input[type=radio][name=group2]:checked").val();
+    search = document.getElementById("search").value;
+    var data = {'order_1':order_1,'order_2':order_2,'limit':limit,'search':search,'length':len}
     $.post(url,data,function(json){
         if(json.status == "error"){
             alert("您不是管理员！");
         }
         else{
-            if(json.end == 1)
+            if(json.end == 1 && Order == 0)
                 mdui.snackbar("已经到达最后了!");
             else{
-                var parent = document.getElementById("tbody");
                 initTable(json);
             }
         }
@@ -182,14 +188,15 @@ function get_all_news(){
 }
     function initTable(json){
         list = json.aaData;
-        count = json.count;
-        console.log(list)
+        limit = limit + 15;
+        len = list.length;
+        var parent = document.getElementById("tbody");
+        parent.innerHTML = "";
         for(var i = 0; i < list.length; i++){
             var newNode = document.createElement("tr");
             newNode.innerHTML = "<td>"+list[i].id+"</td>"
             newNode.innerHTML += "<td>"+list[i].title+"</td><td>"+list[i].date +"</td><td>" +list[i].author_name + "</td>";
             newNode.innerHTML += "<td><button class=\"mdui-btn mdui-btn-raised\" onclick='delete_record("+list[i].id+")'>删除</button><button class=\"mdui-btn mdui-btn-raised\" onclick='modify_record("+i+")'>修改</button></td>"
-            var parent = document.getElementById("tbody");
             parent.appendChild(newNode);
         }
     }
@@ -209,24 +216,18 @@ function get_all_news(){
         $("input[type=radio]").change(function(){
             var parent = document.getElementById("tbody");
             parent.innerHTML = "";
-            limit = count;
-            count = 0;
-            get_all_news();
-            count = limit;
-            limit = 15;
+            limit = limit-15;
+
+            get_all_news(1);
         });
     }
-    function search(){
-        url = "newsSearchAction"
-        url = getQueryPath(url)
-        var search = document.getElementById("search").value;
-        var data = '{"search":"'+search+'"}';
-        var obj = JSON.parse(data);
-        $.post(url,obj,function(json){
-            var parent = document.getElementById("tbody");
-            parent.innerHTML = "";
-            initTable(json);
-        })
+    function search_news(){
+        var parent = document.getElementById("tbody");
+        parent.innerHTML = "";
+        var temp = limit;
+        limit = 15;
+        get_all_news(1);
+        limit =temp-15;
     }
     function modify_record(i){
         var inst = new mdui.Dialog("#modify");
@@ -248,7 +249,7 @@ function get_all_news(){
         var obj = JSON.parse(data);
         $.post(url,obj,function(json){
             if(json.status=="1")
-                window.location.href = "news_manager.html";
+                get_all_news(1);
             else
                 alert("修改失败！");
         })

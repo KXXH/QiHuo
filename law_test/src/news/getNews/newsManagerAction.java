@@ -47,19 +47,27 @@ public class newsManagerAction extends HttpServlet {
 
         String order_1 = request.getParameter("order_1");
         String order_2 = request.getParameter("order_2");
-        int count=0;
+        int len = Integer.parseInt(request.getParameter("length"));
+        int count = 0;
         int limit = 0;
-        if(request.getParameter("count")!=null){
-            count=Integer.parseInt(request.getParameter("count"));
-        }
+        String search="";
         if(request.getParameter("limit")!=null){
             limit=Integer.parseInt(request.getParameter("limit"));
+        }
+        if(request.getParameter("search")!=null){
+            search = request.getParameter("search");
         }
         int page_size=15;
         try{
             Connection conn = dbOpener.getDB();
             Statement statement = conn.createStatement();
-            String sql = "SELECT * FROM tbl_news ORDER BY " + order_1 +"," +order_2 + " desc LIMIT " +limit +" OFFSET " + count;
+            String sql;
+            if(search==""){
+                sql = "SELECT * FROM tbl_news ORDER BY " + order_1 +"," +order_2 + " desc LIMIT " +limit;
+            }
+            else{
+                sql = "SELECT * FROM tbl_news WHERE title LIKE '%"+search+"%' ORDER BY " + order_1 +"," +order_2 + " desc LIMIT " +limit;
+            }
             System.out.println(sql);
             ResultSet rs = statement.executeQuery(sql);
             JSONObject jsonObject = new JSONObject();
@@ -80,11 +88,10 @@ public class newsManagerAction extends HttpServlet {
                 count++;
             }
             conn.close();
-            if(list.size()==0){
+            if(count == len){
                 jsonObject.put("end",1);
             }
             jsonObject.put("aaData",list);
-            jsonObject.put("count",count);
             System.out.println(jsonObject.getString("aaData"));
             response.setContentType("application/json; charset=UTF-8");
             try {
