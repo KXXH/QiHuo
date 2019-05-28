@@ -88,11 +88,11 @@ function initMenu(json) {
         }
 
     }catch (e){
-        var error = json.error;
-        if(error==3) {
+        var error = json.code;
+        if(error==123) {
             alert("登录已过期，请重新登录");
             delCookie("tocken");
-            window.location.href="/login_beta.html";
+            window.location.href=getQueryPath("login");
             return;
         }
     }

@@ -141,11 +141,13 @@ function submitEdit(){
     var url=getQueryPath('editPermissionAction');
     var j={'permission_code':code,'id':id,'classname':classname};
     $.post(url,j,function(json){
+        edit_dlg.close();
         if(json.status=='ok'){
             mdui.snackbar("修改成功!");
             permission_count=0;
             clearPermissionTable();
             loadMorePermission();
+
         }else{
             mdui.alert(json.error,"错误");
         }
@@ -174,12 +176,15 @@ function addPermission(){
     var url=getQueryPath('addPermissionAction');
     var j={'permission_code':code,'classname':classname};
     $.post(url,j,function(json){
+        edit_dlg.close();
         if(json.status=='ok'){
             mdui.snackbar("添加成功!");
             permission_count=0;
             clearPermissionTable();
             loadMorePermission();
+
         }else{
+
             mdui.alert(json.error,"错误");
         }
     });
@@ -192,6 +197,7 @@ function submitDelete(){
     var js={'id':id};
     console.log(JSON.stringify(js));
     $.post(url,js,function(json){
+        edit_dlg.close();
         if(json.status=='ok'){
             mdui.snackbar("删除成功!");
             permission_count=0;

@@ -17,7 +17,7 @@ public class delTokenAction extends javax.servlet.http.HttpServlet {
         if(!permissionChecker.checkPermissionAndResponse(request,response,this)) return;
         String[] selects=request.getParameterValues("selects[]");
         if(selects==null){
-            sendManager.sendErrorJSONWithMsg(response,"传参为空");
+            sendManager.sendErrorJSONWithMsg(response,"必须选择至少一个Token");
             return;
         }
         try {

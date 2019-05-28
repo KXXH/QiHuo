@@ -54,9 +54,12 @@
                     <input class="mdui-textfield-input" id="phone" name="phone" type="tel" onblur="checkPhone()" required/>
                     <div class="mdui-textfield-error" id="phone_err_msg">请填写正确的手机号!</div>
                 </div>
-                <div id="captcha_div">
-                    <img class="mdui-col-xs-4" src="jcaptcha.jpg" onclick='this.src=this.src+"?"+Math.random()' id="captcha_img" /> <input class="mdui-textfield-input mdui-col-xs-8" type="text" name="jcaptcha" id="jcaptcha" value="" onblur="checkCaptcha()" placeholder="验证码" required/>
-                </div>
+
+            </div>
+            <div id="captcha_div" class="mdui-card-content">
+                <img class="mdui-col-xs-4" src="jcaptcha.jpg" onclick='this.src=this.src+"?"+Math.random()' id="captcha_img" /> <input class="mdui-textfield-input mdui-col-xs-8" type="text" name="jcaptcha" id="jcaptcha" value="" onblur="checkCaptcha()" placeholder="验证码" required/>
+            </div>
+            <div class="mdui-card-actions mdui-m-t-2">
                 <button class="mdui-btn mdui-ripple mdui-float-right mdui-color-deep-orange-600" onclick="register()">
                     注册
                 </button>

@@ -138,7 +138,8 @@ public class tokenChecker {
             return user;
         }
         else{
-            response.sendRedirect("login");
+            //response.sendRedirect("login");
+            sendManager.sendDefaultPermissionError(response);
             return null;
         }
     }
