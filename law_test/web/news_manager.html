@@ -206,8 +206,11 @@ function get_all_news(Order){
         var data = '{"id":"'+id+'"}';
         var obj = JSON.parse(data);
         $.post(url,obj,function(json){
-            if(json.status==1)
-                window.location.href = "news_manager.html";
+            if(json.status==1){
+                limit = limit - 15;
+                get_all_news(1);
+            }
+
             else
                 alert("删除失败!");
         })
@@ -224,10 +227,8 @@ function get_all_news(Order){
     function search_news(){
         var parent = document.getElementById("tbody");
         parent.innerHTML = "";
-        var temp = limit;
-        limit = 15;
+        limit = limit-15;
         get_all_news(1);
-        limit =temp-15;
     }
     function modify_record(i){
         var inst = new mdui.Dialog("#modify");
@@ -248,8 +249,11 @@ function get_all_news(Order){
         var data = '{"id":"'+id+'","title":"'+title+'","date":"'+date+'","author_name":"'+author_name+'"}';
         var obj = JSON.parse(data);
         $.post(url,obj,function(json){
-            if(json.status=="1")
+            if(json.status=="1"){
+                limit = limit -15;
                 get_all_news(1);
+            }
+
             else
                 alert("修改失败！");
         })
