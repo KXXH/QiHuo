@@ -214,6 +214,7 @@
     var search_dialog=new mdui.Dialog("#search_dialog");
     var is_email_ok=false;
     var is_username_ok=false;
+    var raw_username="";
     edit_dialog.close();
     $('input[type=radio][name=sorted_by]').change(function(){
         fetchUserInfo();
@@ -247,6 +248,7 @@
         document.getElementById("btn_submit").onclick=function(){addUserInfo();};
         document.getElementById("btn_submit").innerText='提交';
         document.getElementById("username_textfield").className="mdui-textfield";
+        document.getElementById("username_edit").onblur=function(){checkUsername(false);};
         edit_dialog.open();
     }
     function submitEdit(){
@@ -391,6 +393,7 @@
 
         document.forms['user_edit_form']['user_id'].value=user_info[i].user_id;
         document.forms['user_edit_form']['username'].value=user_info[i].username;
+        raw_username=user_info[i].username;
         document.forms['user_edit_form']['email'].value=user_info[i].email;
         document.forms['user_edit_form']['phone'].value=user_info[i].phone;
         document.forms['user_edit_form']['wechat_id'].value=user_info[i].wechat_id;
@@ -409,8 +412,9 @@
                     option.parentNode.removeAttribute("mdui-tooltip");
                     is_email_ok=false;
                     is_username_ok=false;
-                    document.getElementById("submit_btn_btn").onclick=function(){addUserInfo();};
+                    document.getElementById("btn_submit").onclick=function(){addUserInfo();};
                     document.getElementById("username_textfield").className="mdui-textfield";
+                    document.getElementById("username_edit").onblur=function(){checkUsername(true);};
                     edit_dialog.open();
                 }
             }else if(json.status=="error"&&json.code==123){
@@ -501,8 +505,15 @@
         mdui.updateTables("#user_list");
     }
 
-    function checkUsername(){
+    function checkUsername(flag){
+
         var username=document.getElementById("username_edit").value;
+        if(flag&&raw_username==username){
+            is_username_ok=true;
+            document.getElementById("username_textfield").className="mdui-textfield";
+            document.getElementById("username_err_msg").innerText="用户名不能为空!";
+            return;
+        }
         var j={'username':username};
         var url=getQueryPath("checkUsernameAvailable");
         $.post(url,j,function(json){
@@ -519,6 +530,7 @@
     }
 
     function checkEmail(){
+
         var email=document.getElementById("email_edit").value;
         var j={'email':email};
         var url=getQueryPath("checkEmailAvailable");
