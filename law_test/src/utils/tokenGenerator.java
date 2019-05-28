@@ -51,7 +51,7 @@ public class tokenGenerator {
             ptmt.setString(1, token);
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             java.util.Date currentDate = new java.util.Date();
-            long timeStamp = currentDate.getTime()+5*60000;
+            long timeStamp = currentDate.getTime()+20*60000;
             if(shortOrLong){
                 timeStamp+=60*1000*60*24*10;
             }
