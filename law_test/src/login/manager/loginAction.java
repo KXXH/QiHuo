@@ -62,7 +62,6 @@ public class loginAction extends HttpServlet {
                 jsonObject.put("status","error");
             } catch (JSONException e) {
                 exceptionManager.logException(e,this,tokenChecker.tokenToUser(tokenExtractor.extractToken(request)));
-                exceptionManager.logException(e,this,tokenChecker.tokenToUser(tokenExtractor.extractToken(request)));
                 e.printStackTrace();
             }
             sendManager.sendJSON(response,jsonObject);
@@ -84,7 +83,7 @@ public class loginAction extends HttpServlet {
 
         try {
             System.out.println("连接了数据库");
-            if(token.length()>0){
+            if(token!=null&&token.length()>0){
                 User user=tokenChecker.tokenToUser(token);
                 if(user==null){
                     System.out.println("没有找到tocken");

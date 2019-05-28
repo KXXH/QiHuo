@@ -120,17 +120,19 @@
                 <label class="mdui-textfield-label">ID</label>
                 <input class="mdui-textfield-input" disabled type="number" id="user_id_edit" name="user_id"/>
             </div>
-            <div class="mdui-textfield">
+            <div class="mdui-textfield"  id="username_textfield">
                 <label class="mdui-textfield-label">用户名</label>
-                <input class="mdui-textfield-input" type="text" id="username_edit" name="username"/>
+                <input class="mdui-textfield-input" type="text" id="username_edit" name="username" onblur="checkUsername()"/>
+                <div class="mdui-textfield-error" id="username_err_msg">用户名不能为空!</div>
             </div>
             <div class="mdui-textfield" id="password_box" style="display:none">
                 <label class="mdui-textfield-label">密码</label>
                 <input class="mdui-textfield-input" type="password" id="password_edit" name="password"/>
             </div>
-            <div class="mdui-textfiel">
+            <div class="mdui-textfiel" id="email_textfield">
                 <label class="mdui-textfield-label">邮箱</label>
-                <input class="mdui-textfield-input" type="email" id="email_edit" name="email"/>
+                <input class="mdui-textfield-input" type="email" id="email_edit" name="email" onblur="checkEmail()"/>
+                <div class="mdui-textfield-error" id="email_err_msg">邮箱不能为空!</div>
             </div>
             <div class="mdui-textfield">
                 <label class="mdui-textfield-label">电话</label>
@@ -169,10 +171,11 @@
                     unchecked
                 </label>
             </div>
-            <div class="mdui-dialog-actions" id="submit_btn">
-                <button class="mdui-btn" onclick="submitEdit()">提交</button>
-            </div>
+
         </form>
+        <div class="mdui-dialog-actions" id="submit_btn">
+            <button class="mdui-btn" id="btn_submit" onclick="submitEdit()">提交</button>
+        </div>
     </div>
 
     <div class="mdui-table-fluid">
@@ -203,12 +206,14 @@
 
 </div>
 </body>
-<script>
+<script defer=true>
 
     var $$ = mdui.JQ;
     var user_info;
     var edit_dialog=new mdui.Dialog("#edit_dialog");
     var search_dialog=new mdui.Dialog("#search_dialog");
+    var is_email_ok=false;
+    var is_username_ok=false;
     edit_dialog.close();
     $('input[type=radio][name=sorted_by]').change(function(){
         fetchUserInfo();
@@ -227,7 +232,6 @@
         document.forms['user_edit_form']['wechat_id'].value="";
         document.forms['user_edit_form']['role_id_radio'].value="normal";
         document.getElementById("password_box").style.display="block";
-        document.getElementById("submit_btn").innerHTML='<button class="mdui-btn" id="submit_btn" onclick="addUserInfo()">提交</button>'
         var url=getQueryPath("editUserPermissionAction");
         $.post(url,function(json){
             console.log(JSON.stringify(json));
@@ -238,13 +242,25 @@
                 option.removeAttribute("disabled");
                 option.parentNode.removeAttribute("mdui-tooltip");
             }});
+        is_email_ok=false;
+        is_username_ok=false;
+        document.getElementById("btn_submit").onclick=function(){addUserInfo();};
+        document.getElementById("btn_submit").innerText='提交';
+        document.getElementById("username_textfield").className="mdui-textfield";
         edit_dialog.open();
     }
     function submitEdit(){
+        if(!(is_email_ok&&is_username_ok)){
+            return;
+        }
         if(document.forms['user_edit_form']['user_id'].value.length==0){addUserInfo();}
         else{updateUserInfo();}
     }
     function addUserInfo(){
+
+        if(!(is_email_ok&&is_username_ok)){
+            return;
+        }
         var username=document.forms['user_edit_form']['username'].value;
         var email=document.forms['user_edit_form']['email'].value;
         var phone=document.forms['user_edit_form']['phone'].value;
@@ -323,6 +339,9 @@
     }
 
     function updateUserInfo(){
+        if(!(is_email_ok&&is_username_ok)){
+            return;
+        }
         var user_id=document.forms['user_edit_form']['user_id'].value;
         var username=document.forms['user_edit_form']['username'].value;
         var email=document.forms['user_edit_form']['email'].value;
@@ -368,6 +387,8 @@
     }
 
     function editUser(i){
+
+
         document.forms['user_edit_form']['user_id'].value=user_info[i].user_id;
         document.forms['user_edit_form']['username'].value=user_info[i].username;
         document.forms['user_edit_form']['email'].value=user_info[i].email;
@@ -386,6 +407,10 @@
                     var option=document.getElementById("role_id_radio_"+json.choice[i]);
                     option.removeAttribute("disabled");
                     option.parentNode.removeAttribute("mdui-tooltip");
+                    is_email_ok=false;
+                    is_username_ok=false;
+                    document.getElementById("submit_btn_btn").onclick=function(){addUserInfo();};
+                    document.getElementById("username_textfield").className="mdui-textfield";
                     edit_dialog.open();
                 }
             }else if(json.status=="error"&&json.code==123){
@@ -474,6 +499,41 @@
             table.appendChild(row);
         }
         mdui.updateTables("#user_list");
+    }
+
+    function checkUsername(){
+        var username=document.getElementById("username_edit").value;
+        var j={'username':username};
+        var url=getQueryPath("checkUsernameAvailable");
+        $.post(url,j,function(json){
+            if(json.status=="ok"){
+                is_username_ok=true;
+                document.getElementById("username_textfield").className="mdui-textfield";
+                document.getElementById("username_err_msg").innerText="用户名不能为空!";
+            }else{
+                is_username_ok=false;
+                document.getElementById("username_err_msg").innerText="用户名已存在!";
+                document.getElementById("username_textfield").className="mdui-textfield mdui-textfield-invalid-html5 mdui-textfield-has-bottom";
+            }
+        })
+    }
+
+    function checkEmail(){
+        var email=document.getElementById("email_edit").value;
+        var j={'email':email};
+        var url=getQueryPath("checkEmailAvailable");
+        $.post(url,j,function(json){
+            if(json.status=="error"){
+                is_email_ok=false;
+                document.getElementById("email_textfield").className="mdui-textfield mdui-textfield-invalid-html5 mdui-textfield-has-bottom";
+                document.getElementById("email_err_msg").innerHTML="此邮箱已经注册";
+            }
+            else{
+                is_email_ok=true;
+                document.getElementById("email_textfield").className="mdui-textfield";
+                document.getElementById("email_err_msg").innerHTML="请填写邮箱!";
+            }
+        });
     }
 
 

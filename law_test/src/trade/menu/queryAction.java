@@ -18,8 +18,8 @@ import utils.*;
 public class queryAction extends javax.servlet.http.HttpServlet{
     protected void doPost(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
         System.out.println("执行了post");
-        //String token=tokenExtractor.extractToken(request);
-
+        String token=tokenExtractor.extractToken(request);
+        System.out.println("Token at queryAction is "+token);
         List<List<java.io.Serializable>> jsonList = new ArrayList<>();
         User user= tokenChecker.checkTokenAndRedirect(request,response);
         if(user==null){
