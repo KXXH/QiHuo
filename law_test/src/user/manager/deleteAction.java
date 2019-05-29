@@ -31,10 +31,11 @@ public class deleteAction extends javax.servlet.http.HttpServlet {
             }
             if(!user.is_Editable(tokenChecker.tokenToUser(token))){
                 sendManager.sendDefaultPermissionError(response);
-                return;
+            }else{
+                user.delUser();
+                sendManager.sendSimpleOKJSON(response);
             }
-            user.delUser();
-            sendManager.sendSimpleOKJSON(response);
+
         } catch (SQLException e) {
             exceptionManager.logException(e,this,tokenChecker.tokenToUser(tokenExtractor.extractToken(request)));
             e.printStackTrace();

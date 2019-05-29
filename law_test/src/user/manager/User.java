@@ -125,7 +125,7 @@ public class User {
         PreparedStatement ptmt = conn.prepareStatement(sql);
         ptmt.setInt(1,UserId);
         ptmt.execute();
-        sql="DELETE FROM tbl_tokeninfo WHERE UserId=?";
+        sql="DELETE FROM tbl_tockeninfo WHERE UserId=?";
         ptmt=conn.prepareStatement(sql);
         ptmt.setInt(1,UserId);
         ptmt.execute();

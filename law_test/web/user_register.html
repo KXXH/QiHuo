@@ -12,7 +12,7 @@
 
 </head>
 
-<body class="mdui-theme-primary-indigo mdui-valign" onload="initPage()" id="body" style="background-image: url(images/p2.jpg);background-repeat: no-repeat;background-attachment: fixed;background-size: cover;height: 100%;width: 100%!important;position: absolute;">
+<body class="mdui-theme-primary-indigo mdui-valign" onload="initPage()" id="body" style="height: 100%;width: 100%!important;position: absolute;">
 
 <div class="mdui-row mdui-center mdui-container" id="container">
     <div class="mdui-col-lg-4 mdui-col-offset-lg-4 mdui-col-sm-6 mdui-col-offset-sm-3 mdui-col-md-6 mdui-col-offset-3" style="height: 20%">
@@ -29,6 +29,8 @@
 
 
             <div class="mdui-card-content">
+                <label>登录注册即表示您同意期货交易平台用户协议和隐私政策。</label>
+                <br>
                 <div class="mdui-textfield" id="username_textfield">
                     <label class="mdui-textfield-label" >用户名*</label>
                     <input class="mdui-textfield-input" id="UserName" name="UserName" type="text" onblur="checkUsername()" required/>
@@ -57,6 +59,7 @@
 
             </div>
             <div id="captcha_div" class="mdui-card-content">
+
                 <img class="mdui-col-xs-4" src="jcaptcha.jpg" onclick='this.src=this.src+"?"+Math.random()' id="captcha_img" /> <input class="mdui-textfield-input mdui-col-xs-8" type="text" name="jcaptcha" id="jcaptcha" value="" onblur="checkCaptcha()" placeholder="验证码" required/>
             </div>
             <div class="mdui-card-actions mdui-m-t-2">

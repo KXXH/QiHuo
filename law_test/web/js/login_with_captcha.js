@@ -49,6 +49,7 @@ function logOut(){
 
 function initPage(){
     var tocken = getCookie("tocken");
+    $.backstretch("images/p2.jpg");
     if(tocken!=""){
         loginWithTocken(tocken);
     }
