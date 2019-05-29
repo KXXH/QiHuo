@@ -1,5 +1,6 @@
 package user.manager;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -50,9 +51,20 @@ public class statisticAction extends javax.servlet.http.HttpServlet {
         List jsonList = new ArrayList();
         try {
             Connection conn = dbOpener.getDB();
-            String sql = "SELECT * FROM tbl_userinfo ORDER BY CreateAt";
+            String sql="SELECT time,COUNT(*) AS DAU FROM tbl_logininfo GROUP BY DATE(time) ORDER BY time ASC";
             PreparedStatement ptmt = conn.prepareStatement(sql);
             ResultSet rs = ptmt.executeQuery();
+            JSONArray a=new JSONArray();
+            while(rs.next()){
+                JSONObject j=new JSONObject();
+                j.put("date",rs.getString("time"));
+                j.put("value",rs.getInt("DAU"));
+                System.out.println(rs.getString("time")+":"+rs.getInt("DAU"));
+                a.put(j);
+            }
+            sql = "SELECT * FROM tbl_userinfo ORDER BY CreateAt";
+            ptmt=conn.prepareStatement(sql);
+            rs=ptmt.executeQuery();
             while(rs.next()){
                 Date date=rs.getDate("CreateAt");
                 System.out.println("检测到一条记录!");
@@ -76,6 +88,7 @@ public class statisticAction extends javax.servlet.http.HttpServlet {
                 JSONObject json = new JSONObject();
                 json.put("status","ok");
                 json.put("data",jsonList);
+                json.put("dauData",a);
                 sendManager.sendJSON(response,json);
                 conn.close();
                 return;

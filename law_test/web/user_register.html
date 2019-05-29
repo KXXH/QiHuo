@@ -29,6 +29,8 @@
 
 
             <div class="mdui-card-content">
+                <label>登录注册即表示您同意期货交易平台用户协议和隐私政策。</label>
+                <br>
                 <div class="mdui-textfield" id="username_textfield">
                     <label class="mdui-textfield-label" >用户名*</label>
                     <input class="mdui-textfield-input" id="UserName" name="UserName" type="text" onblur="checkUsername()" required/>
@@ -57,6 +59,7 @@
 
             </div>
             <div id="captcha_div" class="mdui-card-content">
+
                 <img class="mdui-col-xs-4" src="jcaptcha.jpg" onclick='this.src=this.src+"?"+Math.random()' id="captcha_img" /> <input class="mdui-textfield-input mdui-col-xs-8" type="text" name="jcaptcha" id="jcaptcha" value="" onblur="checkCaptcha()" placeholder="验证码" required/>
             </div>
             <div class="mdui-card-actions mdui-m-t-2">
