@@ -46,27 +46,39 @@
 			<option value="Quantity">持有数量</option>
 		</select>
 		<button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="show()">显示</button>
-
+		<button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="hide()">隐藏</button>
 		<div>
 			<div name="chaxunForm" style="float:left;">
-				<div class="mdui-textfield mdui-textfield-floating-label">
-					<label class="mdui-textfield-label" style="width:250px">股票ID</label>
-					<input class="mdui-textfield-input" style="width:250px" id="StockId" name="StockId" type="text" value=""/>
-				</div>
 
-				<div class="mdui-textfield mdui-textfield-floating-label">
-					<label class="mdui-textfield-label" style="width:250px">股票名称</label>
-					<input class="mdui-textfield-input" style="width:250px" id="StockName" name="StockName" type="text" value=""/>
-				</div>
-
-
-				<button type="button" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="query()">查询</button>
+				<button class="mdui-btn" mdui-dialog="{'target':'#search_dialog'}">查找</button>
 				<button type="button" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="add()">添加</button>
-				<button type="button"class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="home()">仓库主页</button>
-				<br>
 				<button type="button" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="window.location='wh_print.html'">打印</button>
 				<a href = "whdataToCSV" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent">导出</a>
 				<button type="button" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="window.location='wh_statistics.html'">统计</button>
+			</div>
+
+			<div class="mdui-dialog" id="search_dialog">
+				<div class="mdui-dialog-title">持仓查找</div>
+				<form name="user_search_form" class="mdui-dialog-content">
+					<div class="mdui-textfield">
+
+						<div class="mdui-textfield mdui-textfield-floating-label">
+							<label class="mdui-textfield-label">股票ID</label>
+							<input class="mdui-textfield-input" id="StockId" name="StockId" type="text" value=""/>
+						</div>
+
+						<div class="mdui-textfield mdui-textfield-floating-label">
+							<label class="mdui-textfield-label">股票名称</label>
+							<input class="mdui-textfield-input" id="StockName" name="StockName" type="text" value=""/>
+						</div>
+
+					</div>
+				</form>
+				<div class="mdui-dialog-actions">
+					<button class="mdui-btn" onclick="query()" mdui-dialog-confirm>
+						搜索
+					</button>
+				</div>
 			</div>
 
 			<div class="mdui-table-fluid">
@@ -221,7 +233,11 @@
 			wh_info=json.list;
 			updateTable(json);
 		})
+	}
 
+	function hide(){
+		var table = document.getElementById('wh_list');
+		table.innerHTML="";
 	}
 
 

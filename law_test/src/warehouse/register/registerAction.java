@@ -5,6 +5,7 @@ import org.json.JSONObject;
 import permission.manager.permissionChecker;
 import user.manager.User;
 import utils.dbOpener;
+import utils.sendManager;
 import utils.tokenChecker;
 import utils.tokenExtractor;
 
@@ -45,7 +46,7 @@ public class registerAction extends HttpServlet {
         User user = tokenChecker.tokenToUser(tocken);
         request.setCharacterEncoding("UTF-8");
         System.out.println("页面传递过来的数据获取完毕");
-
+        JSONObject jsonObject = new JSONObject();
         //开始连接数据库，需要先把mysql-connector-java-5.0.4-bin.jar和json.jar拷贝到ROOT/WEB-INF/lib下
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -61,7 +62,7 @@ public class registerAction extends HttpServlet {
             Statement statement = conn.createStatement();
             System.out.println("已经链接上数据库！");
 
-            String sql3 = "select * from tbl_userrealwh WHERE UserName=? and StockId=? and StockName=?";
+            String sql3 = "select * from tbl_userrealwh WHERE UserName=? and StockId=? and StockName=?";  //查一下有没有已经存在了吗
             //String sql3 = "select * from tbl_userrealwh WHERE UserName=? and StockId=? and StockName=?";
             System.out.println("即将执行的SQL3语句是：" + sql3);
 
@@ -92,22 +93,36 @@ public class registerAction extends HttpServlet {
 
                 int userid=user.getUserId();
                 System.out.println(userid);
-                if(ystockid !=null && ystockname!=null)
+                int stock_id = Integer.parseInt(stockid);
+                String sql1;
+                if(ystockid !=null && ystockname!=null)  //cunzai
                 {
-                    String sql1 = "update tbl_userrealwh set StockName='" + stockname + "',Quantity='" + quantityint
-                            + "',CreateAt='" + createTime+ "' WHERE UserId='"+userid+"' and StockId='"+stockid+"'";
+                    sql1 = "update tbl_userrealwh set StockName='" + stockname + "',Quantity='" + quantityint
+                            + "',CreateAt='" + createTime+ "' WHERE UserId='"+userid+"' and StockId='"+stock_id+"'";
                     System.out.println("即将执行的SQL1语句是：" + sql1);
-                    statement.executeUpdate(sql1);
-                }
-                else
-                {
-                    String sql2 = "insert into tbl_userrealwh(UserId,UserName,StockId,StockName,Quantity,CreateAt) values('"
-                            + user.getUserId() + "','" + user.getUserName() + "','"+ stockid + "','" + stockname + "','" + quantityint + "','" + createTime + "')";
-                    System.out.println("即将执行的SQL2语句是：" + sql2);
-                    statement.executeUpdate(sql2);
-                }
 
+                }
+                else //bucunzai
+                {
+                    sql1 = "insert into tbl_userrealwh(UserId,UserName,StockId,StockName,Quantity,CreateAt) values('"
+                            + user.getUserId() + "','" + user.getUserName() + "','"+ stock_id + "','" + stockname + "','" + quantityint + "','" + createTime + "')";
+                    System.out.println("即将执行的SQL1语句是：" + sql1);
+
+                }
+                statement.executeUpdate(sql1);
             } catch (SQLException e) {
+                try {
+                    jsonObject.put("status","0");
+                    try {
+                        response.getWriter().print(jsonObject);
+                        response.getWriter().flush();
+                        response.getWriter().close();
+                    } catch (IOException et) {
+                        et.printStackTrace();
+                    }
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
+                }
                 e.printStackTrace();
             }
 
@@ -126,7 +141,19 @@ public class registerAction extends HttpServlet {
             sqlexception.printStackTrace();
 
         }
-
+        try {
+            jsonObject.put("status","1");
+            response.setContentType("application/json; charset=UTF-8");
+            try {
+                response.getWriter().print(jsonObject);
+                response.getWriter().flush();
+                response.getWriter().close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         System.out.println("页面执行完毕！");
     }
 
