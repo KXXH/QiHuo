@@ -22,7 +22,8 @@ public class login extends javax.servlet.http.HttpServlet {
             String token=tokenExtractor.extractToken(request);
             User user=tokenChecker.tokenToUser(token);
             if(user!=null){
-                response.sendRedirect("/index_beta.html");
+
+                response.sendRedirect("index_beta.html");
             }
             else if(session.getAttribute("captcha_flag")==null||(boolean)session.getAttribute("captcha_flag")==false){
                 request.getRequestDispatcher("login_beta.html").forward(request, response);

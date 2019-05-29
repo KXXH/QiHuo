@@ -11,6 +11,7 @@ import java.util.Date;
 import com.octo.captcha.module.servlet.image.SimpleImageCaptchaServlet;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.omg.CORBA.Request;
 import user.manager.User;
 
 import java.util.Base64;
@@ -138,9 +139,13 @@ public class loginAction extends HttpServlet {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("status","success");
             jsonObject.put("tocken",token);
+            session.invalidate();
+            session= request.getSession();
             session.setAttribute("token",token);
             session.setAttribute("captcha_flag",false);
             session.setAttribute("attempt_count",0);
+            Cookie cookie=cookieManager.getCookieByName(request,"JSESSIONID");
+            cookie.setMaxAge(0);
             if(Objects.equals(rememberPassword, "true")){
                 cookieManager.addCookie(response,"token",token,30*24*3600);
             }
