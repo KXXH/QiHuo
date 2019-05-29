@@ -51,7 +51,7 @@ public class statisticAction extends javax.servlet.http.HttpServlet {
         List jsonList = new ArrayList();
         try {
             Connection conn = dbOpener.getDB();
-            String sql="SELECT time,COUNT(*) AS DAU FROM tbl_logininfo GROUP BY DATE(time) ORDER BY time ASC";
+            String sql="SELECT time,COUNT(*) AS DAU FROM tbl_logininfo GROUP BY DATE(time) ORDER BY time ASC LIMIT 100";
             PreparedStatement ptmt = conn.prepareStatement(sql);
             ResultSet rs = ptmt.executeQuery();
             JSONArray a=new JSONArray();
@@ -63,31 +63,20 @@ public class statisticAction extends javax.servlet.http.HttpServlet {
                 a.put(j);
             }
             sql = "SELECT * FROM tbl_userinfo ORDER BY CreateAt";
+            sql="SELECT CreateAt,COUNT(*) AS reg_count FROM tbl_userinfo GROUP BY DATE(CreateAt) ORDER BY CreateAt ASC LIMIT 100";
             ptmt=conn.prepareStatement(sql);
             rs=ptmt.executeQuery();
+            JSONArray array=new JSONArray();
             while(rs.next()){
-                Date date=rs.getDate("CreateAt");
-                System.out.println("检测到一条记录!");
-                if(map.containsKey(date)){
-                    map.put(date,(int)map.get(date)+1);
-                }else{
-                    map.put(date,1);
-                }
+                JSONObject j=new JSONObject();
+                j.put("date",rs.getString("CreateAt"));
+                j.put("value",rs.getInt("reg_count"));
+                array.put(j);
             }
-            Iterator iter = map.entrySet().iterator();
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            while(iter.hasNext()){
-                JSONObject json=new JSONObject();
-                Map.Entry entry = (Map.Entry) iter.next();
-                json.put("date",sdf.format((Date)entry.getKey()));
-                json.put("value",(int)entry.getValue());
-                jsonList.add(json);
-            }
-            jsonList.sort(new DataComp());
             try{
                 JSONObject json = new JSONObject();
                 json.put("status","ok");
-                json.put("data",jsonList);
+                json.put("data",array);
                 json.put("dauData",a);
                 sendManager.sendJSON(response,json);
                 conn.close();
