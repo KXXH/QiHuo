@@ -92,3 +92,7 @@ function register(){
         })
     }
 }
+
+function initPage(){
+    $.backstretch("images/p2.jpg");
+}

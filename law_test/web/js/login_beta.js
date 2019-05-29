@@ -53,7 +53,7 @@ function logOut(){
 function initPage(){
     var tocken = getCookie("tocken");
     //var height=document.body.scrollHeight;
-
+    $.backstretch("images/p2.jpg");
     //document.getElementById("container").style.height=height+"px";
     if(tocken!=""){
         loginWithTocken(tocken);
