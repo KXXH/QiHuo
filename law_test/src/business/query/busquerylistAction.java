@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 
-@WebServlet(name = "busquerylistAction")
+/*@WebServlet(name = "busquerylistAction")
 public class busquerylistAction extends HttpServlet {
 
     protected void doPost(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, java.io.IOException {
@@ -46,8 +46,8 @@ public class busquerylistAction extends HttpServlet {
 
 
 
-        int count=0;
-        int page_size=15;
+        int count=1111111111;
+        int page_size=10;
         int rowCount=0;
         if(request.getParameter("page_size")!=null){
             page_size=Integer.parseInt(request.getParameter("page_size"));
@@ -84,6 +84,7 @@ public class busquerylistAction extends HttpServlet {
             System.out.println("stockname="+stockname);
             System.out.println("orderid="+orderid);
             System.out.println("page_size="+page_size);
+            System.out.println("count="+count);
             System.out.println("Connect Database Ok！！！");
             //执行查询语句，返回结果集
             PreparedStatement ps = conn.prepareStatement(sql);    //实例化PreparedStatement对象
@@ -106,10 +107,8 @@ public class busquerylistAction extends HttpServlet {
                 json.put("quantity",rs.getString("Quantity"));
                 json.put("bunitprice",rs.getString("BUnitPrice"));
                 json.put("createat",rs.getString("CreateAt"));
-                //map.put("bunitprice",rs.getString("BUnitPrice"));
                 jsonList.add(json);
 
-                count++;
                 System.out.println("行数="+rs.getRow());
                 if(rs.getRow()>rowCount)rowCount=rs.getRow();
             }
@@ -131,7 +130,7 @@ public class busquerylistAction extends HttpServlet {
         JSONObject jsonObject=new JSONObject();
         try {
             jsonObject.put("list",jsonList);
-            if(page_size==count){
+            if(page_size==rowCount){
                 JSONObject j=new JSONObject();
                 j.put("status","end");
                 sendManager.sendJSON(response,j);
@@ -159,5 +158,85 @@ public class busquerylistAction extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }
+}*/
+
+@WebServlet(name = "busquerylistAction")
+public class busquerylistAction extends HttpServlet {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+
+        if(!permissionChecker.checkPermissionAndResponse(request,response,this)) return;
+
+        String sel1 = request.getParameter("Sel1");
+        String sel2 = request.getParameter("Sel2");
+        String sel3 = request.getParameter("Sel3");
+        String sel4 = request.getParameter("Sel4");
+
+        String orderid = request.getParameter("OrderId");
+        String userid = request.getParameter("UserId");
+        String username = request.getParameter("UserName");
+        String stockid = request.getParameter("StockId");
+        String stockname = request.getParameter("StockName");
+
+        int len = Integer.parseInt(request.getParameter("length"));
+        int count = 0;
+        int limit = 0;
+        String search="";
+        if(request.getParameter("limit")!=null){
+            limit=Integer.parseInt(request.getParameter("limit"));
+        }
+        try{
+            Connection conn = dbOpener.getDB();
+            Statement statement = conn.createStatement();
+            String sql;
+            if(orderid.length()==0 && userid.length()==0 && username.length()==0 && stockid.length()==0 && stockname.length()==0){
+                sql = "SELECT * FROM tbl_userwh ORDER BY " + sel1 +"," +sel1 + "," +sel3 + "," +sel4 + " desc LIMIT " +limit;
+            }
+            else{
+                sql = "select * from tbl_userwh WHERE UserId='"+userid+"'or UserName='"+username+"' or StockId='"+stockid+"' or StockName='"+stockname+"' or OrderId='"+orderid+"' ORDER BY "+sel1+","+sel2+","+sel3+","+sel4+" DESC LIMIT " +limit;
+            }
+            System.out.println(sql);
+            ResultSet rs = statement.executeQuery(sql);
+            JSONObject jsonObject = new JSONObject();
+            ArrayList list = new ArrayList();
+            while(rs.next()){
+                Map map = new HashMap();
+                map.put("orderid",rs.getString("OrderId"));
+                map.put("userid",rs.getString("UserId"));
+                map.put("username",rs.getString("UserName"));
+                map.put("stockid",rs.getString("StockId"));
+                map.put("stockname",rs.getString("StockName"));
+                map.put("quantity",rs.getString("Quantity"));
+                map.put("bunitprice",rs.getString("BUnitPrice"));
+                map.put("createat",rs.getString("CreateAt"));
+                list.add(map);
+                count++;
+            }
+            conn.close();
+            if(count == len){
+                jsonObject.put("end",1);
+            }
+            jsonObject.put("list",list);
+            System.out.println(jsonObject.getString("list"));
+            response.setContentType("application/json; charset=UTF-8");
+            try {
+                response.getWriter().print(jsonObject);
+                response.getWriter().flush();
+                response.getWriter().close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        System.out.println("执行完毕已返回");
+    }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+    }
 }
+
 

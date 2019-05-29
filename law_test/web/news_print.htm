@@ -932,7 +932,7 @@ table.MsoTable15Plain1OddRow
   url = getQueryPath(url)
   var order_1 = "id"
   var order_2 = "title"
-  var data = {'order_1':order_1,'order_2':order_2,'limit':100,'search':"",'length':100}
+  var data = {'order_1':order_1,'order_2':order_2,'limit':10000,'search':"",'length':100}
   $.post(url,data,function(json){
    initTable(json);
   })

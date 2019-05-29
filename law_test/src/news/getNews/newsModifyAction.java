@@ -41,9 +41,8 @@ public class newsModifyAction extends HttpServlet {
             ptmt.execute();
             conn.close();
         } catch (SQLException e) {
-            e.printStackTrace();
             try {
-                jsonObject.put("status",0);
+                jsonObject.put("status","0");
                 try {
                     response.getWriter().print(jsonObject);
                     response.getWriter().flush();
@@ -54,6 +53,8 @@ public class newsModifyAction extends HttpServlet {
             } catch (JSONException e1) {
                 e1.printStackTrace();
             }
+            e.printStackTrace();
+            return;
         }
         try {
             jsonObject.put("status","1");

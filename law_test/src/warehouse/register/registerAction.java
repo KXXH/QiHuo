@@ -6,6 +6,7 @@ import permission.manager.permissionChecker;
 import user.manager.User;
 import utils.dbOpener;
 import utils.tokenChecker;
+import utils.tokenExtractor;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -36,11 +37,11 @@ public class registerAction extends HttpServlet {
         String stockname = request.getParameter("StockName");
         String quantity = request.getParameter("Quantity");
         String bunitprice = request.getParameter("BUnitPrice");
-        String tocken = request.getParameter("Cookie");
         String ystockid=null;
         String ystockname=null;
-        System.out.println(tocken);
 
+        String tocken= tokenExtractor.extractToken(request);
+        System.out.println(tocken);
         User user = tokenChecker.tokenToUser(tocken);
         request.setCharacterEncoding("UTF-8");
         System.out.println("页面传递过来的数据获取完毕");

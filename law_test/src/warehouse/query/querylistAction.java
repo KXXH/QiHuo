@@ -6,6 +6,7 @@ import permission.manager.permissionChecker;
 import user.manager.User;
 import utils.dbOpener;
 import utils.tokenChecker;
+import utils.tokenExtractor;
 
 
 import javax.servlet.ServletException;
@@ -37,7 +38,7 @@ public class querylistAction extends HttpServlet {
         String sel3 = request.getParameter("Sel3");
         //String sel4 = request.getParameter("Sel4");
 
-        String tocken = request.getParameter("Cookie");
+        String tocken= tokenExtractor.extractToken(request);
         System.out.println(tocken);
         User user = tokenChecker.tokenToUser(tocken);
         //String s=String.valueOf(user.getUserId());

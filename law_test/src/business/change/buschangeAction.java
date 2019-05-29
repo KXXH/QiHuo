@@ -24,12 +24,12 @@ public class buschangeAction extends HttpServlet {
 
         if(!permissionChecker.checkPermissionAndResponse(request,response,this)) return;
         String orderid = request.getParameter("OrderId");
-        String userid = request.getParameter("UserId");
-        String username = request.getParameter("UserName");
-        String stockid = request.getParameter("StockId");
-        String stockname = request.getParameter("StockName");
-        String quantity = request.getParameter("Quantity");
-        String bunitprice = request.getParameter("BUnitPrice");
+        String user_id = request.getParameter("UserId");
+        String user_name = request.getParameter("UserName");
+        String stock_id = request.getParameter("Stockid");
+        String stock_name = request.getParameter("StockName");
+        String quan_tity = request.getParameter("Quantity");
+        String bunit_price = request.getParameter("BUnitPrice").toString();
         //String tocken = request.getParameter("Cookie");
         //System.out.println(tocken);
 
@@ -45,7 +45,7 @@ public class buschangeAction extends HttpServlet {
             classnotfoundexception.printStackTrace();
         }
         System.out.println("加载了JDBC驱动");
-
+        JSONObject jsonObject = new JSONObject();
         //然后链接数据库，开始操作数据表
         try {
             Connection conn = dbOpener.getDB();
@@ -58,7 +58,7 @@ public class buschangeAction extends HttpServlet {
             //String sql3 = "select * from tbl_userrealwh WHERE UserName=? and StockId=? and StockName=?";
             System.out.println("即将执行的SQL3语句是：" + sql3);
 
-            System.out.println(stockid);
+            System.out.println(stock_id);
             PreparedStatement ps;
             try {
                 ps = conn.prepareStatement(sql3);    //实例化PreparedStatement对象
@@ -67,36 +67,41 @@ public class buschangeAction extends HttpServlet {
                 System.out.println("执行完毕，逐条显示<br>");
                 //如果查询有结果，则循环显示查询出来的记录
                 while (rs.next()) {
-                    if (userid.length() == 0) {
-                        userid = rs.getString("UserId");
+                    if (user_id.length() == 0) {
+                        user_id = rs.getString("UserId");
                     }
-                    if (username.length() == 0) {
-                        username = rs.getString("UserName");
+                    if (user_name.length() == 0) {
+                        user_name = rs.getString("UserName");
                     }
-                    if (stockid.length() == 0) {
-                        stockid = rs.getString("StockId");
+                    if (stock_id.length() == 0) {
+                        stock_id = rs.getString("StockId");
                     }
-                    if (stockname.length() == 0) {
-                        stockname = rs.getString("StockName");
+                    if (stock_name.length() == 0) {
+                        stock_name = rs.getString("StockName");
                     }
-                    if (quantity.length() == 0) {
-                        quantity = rs.getString("Quantity");
+                    if (quan_tity.length() == 0) {
+                        quan_tity = rs.getString("Quantity");
                     }
-                    if (bunitprice.length() == 0) {
-                        bunitprice = rs.getString("BUnitPrice");
+                    if (bunit_price.length() == 0) {
+                        bunit_price = rs.getString("BUnitPrice");
                     }
 
                 }
+                int userid = Integer.parseInt(user_id);
+                int stockid = Integer.parseInt(stock_id);
+                int quantity = Integer.parseInt(quan_tity);
+                double bunitprice = Double.valueOf(bunit_price.toString());
+
                 System.out.println(orderid);
                 System.out.println(userid);
-                System.out.println(username);
+                System.out.println(user_name);
                 System.out.println(stockid);
-                System.out.println(stockname);
+                System.out.println(stock_name);
                 System.out.println(quantity);
                 System.out.println(bunitprice);
 
 
-                String sql = "update tbl_userwh set UserId='" + userid + "',UserName='" + username + "',StockId='" + stockid + "',StockName='" + stockname + "',Quantity='" + quantity + "',BUnitPrice='" + bunitprice + "' WHERE OrderId='" + orderid + "'";
+                String sql = "update tbl_userwh set UserId='" + userid + "',UserName='" + user_name + "',StockId='" + stockid + "',StockName='" + stock_name + "',Quantity='" + quantity + "',BUnitPrice='" + bunitprice + "' WHERE OrderId='" + orderid + "'";
                 System.out.println("sql" + sql);
                 System.out.println("即将执行的SQL语句是：" + sql);
                 statement.executeUpdate(sql);
@@ -112,6 +117,32 @@ public class buschangeAction extends HttpServlet {
 
             System.out.println("页面执行完毕！");
         } catch (SQLException e) {
+            e.printStackTrace();
+            e.printStackTrace();
+            try {
+                jsonObject.put("status",0);
+                try {
+                    response.getWriter().print(jsonObject);
+                    response.getWriter().flush();
+                    response.getWriter().close();
+                } catch (IOException et) {
+                    et.printStackTrace();
+                }
+            } catch (JSONException e1) {
+                e1.printStackTrace();
+            }
+        }
+        try {
+            jsonObject.put("status","1");
+            response.setContentType("application/json; charset=UTF-8");
+            try {
+                response.getWriter().print(jsonObject);
+                response.getWriter().flush();
+                response.getWriter().close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (JSONException e) {
             e.printStackTrace();
         }
     }

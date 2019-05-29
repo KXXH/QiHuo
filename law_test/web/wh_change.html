@@ -90,11 +90,14 @@
 		var obj = JSON.parse(data1);
 		$.post(url,obj,function(json){
 			console.log(JSON.stringify(json));
-			console.log("333333333");
-
-			showSuccess(json);
+			if(json.status=="1"){
+				mdui.alert("修改成功！");
+				showSuccess(json);
+			}
+			else
+				mdui.alert("修改失败！");
 		})
-		alert("修改成功！");
+
 
 
 	}
