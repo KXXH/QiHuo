@@ -209,10 +209,10 @@ function get_all_news(Order){
             if(json.status==1){
                 limit = limit - 15;
                 get_all_news(1);
+                mdui.alert("删除成功！");
             }
-
             else
-                mdui.alert("删除失败!");
+                alert("删除失败!");
         })
     }
     function order(){
@@ -252,10 +252,11 @@ function get_all_news(Order){
             if(json.status=="1"){
                 limit = limit -15;
                 get_all_news(1);
+                mdui.alert("修改成功！");
             }
 
             else
-                mdui.alert("修改失败！");
+                alert("修改失败！");
         })
     }
     function drawChart(json){
