@@ -34,6 +34,7 @@ public class logoutAction extends HttpServlet{
         HttpSession session=request.getSession();
         try{
             session.invalidate();
+            cookieManager.getCookieByName(request,"JSESSIONID").setMaxAge(0);
         }catch(IllegalStateException ignored){
             exceptionManager.logException(ignored,this,tokenChecker.tokenToUser(tokenExtractor.extractToken(request)));
         }

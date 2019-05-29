@@ -144,8 +144,6 @@ public class loginAction extends HttpServlet {
             session.setAttribute("token",token);
             session.setAttribute("captcha_flag",false);
             session.setAttribute("attempt_count",0);
-            Cookie cookie=cookieManager.getCookieByName(request,"JSESSIONID");
-            cookie.setMaxAge(0);
             if(Objects.equals(rememberPassword, "true")){
                 cookieManager.addCookie(response,"token",token,30*24*3600);
             }
