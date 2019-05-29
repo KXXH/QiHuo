@@ -27,6 +27,7 @@ public class busdeleteAction extends HttpServlet {
         String orderid = request.getParameter("OrderId");
             System.out.println("前端页面传过来的ID是："+orderid+"<br>");
             request.setCharacterEncoding("UTF-8");
+            JSONObject jsonObject = new JSONObject();
             try {
                 Class.forName("com.mysql.jdbc.Driver");
             } catch (ClassNotFoundException classnotfoundexception) {
@@ -44,8 +45,32 @@ public class busdeleteAction extends HttpServlet {
                 System.out.println("Database Closed！！！<br>");
             } catch (SQLException sqlexception) {
                 sqlexception.printStackTrace();
-       
+                try {
+                    jsonObject.put("status",0);
+                    try {
+                        response.getWriter().print(jsonObject);
+                        response.getWriter().flush();
+                        response.getWriter().close();
+                    } catch (IOException et) {
+                        et.printStackTrace();
+                    }
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
+                }
             }
+        try {
+            jsonObject.put("status","1");
+            response.setContentType("application/json; charset=UTF-8");
+            try {
+                response.getWriter().print(jsonObject);
+                response.getWriter().flush();
+                response.getWriter().close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
     }
 

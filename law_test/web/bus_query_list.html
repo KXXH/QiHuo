@@ -12,7 +12,7 @@
 		<script src="js/index_beta.js"></script>
 		<script src="js/utils.js"></script>
 	</head>
-	<body onload="initPage();" class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-pink ">
+	<body onload="initPage();show(0);order();" class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-pink ">
 		<div class="mdui-appbar mdui-appbar-fixed">
 		<div class="mdui-toolbar mdui-color-theme">
 			<a class="mdui-btn mdui-btn-icon" mdui-drawer="{target: '#left-drawer'}"><i class="mdui-icon material-icons">menu</i></a>
@@ -70,42 +70,53 @@
 			<option value="BUnitPrice">订单价格</option>
 			<option value="CreateAt">创建时间</option>
 		</select>
-		<button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="show()">显示</button>
 		<div>
+
+			<button class="mdui-btn" mdui-dialog="{'target':'#search_dialog'}">查找</button>
 			<button type="button" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="window.location='bus_print.html'">打印</button>
 			<a href = "busdataToCSV" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent">导出</a>
 			<button type="button" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="window.location='bus_statistics.html'">统计</button>
 			<button type="button"class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="home()">仓库主页</button>
+			<div class="mdui-dialog" id="search_dialog">
+				<div class="mdui-dialog-title">查找订单</div>
+				<form name="user_search_form" class="mdui-dialog-content">
+					<div class="mdui-textfield">
+
+						<div class="mdui-textfield mdui-textfield-floating-label">
+							<label class="mdui-textfield-label" style="width:250px">订单号</label>
+							<input class="mdui-textfield-input" style="width:250px" id="OrderId" name="OrderId" type="text" value=""/>
+						</div>
+
+						<div class="mdui-textfield mdui-textfield-floating-label">
+							<label class="mdui-textfield-label" style="width:250px">用户ID</label>
+							<input class="mdui-textfield-input" style="width:250px" id="UserId" name="UserId" type="text" value=""/>
+						</div>
+
+						<div class="mdui-textfield mdui-textfield-floating-label">
+							<label class="mdui-textfield-label" style="width:250px">用户名称</label>
+							<input class="mdui-textfield-input" style="width:250px" id="UserName" name="UserName" type="text" value=""/>
+						</div>
+
+						<div class="mdui-textfield mdui-textfield-floating-label">
+							<label class="mdui-textfield-label" style="width:250px">股票ID</label>
+							<input class="mdui-textfield-input" style="width:250px" id="StockId" name="StockId" type="text" value=""/>
+						</div>
+
+						<div class="mdui-textfield mdui-textfield-floating-label">
+							<label class="mdui-textfield-label" style="width:250px">股票名称</label>
+							<input class="mdui-textfield-input" style="width:250px" id="StockName" name="StockName" type="text" value=""/>
+						</div>
+
+					</div>
+				</form>
+				<div class="mdui-dialog-actions">
+					<button class="mdui-btn" onclick="query()" mdui-dialog-confirm>
+						搜索
+					</button>
+				</div>
+			</div>
 		</div>
 		<div>
-			<div name="chaxunForm" style="float:left;">
-				<div class="mdui-textfield mdui-textfield-floating-label">
-					<label class="mdui-textfield-label" style="width:250px">订单号</label>
-					<input class="mdui-textfield-input" style="width:250px" id="OrderId" name="OrderId" type="text" value=""/>
-				</div>
-
-				<div class="mdui-textfield mdui-textfield-floating-label">
-					<label class="mdui-textfield-label" style="width:250px">用户ID(必填)</label>
-					<input class="mdui-textfield-input" style="width:250px" id="UserId" name="UserId" type="text" value=""/>
-				</div>
-
-				<div class="mdui-textfield mdui-textfield-floating-label">
-					<label class="mdui-textfield-label" style="width:250px">用户名称</label>
-					<input class="mdui-textfield-input" style="width:250px" id="UserName" name="UserName" type="text" value=""/>
-				</div>
-
-				<div class="mdui-textfield mdui-textfield-floating-label">
-					<label class="mdui-textfield-label" style="width:250px">股票ID</label>
-					<input class="mdui-textfield-input" style="width:250px" id="StockId" name="StockId" type="text" value=""/>
-				</div>
-
-				<div class="mdui-textfield mdui-textfield-floating-label">
-					<label class="mdui-textfield-label" style="width:250px">股票名称</label>
-					<input class="mdui-textfield-input" style="width:250px" id="StockName" name="StockName" type="text" value=""/>
-				</div>
-				<button type="button" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="query()">查询</button>
-			</div>
-
 			<div class="mdui-table-fluid">
 				<table class="mdui-table mdui-table-hoverable" id="bus_table">
 					<tr>
@@ -119,8 +130,11 @@
 						<th>交易日期</th>
 						<th>操作</th>
 					</tr>
+					<tbody id="bus_list">
+
+					</tbody>
 				</table>
-				<button class="mdui-btn" onclick="queryMore()" style="width: 100%">加载更多</button>
+				<button class="mdui-btn" onclick="show(0)" style="width: 100%">加载更多</button>
 			</div>
 
 			<div class="mdui-typo">
@@ -141,9 +155,10 @@
 <script src="https://www.amcharts.com/lib/4/geodata/germanyLow.js"></script>
 
 <script>
-	var bus_info;
-	var bus_count=0;
-	var page_size=15;
+	var list;
+	var limit=15;
+	var len=0;
+	var Order=0;
 	var orderid="";
 	var userid="";
 	var username="";
@@ -159,15 +174,18 @@
 	function delet(id){
 		var url = "busdeleteAction?OrderId="+id;
 		url=getQueryPath(url);
-		var data1 = '{"StockId":"'+id+'"}';
+		var data1 = '{"OrderId":"'+id+'"}';
 
 		var obj = JSON.parse(data1);
 
 		$.post(url,obj,function(json){
 			console.log(JSON.stringify(json));
-			//initMenu(json);
+			if(json.status==1){
+				limit = limit - 15;
+				get_all_news(1);
+			}
 		})
-		alert("删除成功!");
+		mdui.alert("删除成功!");
 
 	}
 
@@ -180,7 +198,7 @@
 	}
 
 	function query(){
-		var url = "buschaxunAction";
+		var url = "busquerylistAction";
 		url=getQueryPath(url);
 		console.log("22222222222222");
 		orderid = document.getElementById("OrderId").value;
@@ -188,18 +206,10 @@
 		username = document.getElementById("UserName").value;
 		stockid = document.getElementById("StockId").value;
 		stockname = document.getElementById("StockName").value;
-		//var coo = getCookie("tocken");
-		console.log("11111111111111111");
-		clearBusTable();
-		show();
-		/*var data1 = '{"OrderId":"'+orderid+'","UserId":"'+userid+'","UserName":"'+username+'","StockId":"'+stockid+'","StockName":"'+stockname+'"}';
-		console.log("================");
-		var obj = JSON.parse(data1);
-		console.log(data1);
-		$.post(url,obj,function(json){
-			console.log(JSON.stringify(json));
-			updateTable(json);
-		})*/
+		var parent = document.getElementById("bus_list");
+		parent.innerHTML = "";
+		limit = limit-15;
+		show(1);
 	}
 	function clearBusTable()
 	{
@@ -213,78 +223,32 @@
 
 
 	function updateTable(json){
-		bus_info=json.list;
-		var table = document.getElementById('bus_table');
+		list=json.list;
+		limit = limit + 15;
+		len = list.length;
+		var table = document.getElementById('bus_list');
 		table.innerHTML="";
-		for(var i=0;i<json.list.length;i++){
-			var row = document.createElement('tr');
-			var id=json.list[i].orderid;
-
-			var orderId = document.createElement('td');
-			orderId.innerText=json.list[i].orderid;
-			row.appendChild(orderId);
-
-			var userId = document.createElement('td');
-			userId.innerText=json.list[i].userid;
-			row.appendChild(userId);
-
-			var userName = document.createElement('td');
-			userName.innerText=json.list[i].username;
-			row.appendChild(userName);
-
-			var stockId = document.createElement('td');
-			stockId.innerText=json.list[i].stockid;
-			row.appendChild(stockId);
-
-			var stockName = document.createElement('td');
-			stockName.innerText=json.list[i].stockname;
-			row.appendChild(stockName);
-
-			var Quantity = document.createElement('td');
-			Quantity.innerText=json.list[i].quantity;
-			row.appendChild(Quantity);
-
-			var BUnitPrice = document.createElement('td');
-			BUnitPrice.innerText=json.list[i].bunitprice;
-			row.appendChild(BUnitPrice);
-
-			var createAt = document.createElement('td');
-			createAt.innerText=json.list[i].createat;
-			row.appendChild(createAt);
-
-			var buttonBox = document.createElement('td');
-			var button = document.createElement('button');
-			button.className="mdui-btn mdui-color-theme-accent"
-			button.setAttribute("mdui-menu","{target:'#userMenu"+i+"',position:'bottom',fixed:true}");
-			button.innerText="编辑";
-
-
-			var menu = document.createElement('ul');
-			menu.id="userMenu"+i;
-			menu.className="mdui-menu";
-			var item = document.createElement('li');
-			item.className="mdui-menu-item";
-			item.onclick="delet("+id+")";
-			item.innerHTML="<a onclick='delet("+id+")'>删除</a>";
-			menu.appendChild(item);
-			var item = document.createElement('li');
-			item.className="mdui-menu-item";
-			item.innerHTML="<a onclick='modify("+id+")'>修改</a>";
-			menu.appendChild(item);
-			buttonBox.appendChild(button);
-			buttonBox.appendChild(menu);
-			row.appendChild(buttonBox);
-			table.appendChild(row);
+		for(var i = 0; i < list.length; i++){
+			var newNode = document.createElement("tr");
+			var id = list[i].orderid;
+			newNode.innerHTML = "<td>"+list[i].orderid+"</td>"
+			newNode.innerHTML += "<td>"+list[i].userid +"</td><td>"+list[i].username +"</td><td>"+list[i].stockid +"</td><td>"+list[i].stockname +"</td><td>"+list[i].quantity +"</td><td>"+list[i].bunitprice +"</td><td>" +list[i].createat + "</td>";
+			newNode.innerHTML += "<td><button class=\"mdui-btn mdui-btn-raised\" onclick='delet("+id+")'>删除</button><button class=\"mdui-btn mdui-btn-raised\" onclick='modify("+id+")'>修改</button></td>"
+			table.appendChild(newNode);
 		}
-		mdui.updateTables("#bus_table")
 	}
-	
-	function queryMore()
-	{
-		page_size+=15;
-		show();
+
+
+	function order(){
+		$("input[type=radio]").change(function(){
+			var parent = document.getElementById("bus_list");
+			parent.innerHTML = "";
+			limit = limit-15;
+
+			get_all_news(1);
+		});
 	}
-	function show(){
+	function show(Order){
 
 		var url = "busquerylistAction";
 		url=getQueryPath(url);
@@ -292,23 +256,23 @@
 		var sel2 = document.getElementById("sel2").value;
 		var sel3 = document.getElementById("sel3").value;
 		var sel4 = document.getElementById("sel4").value;
-		bus_count=0;
 
-		var data1 = '{"Sel1":"'+sel1+'","Sel2":"'+sel2+'","Sel3":"'+sel3+'","Sel4":"'+sel4+'","page_size":"'+page_size+'","OrderId":"'+orderid+'","UserId":"'+userid+'","UserName":"'+username+'","StockId":"'+stockid+'","StockName":"'+stockname+'"}';
+
+		var data1 = '{"Sel1":"'+sel1+'","Sel2":"'+sel2+'","Sel3":"'+sel3+'","Sel4":"'+sel4+'","limit":"'+limit+'","length":"'+len+'","OrderId":"'+orderid+'","UserId":"'+userid+'","UserName":"'+username+'","StockId":"'+stockid+'","StockName":"'+stockname+'"}';
 
 		var j = JSON.parse(data1);
 		$.post(url,j,function(json){
 			//console.log(JSON.stringify(json));
 			bus_info=json.list;
-
-			if(json.status=="ok"){
-				updateTable(json);
-				//page_size=json.page_size;
-			}else if(json.status=="error"){
-				mdui.alert(json.error,"错误");
-			}else if(json.status=="end"){
-				mdui.snackbar("已经到达最后了!");
-				updateTable(json);
+			if(json.status == "error"){
+				mdui.alert("您不是管理员！");
+			}
+			else{
+				if(json.end == 1 && Order == 0)
+					mdui.snackbar("已经到达最后了!");
+				else{
+					updateTable(json);
+				}
 			}
 		})
 		statistics();

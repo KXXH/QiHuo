@@ -6,6 +6,7 @@ import permission.manager.permissionChecker;
 import user.manager.User;
 import utils.dbOpener;
 import utils.tokenChecker;
+import utils.tokenExtractor;
 
 
 import javax.servlet.ServletException;
@@ -31,16 +32,23 @@ public class changeAction extends HttpServlet {
 
         String stockid = request.getParameter("StockId");
         String stockname= "1";
-        String quantity = request.getParameter("Quantity");
-        String bunitprice = request.getParameter("BUnitPrice");
-        String tocken = request.getParameter("Cookie");
+        int quantity=0;
+        int bunitprice=0;
+
+        String tocken= tokenExtractor.extractToken(request);
+        System.out.println(tocken);
+        User user = tokenChecker.tokenToUser(tocken);
         System.out.println(tocken);
 
-        User user = tokenChecker.tokenToUser(tocken);
-
+        if(request.getParameter("Quantity")!=null){
+            quantity=Integer.parseInt(request.getParameter("Quantity"));
+        }
+        if(request.getParameter("Quantity")!=null){
+            bunitprice=Integer.parseInt(request.getParameter("BUnitPrice"));
+        }
         request.setCharacterEncoding("UTF-8");
         System.out.println("页面传递过来的数据获取完毕");
-
+        JSONObject jsonObject = new JSONObject();
         //开始连接数据库，需要先把mysql-connector-java-5.0.4-bin.jar和json.jar拷贝到ROOT/WEB-INF/lib下
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -62,7 +70,7 @@ public class changeAction extends HttpServlet {
 
             System.out.println(stockid);
             PreparedStatement ps;
-            try {
+
                 ps = conn.prepareStatement(sql3);    //实例化PreparedStatement对象
                 ps.setString(1, stockid);
                 ResultSet rs = ps.executeQuery();   //执行预处理语句获取查询结果集
@@ -89,11 +97,34 @@ public class changeAction extends HttpServlet {
 
                 System.out.println("操作数据完毕，关闭了数据库！");
 
-            } catch (SQLException e1) {
+            } catch (SQLException e) {
+            try {
+                jsonObject.put("status","0");
+                try {
+                    response.getWriter().print(jsonObject);
+                    response.getWriter().flush();
+                    response.getWriter().close();
+                } catch (IOException et) {
+                    et.printStackTrace();
+                }
+            } catch (JSONException e1) {
                 e1.printStackTrace();
             }
+            e.printStackTrace();
+            return;
+            }
             System.out.println("页面执行完毕！");
-        } catch (SQLException e) {
+        try {
+            jsonObject.put("status","1");
+            response.setContentType("application/json; charset=UTF-8");
+            try {
+                response.getWriter().print(jsonObject);
+                response.getWriter().flush();
+                response.getWriter().close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (JSONException e) {
             e.printStackTrace();
         }
     }

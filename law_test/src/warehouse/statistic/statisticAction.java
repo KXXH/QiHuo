@@ -3,7 +3,10 @@ package warehouse.statistic;
 import org.json.JSONException;
 import org.json.JSONObject;
 import permission.manager.permissionChecker;
+import user.manager.User;
 import utils.dbOpener;
+import utils.tokenChecker;
+import utils.tokenExtractor;
 
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
@@ -33,7 +36,11 @@ public class statisticAction extends javax.servlet.http.HttpServlet {
         List jsonList = new ArrayList();
         try {
             Connection conn = dbOpener.getDB();
-            String sql = "SELECT * FROM tbl_userrealwh ORDER BY CreateAt";
+            String tocken= tokenExtractor.extractToken(request);
+            System.out.println(tocken);
+            User user = tokenChecker.tokenToUser(tocken);
+
+            String sql = "SELECT * FROM tbl_userrealwh WHERE UserId= '"+user.getUserId()+"' ORDER BY CreateAt";
             PreparedStatement ptmt = conn.prepareStatement(sql);
             ResultSet rs = ptmt.executeQuery();
             while(rs.next()){

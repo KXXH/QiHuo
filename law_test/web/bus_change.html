@@ -37,6 +37,11 @@
 
 	</div>
 	<form name="changewindow" align="center">
+
+		<div class="mdui-textfield mdui-textfield-floating-label" align="center">
+			仅需输入要改变的条目
+		</div>
+
 		<div class="mdui-textfield mdui-textfield-floating-label" align="center">
 			<label class="mdui-textfield-label" style="width:250px" align="left">用户ID</label>
 			<input class="mdui-textfield-input" style="width:250px" align="center" type="text" id="UserId" value=""/>
@@ -108,11 +113,16 @@
 		var obj = JSON.parse(data1);
 		$.post(url,obj,function(json){
 			console.log(JSON.stringify(json));
-			console.log("333333333");
+			if(json.status=="1"){
+				mdui.alert("修改成功！");
+				showSuccess(json);
+			}
+			else
+				mdui.alert("修改失败！");
 
-			showSuccess(json);
 		})
-		alert("修改成功！");
+
+
 
 
 	}
