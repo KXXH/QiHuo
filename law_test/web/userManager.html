@@ -267,7 +267,7 @@
         var email=document.forms['user_edit_form']['email'].value;
         var phone=document.forms['user_edit_form']['phone'].value;
         var wechat_id=document.forms['user_edit_form']['wechat_id'].value;
-        var role_id=document.forms['user_edit_form']['role_id'].value;
+        var role_id=document.forms['user_edit_form']['role_id_radio'].value;
         var password=document.forms['user_edit_form']['password'].value;
         var token=getCookie("tocken");
         var j={'username':username,'email':email,'phone':phone,'wechat_id':wechat_id,'role_id':role_id,'token':token,'password':password};
@@ -372,6 +372,7 @@
             console.log(JSON.stringify(j));
             var url=getQueryPath('userDeleteAction');
             $.post(url,j,function(json){
+                console.log(JSON.stringify(json));
                 if(json.status=="ok"){
                     mdui.snackbar({'message':'删除成功!'});
                     fetchUserInfo();
