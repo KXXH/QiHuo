@@ -16,19 +16,20 @@ function fetchTokenInfo(){
 }
 
 function initTokenTable(){
-    var table=document.getElementById("token_table");
+    var table=document.getElementById("token_table_body");
     var rowCount=table.rows.length;
     for(var i=rowCount-1;i>0;i--){
         table.deleteRow(i);
     }
     for(var i=0;i<tokenList.length;i++){
-        var row=document.getElementById("token_table").insertRow();
+        var row=document.getElementById("token_table_body").insertRow();
         row.insertCell(0).innerHTML=tokenList[i].id;
         row.insertCell(1).innerHTML=tokenList[i].tokenValue;
         row.insertCell(2).innerHTML=tokenList[i].username;
         row.insertCell(3).innerHTML=tokenList[i].TTL;
     }
     mdui.updateTables("#token_table");
+    mdui.mutation();
 }
 
 function clearLoginTable(){
