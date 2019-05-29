@@ -70,6 +70,7 @@ public class User {
             String sql=getQuerySQL(column);
             PreparedStatement ptmt = conn.prepareStatement(sql);
             ptmt.setString(1,target);
+            System.out.println("findUser:执行的SQL是"+ptmt.toString());
             ResultSet rs=ptmt.executeQuery();
             if(!rs.next()){
                 conn.close();

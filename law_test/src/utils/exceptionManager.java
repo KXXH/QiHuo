@@ -41,7 +41,7 @@ public class exceptionManager {
     public static void logException(Exception e,Object o,User user){
         try {
             Connection conn=dbOpener.getDB();
-            String sql="INSERT INTO tbl_exceptions (className,exceptionName,exceptionDetail,status,time,username),VALUES(?,?,?,?,?.?)";
+            String sql="INSERT INTO tbl_exceptions (className,exceptionName,exceptionDetail,status,time,username) VALUES(?,?,?,?,?,?)";
             PreparedStatement ptmt=conn.prepareStatement(sql);
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             java.util.Date currentDate = new java.util.Date();

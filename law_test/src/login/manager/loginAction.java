@@ -144,8 +144,10 @@ public class loginAction extends HttpServlet {
             session.setAttribute("token",token);
             session.setAttribute("captcha_flag",false);
             session.setAttribute("attempt_count",0);
+
             if(Objects.equals(rememberPassword, "true")){
-                cookieManager.addCookie(response,"token",token,30*24*3600);
+                //cookieManager.addCookie(request,response,"token",token,30*24*3600);
+                session.setMaxInactiveInterval(30*24*3600);
             }
             utils.sendManager.sendJSON(response,jsonObject);
             System.out.println("发送回复成功");

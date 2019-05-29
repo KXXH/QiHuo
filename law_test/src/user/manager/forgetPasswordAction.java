@@ -32,7 +32,12 @@ public class forgetPasswordAction extends javax.servlet.http.HttpServlet {
             }
             String token= tokenGenerator.getAndStoreToken(user.getUserName(),true);
             try {
-                sendMail.sendForgetPasswdURL(email,"http://localhost:8080/resetPassword.html?"+token);
+                String requestUrl = request.getScheme() //当前链接使用的协议
+                        +"://" + request.getServerName()//服务器地址
+                        + ":" + request.getServerPort() //端口号
+                        + request.getContextPath(); //应用名称，如果应用名称为
+                System.out.println("getContexePath="+request.getContextPath());
+                sendMail.sendForgetPasswdURL(email,requestUrl+"/resetPassword.html?"+token);
                 sendManager.sendSimpleOKJSON(response);
             } catch (GeneralSecurityException e) {
                 exceptionManager.logException(e,this,tokenChecker.tokenToUser(tokenExtractor.extractToken(request)));
@@ -80,8 +85,14 @@ public class forgetPasswordAction extends javax.servlet.http.HttpServlet {
         }
         String token=tokenGenerator.getAndStoreToken(user.getUserName());
         try {
-            sendMail.sendForgetPasswdURL(email,"http://localhost:8080/resetPassword.html?"+token);
+            String requestUrl = request.getScheme() //当前链接使用的协议
+                    +"://" + request.getServerName()//服务器地址
+                    + ":" + request.getServerPort() //端口号
+                    + request.getContextPath(); //应用名称，如果应用名称为
+            System.out.println("getContexePath="+request.getContextPath());
+            sendMail.sendForgetPasswdURL(email,requestUrl+"/resetPassword.html?"+token);
             json.put("status","ok");
+            System.out.println("forgetPasswordAction:执行到这里了");
             response.setContentType("application/json; charset=UTF-8");
             try{
                 response.getWriter().print(json);

@@ -28,6 +28,13 @@ public class cookieManager {
         response.addCookie(cookie);
     }
 
+    public static void addCookie(HttpServletRequest request,HttpServletResponse response, String name, String value, int maxAge){
+        Cookie cookie = new Cookie(name,value);
+        cookie.setPath(request.getContextPath());
+        if(maxAge>0)  cookie.setMaxAge(maxAge);
+        response.addCookie(cookie);
+    }
+
     /**
      *
      * @param request

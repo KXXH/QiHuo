@@ -39,6 +39,7 @@ function logOut(){
     var obj = JSON.parse(data);
     $.post(url,obj);
     delCookie("tocken");
+    delCookie("token");
     window.location.href = getQueryPath("login");
 
 }
@@ -92,6 +93,7 @@ function initMenu(json) {
         if(error==123) {
             alert("登录已过期，请重新登录");
             delCookie("tocken");
+            logOut();
             window.location.href=getQueryPath("login");
             return;
         }

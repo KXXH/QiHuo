@@ -5,10 +5,7 @@ import utils.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 import java.io.IOException;
 import java.sql.*;
 
@@ -35,10 +32,19 @@ public class logoutAction extends HttpServlet{
         try{
             session.invalidate();
             cookieManager.getCookieByName(request,"JSESSIONID").setMaxAge(0);
+            Cookie cookie=cookieManager.getCookieByName(request,"token");
+            Cookie[] a=request.getCookies();
+            for(int i=0;i<a.length;i++){
+                System.out.println("name: "+a[i].getName());
+            }
+            if(cookie!=null){
+                cookie.setMaxAge(0);
+                System.out.println("删除了cookie");
+            }
         }catch(IllegalStateException ignored){
             exceptionManager.logException(ignored,this,tokenChecker.tokenToUser(tokenExtractor.extractToken(request)));
         }
-        System.out.println("删除了cookie");
+
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
