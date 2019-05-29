@@ -15,7 +15,7 @@
     <script src="https://www.amcharts.com/lib/4/charts.js"></script>
     <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
 </head>
-<body onload="getdata();getdatapic();flush()">
+<body onload="is_holded();getdata();getdatapic();flush()">
 <div id="nowData">
 
 </div>
@@ -40,7 +40,7 @@
         url = getQueryPath(url)
         $.post(url,function(json){
             if(json.status == "error"){
-                alert("必须登录！");
+                mdui.alert("必须登录！");
             }
             else{
                 setUSDCNYdata(json);
@@ -66,7 +66,7 @@
         url = getQueryPath(url)
         $.post(url,function(json){
             if(json.status == "error"){
-                alert("必须登录！");
+                mdui.alert("必须登录！");
             }
             else{
                 setUSDCNY(json);
@@ -463,6 +463,18 @@
             console.log("123");
             getdata();
         },5*60*1000);
+    }
+
+    function is_holded(){
+        url="query";
+        $.post(url,function(json){
+            var error = json.code;
+            if(error==123) {
+                alert("登录已过期，请重新登录");
+                logOut();
+                return;
+            }
+        })
     }
 </script>
 

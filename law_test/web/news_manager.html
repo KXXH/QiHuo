@@ -174,7 +174,7 @@ function get_all_news(Order){
     var data = {'order_1':order_1,'order_2':order_2,'limit':limit,'search':search,'length':len}
     $.post(url,data,function(json){
         if(json.status == "error"){
-            alert("您不是管理员！");
+            mdui.alert("您不是管理员！");
         }
         else{
             if(json.end == 1 && Order == 0)
@@ -212,7 +212,7 @@ function get_all_news(Order){
             }
 
             else
-                alert("删除失败!");
+                mdui.alert("删除失败!");
         })
     }
     function order(){
@@ -255,7 +255,7 @@ function get_all_news(Order){
             }
 
             else
-                alert("修改失败！");
+                mdui.alert("修改失败！");
         })
     }
     function drawChart(json){
