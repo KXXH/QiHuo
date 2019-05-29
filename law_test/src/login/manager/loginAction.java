@@ -91,6 +91,7 @@ public class loginAction extends HttpServlet {
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("status", "error");
                     jsonObject.put("error", 2);
+                    request.getSession().invalidate();
                     utils.sendManager.sendJSON(response,jsonObject);
                     return;
                 }

@@ -58,7 +58,11 @@ public class userRegisterAction extends javax.servlet.http.HttpServlet {
                 String token= tokenGenerator.getAndStoreToken(user.getUserName());
                 HttpSession session=request.getSession();
                 session.setAttribute("token",token);
-                mailService.sendMail.sendEnableAccountEmail(user.getEmail(),"http://localhost:8080/enableAccount.html?"+token);
+                String requestUrl = request.getScheme() //当前链接使用的协议
+                        +"://" + request.getServerName()//服务器地址
+                        + ":" + request.getServerPort() //端口号
+                        + request.getContextPath(); //应用名称，如果应用名称为
+                mailService.sendMail.sendEnableAccountEmail(user.getEmail(),requestUrl+"/enableAccount.html?"+token);
             }
         } catch (SQLException | JSONException | GeneralSecurityException e) {
             exceptionManager.logException(e,this);
