@@ -12,6 +12,7 @@
 		<script src="js/jquery-2.1.4.min.js"></script>
 		<script src="js/index_beta.js"></script>
 		<script src="js/utils.js"></script>
+		<script src="js/wh_query_lisy.js"></script>
 	</head>
 	<body onload="initPage();" class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-pink ">
 		<div class="mdui-appbar mdui-appbar-fixed">
@@ -40,14 +41,14 @@
 
 		<div class="mdui-textfield mdui-textfield-floating-label" align="center">
 			<label class="mdui-textfield-label" style="width:250px" align="left">股票数量</label>
-			<input class="mdui-textfield-input" style="width:250px" align="center" type="text" id="Quantity" value=""/>
+			<input class="mdui-textfield-input" style="width:250px" align="center" type="text" id="Quantity" value="" oninput="value=value.replace(/[^\d]/g,'')" maxlength="5" value=""/>
 		</div>
 		<div class="mdui-textfield mdui-textfield-floating-label" align="center">
 			<label class="mdui-textfield-label" style="width:250px" align="left">买入单价</label>
-			<input class="mdui-textfield-input" style="width:250px" align="center" type="text" id="BUnitPrice" value=""/>
+			<input class="mdui-textfield-input" style="width:250px" align="center" type="text" id="BUnitPrice" value="" oninput="value=value.replace(/[^\d]/g,'')" maxlength="6" value=""/>
 		</div>
 
-		<input type="submit" id="subbtn" name="subbtn" value="提交" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="changestock()"/>
+		<input type="button" id="subbtn" name="subbtn" value="提交" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="changestock()"/>
 		<br>
 		<button type="button"class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="window.location='wh_query_list.html'">返回</button>
 		<br>
@@ -56,15 +57,6 @@
 </html>
 <script>
 
-	function add(){
-		window.location="register.html";
-	}
-	function modify(){
-		window.location="change_list.html";
-	}
-	function query(){
-		window.location="query_list.html";
-	}
 
 	function getParam(){
 		C1=window.location.href.split("?")[1]; //得到id=楼主
@@ -84,9 +76,8 @@
 		console.log("22222222222222");
 		var quantity = document.getElementById("Quantity").value;
 		var bunitprice = document.getElementById("BUnitPrice").value;
-		var coo = getCookie("tocken");
-		var data1 = '{"StockId":"'+stockid+'","Quantity":"'+quantity+'","BUnitPrice":"'+bunitprice+'","Cookie":"'+coo+'"}';
-
+		var data1 = '{"StockId":"'+stockid+'","Quantity":"'+quantity+'","BUnitPrice":"'+bunitprice+'"}';
+		console.log("33333"+data1);
 		var obj = JSON.parse(data1);
 		$.post(url,obj,function(json){
 			console.log(JSON.stringify(json));
