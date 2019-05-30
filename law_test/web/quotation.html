@@ -10,6 +10,70 @@
     <script src="js/jquery-2.1.4.min.js"></script>
     <script src="js/index_beta.js"></script>
     <script src="js/utils.js"></script>
+    <script type="application/javascript">
+        var socket ;
+        //登录过后初始化socket连接
+        function initSocket(userId) {
+            if(typeof(WebSocket) == "undefined") {
+                console.log("您的浏览器不支持WebSocket");
+            }else {
+                console.log("您的浏览器支持WebSocket/websocket");
+            }
+            //socket连接地址: 注意是ws协议
+            socket = new WebSocket("ws://localhost:8080/ChatTest/"+userId);
+            socket.onopen = function() {
+                console.log("Socket 已打开");
+            };
+            //获得消息事件
+            socket.onmessage = function(msg) {
+                var histroy = $("#history").val();
+                $("#history").val(histroy+"\r\n"+msg.data);
+                console.log($(msg));
+            };
+            //关闭事件
+            socket.onclose = function() {
+                console.log("Socket已关闭");
+            };
+            //错误事件
+            socket.onerror = function() {
+                alert("Socket发生了错误");
+            }
+            $(window).unload(function(){
+                socket.close();
+            });
+        }
+        //点击按钮发送消息
+        function send() {
+            url = "ChatGetUserName";
+            $.post(url,function(json){
+                if(json.status=="error"){
+                    alert("无法发送！请刷新");
+                }
+                else{
+                    console.log("发送消息: "+$("#msg").val());
+                    socket.send($("#msg").val());
+
+                    $('#msg').val("");
+                }
+            })
+
+        }
+        //连接
+        function connect() {
+            url = "ChatGetUserName";
+            $.post(url,function(json){
+                if(json.status=="error"){
+                    alert("无法进入！请刷新");
+                }
+                else{
+                    var userId = json.username;
+                    console.log(userId);
+                    initSocket(userId);
+                }
+
+            })
+        }
+    </script>
 </head>
 <body onload="initPage();getQuatations();flush()" class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-pink ">
     <div class="mdui-appbar mdui-appbar-fixed">
@@ -39,26 +103,43 @@
             <a href="#qh" class="mdui-ripple">期货</a>
             <a href="#hl" class="mdui-ripple">汇率</a>
         </div>
-        <div id="hs" class="mdui-p-a-2">
+        <div class="mdui-col-xs-7">
+
+            <div id="hs" class="mdui-p-a-2">
+
+            </div>
+            <div id="hk" class="mdui-p-a-2">
+
+            </div>
+            <div id="jp" class="mdui-p-a-2">
+
+            </div>
+            <div id="eu" class="mdui-p-a-2">
+
+            </div>
+            <div id="us" class="mdui-p-a-2">
+
+            </div>
+            <div id="qh" class="mdui-p-a-2">
+
+            </div>
+            <div id="hl" class="mdui-p-a-2">
+
+            </div>
 
         </div>
-        <div id="hk" class="mdui-p-a-2">
+        <div class="mdui-col-xs-4">
+            <form id="chatForm" style="margin-top: 3%">
+                <button type="button" class="mdui-btn mdui-color-theme-accent mdui-ripple" onclick="connect()"><i class="mdui-icon material-icons">&#xe0b7;</i> Chat</button>
+            </form>
+            <div class="mdui-textfield">
+                <textarea id="msg" class="mdui-textfield-input" placeholder="格式:@xxx#消息 , 或者@ALL#消息"></textarea>
 
-        </div>
-        <div id="jp" class="mdui-p-a-2">
+            </div>
+            <button type="button" class="mdui-btn mdui-color-theme-accent mdui-ripple" onclick="send()"><i class="mdui-icon material-icons">&#xe163;</i> Send</button>
 
-        </div>
-        <div id="eu" class="mdui-p-a-2">
-
-        </div>
-        <div id="us" class="mdui-p-a-2">
-
-        </div>
-        <div id="qh" class="mdui-p-a-2">
-
-        </div>
-        <div id="hl" class="mdui-p-a-2">
-
+            <textarea id="history" style="width: 100%;height: 200px ; max-lines: 10" >
+            </textarea>
         </div>
     </div>
 
@@ -106,21 +187,21 @@
             var Node = document.createElement("div");
             Node.className = "mdui-row mdui-row-gapless";
             Node.style = "margin-top:1%;margin-left:2%";
-            Node.innerHTML = "<div class=\"mdui-col-xs-3\"><h3>"+list[i].name+"</h3></div>";
+            Node.innerHTML = "<div class=\"mdui-col-xs-5\"><h2>"+list[i].name+"</h2></div>";
             if(list[i].name == "在岸人民币"){
-                Node.innerHTML = "<div class=\"mdui-col-xs-3\"><h3><a href='USDCNY.html'> "+list[i].name+"</a></h3></div>";
+                Node.innerHTML = "<div class=\"mdui-col-xs-5\"><h2><a href='USDCNY.html'> "+list[i].name+"</a></h2></div>";
             }
             if(list[i].ROFper < 0){
-                Node.innerHTML += "<div class=\"mdui-col-xs-2\"><h4 style='color:green;'>"+list[i].quotation+"</h4></div>";
-                Node.innerHTML += "<div class=\"mdui-col-xs-1\"><h4 style='color:green;'>"+list[i].ROFper+"%</h4></div>";
+                Node.innerHTML += "<div class=\"mdui-col-xs-7\"><h4 style='color:green;'>"+list[i].quotation+"</h4></div>";
+                Node.innerHTML += "<div class='mdui-row'><div class=\"mdui-col-xs-5\"></div><div class=\"mdui-col-xs-7\"><h4 style='color:green;'>"+list[i].ROFper+"%</h4></div></div>";
                 if(list[i].kind!=4&&list[i].kind!=5)
-                    Node.innerHTML += "<div class=\"mdui-col-xs-1\"><h4 style='color:green;'>"+list[i].riseorfall+"</h4></div>";
+                    Node.innerHTML += "<div class='mdui-row'><div class=\"mdui-col-xs-5\"></div><div class=\"mdui-col-xs-7\"><h4 style='color:green;'>"+list[i].riseorfall+"</h4></div></div>";
             }
             else{
-                Node.innerHTML += "<div class=\"mdui-col-xs-2\"><h4 style='color:red;'>"+list[i].quotation+"</h4></div>";
-                Node.innerHTML += "<div class=\"mdui-col-xs-1\"><h4 style='color:red;'>"+list[i].ROFper+"%</h4></div>";
+                Node.innerHTML += "<div class=\"mdui-col-xs-7\"><h4 style='color:red;'>"+list[i].quotation+"</h4></div>";
+                Node.innerHTML += "<div class='mdui-row'><div class=\"mdui-col-xs-5\"></div><div class=\"mdui-col-xs-7\"><h4 style='color:red;'>"+list[i].ROFper+"%</h4></div></div>";
                 if(list[i].kind!=4&&list[i].kind!=5)
-                    Node.innerHTML += "<div class=\"mdui-col-xs-1\"><h4 style='color:red;'>"+list[i].riseorfall+"</h4></div>";
+                    Node.innerHTML += "<div class='mdui-row'><div class=\"mdui-col-xs-5\"></div><div class=\"mdui-col-xs-7\"><h4 style='color:red;'>"+list[i].riseorfall+"</h4></div></div>";
             }
 
 
@@ -129,31 +210,31 @@
                 case 0:
                     var parent = document.getElementById("hs");
                     parent.appendChild(Node);
-                    imageNode.innerHTML = "<img src='http://image.sinajs.cn/newchart/hollow/small/"+ list[i].image+".gif' width='450' height='208'>"
+                    imageNode.innerHTML = "<img src='http://image.sinajs.cn/newchart/hollow/small/"+ list[i].image+".gif' width='60%' height=auto>"
                     parent.appendChild(imageNode);
                     break;
                 case 1:
                     var parent = document.getElementById("hk");
                     parent.appendChild(Node);
-                    imageNode.innerHTML = "<img src='http://image.sinajs.cn/newchart/hk_stock/min_hollow/"+ list[i].image+".gif' width='450' height='208'>"
+                    imageNode.innerHTML = "<img src='http://image.sinajs.cn/newchart/hk_stock/min_hollow/"+ list[i].image+".gif' width='60%' height=auto>"
                     parent.appendChild(imageNode);
                     break;
                 case 2:
                     var parent = document.getElementById("eu");
                     parent.appendChild(Node);
-                    imageNode.innerHTML = "<img src='http://image.sinajs.cn/newchart/futures/forex/min5_m_hollow/"+ list[i].image+".gif' width='450' height='208'>"
+                    imageNode.innerHTML = "<img src='http://image.sinajs.cn/newchart/futures/forex/min5_m_hollow/"+ list[i].image+".gif' width='60%' height=auto>"
                     parent.appendChild(imageNode);
                     break;
                 case 3:
                     var parent = document.getElementById("us");
                     parent.appendChild(Node);
-                    imageNode.innerHTML = "<img src='http://image.sinajs.cn/newchart/usstock/min_idx_py/"+ list[i].image+".gif' width='450' height='208'>"
+                    imageNode.innerHTML = "<img src='http://image.sinajs.cn/newchart/usstock/min_idx_py/"+ list[i].image+".gif' width='60%' height=auto>"
                     parent.appendChild(imageNode);
                     break;
                 case 4:
                     var parent = document.getElementById("qh");
                     parent.appendChild(Node);
-                    imageNode.innerHTML = "<img src='http://image.sinajs.cn/newchart/futures/global/mins_hollow/"+ list[i].image+".gif ' width='450' height='208'>"
+                    imageNode.innerHTML = "<img src='http://image.sinajs.cn/newchart/futures/global/mins_hollow/"+ list[i].image+".gif ' width='60%' height=auto>"
                     parent.appendChild(imageNode);
                     break;
                 case 5:
@@ -163,7 +244,7 @@
                 case 6:
                     var parent = document.getElementById("jp");
                     parent.appendChild(Node);
-                    imageNode.innerHTML = "<img src='http://image.sinajs.cn/newchart/futures/forex/min5_m_hollow/"+ list[i].image+".gif' width='450' height='208'>"
+                    imageNode.innerHTML = "<img src='http://image.sinajs.cn/newchart/futures/forex/min5_m_hollow/"+ list[i].image+".gif' width='60%' height=auto>"
                     parent.appendChild(imageNode);
                     break;
             }
