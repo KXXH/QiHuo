@@ -47,7 +47,8 @@
             url = "ChatGetUserName";
             $.post(url,function(json){
                 if(json.status=="error"){
-                    alert("无法发送！请刷新");
+                    alert("无法发送！");
+                    window.location.href = getQueryPath("login");
                 }
                 else{
                     console.log("发送消息: "+$("#msg").val());
@@ -63,7 +64,8 @@
             url = "ChatGetUserName";
             $.post(url,function(json){
                 if(json.status=="error"){
-                    alert("无法进入！请刷新");
+                    alert("无法进入！");
+                    window.location.href = getQueryPath("login");
                 }
                 else{
                     var userId = json.username;
@@ -149,17 +151,24 @@
 <script>
     var list;
     var length;
+    var isonline = 1;
     function getQuatations(){
         url = "getDataToShowAction";
         url = getQueryPath(url)
-        $.post(url,function(json){
-            if(json.status == "error"){
-                mdui.alert("必须登录！");
-            }
-            else{
-                setQuatations(json);
-            }
-        })
+        if(isonline==1){
+            $.post(url,function(json){
+                if(json.status == "error"){
+                    isonline = 0;
+                    alert("必须登录！");
+                    window.location.href = getQueryPath("login");
+
+                }
+                else{
+                    setQuatations(json);
+                }
+            })
+        }
+
     }
 
     function setQuatations(json){
@@ -252,9 +261,12 @@
     }
 
     function flush(){
-        setInterval(function(){
-            console.log("123");
-            getQuatations();
-        },5*60*1000);
+        if(isonline==1){
+            setInterval(function(){
+                console.log("123");
+                getQuatations();
+            },5*60*1000);
+        }
+
     }
 </script>
