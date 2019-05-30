@@ -77,12 +77,14 @@ public class getLoginRecordAction extends javax.servlet.http.HttpServlet {
                 String time=rs.getString("time");
                 String action=rs.getString("action");
                 String ip=rs.getString("ip");
+                String location=rs.getString("location");
                 JSONObject jsonObject=new JSONObject();
                 jsonObject.put("username",username);
                 jsonObject.put("time",time);
                 jsonObject.put("action",action);
                 jsonObject.put("ip",ip);
                 jsonObject.put("id",id);
+                jsonObject.put("location",location);
                 array.put(jsonObject);
                 count++;
                 System.out.println("行数="+rs.getRow());

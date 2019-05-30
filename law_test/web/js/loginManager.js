@@ -49,6 +49,7 @@ function updateLoginTable(data){
         row.insertCell(2).innerHTML=data[i].time;
         row.insertCell(3).innerHTML=data[i].action;
         row.insertCell(4).innerHTML=data[i].ip;
+        row.insertCell(5).innerHTML=data[i].location;
     }
     mdui.updateTables("#login_table");
 }

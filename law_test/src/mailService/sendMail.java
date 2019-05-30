@@ -79,4 +79,8 @@ public class sendMail {
         sendQQEmail(targetEmail,"[期货交易平台]帐号激活邮件","请点击下面链接激活帐号,如非本人操作请忽略!\n"+url);
     }
 
+    public static void sendOffsiteLoginEmail(String targetEmail,String location,String ip,String username) throws GeneralSecurityException {
+        sendQQEmail(targetEmail,"[期货交易平台]异地登录提醒","您的帐户"+username+"最近在"+location+"(IP:"+ip+")异地登录,如是您本人操作,请忽略此邮件,否则,您的帐户密码可能已经泄露,请立即重置您的密码!");
+    }
+
 }
