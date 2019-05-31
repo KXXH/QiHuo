@@ -14,7 +14,6 @@ public class autoRun implements ServletContextListener{
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
 
-        
         //System.out.println("正在尝试获取新闻");
         mainGetNews.main(null);
 

@@ -16,6 +16,7 @@ import java.net.URLConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -33,9 +34,20 @@ public class getEconomicData {
     static String[] zg = {"s_sh000001","s_sh000300","s_sz399001"};
 
     static String Glist[][] = {zg,gg,og,mg,qh,hl};
+
+    static String[] hl = {"fx_susdcny","fx_seurcny","fx_scnyjpy","fx_sgbpcny","fx_susdcnh","fx_skrwcny","fx_shkdcny","fx_scnytwd"};
+    static String[] qh = {"hf_GC","hf_CL","hf_OIL","hf_SI","hf_S","hf_C","hf_XAU"};
+    static String[] mg = {"gb_dji","gb_ixic","gb_inx","gb_amzn"};
+    static String[] og = {"b_NKY","b_DAX","b_CAC","b_UKX"};
+    static String[] gg = {"hkHSI"};
+    static String[] zg = {"s_sh000001","s_sh000300","s_sz399001","s_sz399006"};
+    static String[] mz = {"DINIW"};
+    static String[] xm = {"btc_btcbitstamp","btc_btcethusd","btc_btcltcusd"};
+    static String Glist[][] = {zg,gg,og,mg,qh,hl,mz,xm};
+
     public static void main(String args[]) throws InterruptedException {
 
-        for(int i = 0; i < 6; i++){
+        for(int i = 0; i < 8; i++){
             GetDataThread t = new GetDataThread(i,"Thread-"+i);
             t.start();
             Thread.sleep(2000);
@@ -153,6 +165,24 @@ class GetDataThread extends Thread {
                         q[i].setName(content.split(",")[9]);
                         q[i].setQuotation(Double.parseDouble(content.split(",")[2]));
                         q[i].setROFper(Double.parseDouble(content.split(",")[10]));
+                        break;
+                    case 6:
+                        q[i].setName(content.split(",")[9]);
+                        q[i].setQuotation(Double.parseDouble(content.split(",")[1]));
+                        DecimalFormat df=new DecimalFormat("0.0000");
+                        double d1 = Double.parseDouble(content.split(",")[3])-Double.parseDouble(content.split(",")[2]);
+                        double d2 = d1/Double.parseDouble(content.split(",")[3]);
+                        q[i].setRiseOrFall(Double.parseDouble(df.format(d1)));
+                        q[i].setROFper(Double.parseDouble(df.format(d2)));
+                        break;
+                    case 7:
+                        q[i].setName(content.split(",")[9]);
+                        q[i].setQuotation(Double.parseDouble(content.split(",")[8]));
+                        DecimalFormat df1=new DecimalFormat("0.0000");
+                        double d3 = Double.parseDouble(content.split(",")[3])-Double.parseDouble(content.split(",")[8]);
+                        double d4 = d3/Double.parseDouble(content.split(",")[3]);
+                        q[i].setRiseOrFall(Double.parseDouble(df1.format(d3)));
+                        q[i].setROFper(Double.parseDouble(df1.format(d4)));
                         break;
                 }
                 q[i].setKind(QueryKind);
