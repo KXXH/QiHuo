@@ -32,11 +32,10 @@
 
 	</div>
 
-	<div class="mdui-text-center">
+	<div align="center">
 		<div class="mdui-textfield mdui-textfield-floating-label">
-			<label class="mdui-textfield-label" style="width:250px">股票ID</label>
+			<label class="mdui-textfield-label" style="width:250px" align="left">股票ID</label>
 			<input class="mdui-textfield-input" style="width:250px" id="StockId" name="StockId" value="" oninput="value=value.replace(/[^\d]/g,'')" required/>
-			<div class="mdui-textfield-error">ID必须为数字</div>
 		</div>
 
 		<div class="mdui-textfield mdui-textfield-floating-label" align="center">
@@ -50,7 +49,7 @@
 		</div>
 		<div class="mdui-textfield mdui-textfield-floating-label" align="center">
 			<label class="mdui-textfield-label" style="width:250px" align="left">买入单价</label>
-			<input class="mdui-textfield-input" style="width:250px" align="center" type="text" id="BUnitPrice" value="" required/>
+			<input class="mdui-textfield-input" style="width:250px" align="center" type="text" id="BUnitPrice" value="" oninput="value=value.replace(/[^\d]/g,'')" required/>
 		</div>
 
 		<input type="submit" id="subbtn" name="subbtn" value="提交" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="addstock()"/>
@@ -65,13 +64,13 @@
 <script>
 
 	function add(){
-		window.location="register.html";
+		window.location="wh_register.html";
 	}
 	function modify(){
-		window.location="change_list.html";
+		window.location="wh_change_list.html";
 	}
 	function query(){
-		window.location="query_list.html";
+		window.location="wh_query_list.html";
 	}
 
 
