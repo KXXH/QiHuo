@@ -456,6 +456,7 @@
         <servlet-name>showUSDCNYupdateAction</servlet-name>
         <url-pattern>/showUSDCNYupdateAction</url-pattern>
     </servlet-mapping>
+<<<<<<< HEAD
 
     <servlet>
         <servlet-name>loginStatsticAction</servlet-name>
@@ -479,4 +480,6 @@
     </servlet-mapping>
 
 
+=======
+>>>>>>> parent of 59fa1e8e... 增加了登录位置热力图，美化了界面
 </web-app>
