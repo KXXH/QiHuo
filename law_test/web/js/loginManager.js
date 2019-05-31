@@ -3,7 +3,6 @@ var login_username="";
 var login_count=0;
 var token_username="";
 var token_count=0;
-var dayCount=7;
 function fetchTokenInfo(){
     var url=getQueryPath('getTokenAction');
 
@@ -98,65 +97,6 @@ function delToken(){
         }
         fetchTokenInfo();
     })
-}
-
-function get_statistic(){
-    var url="loginStatsticAction";
-    var j={'dayCount':dayCount};
-    $.post(url,j,function(json){
-        drawChart(json.locationData,json.min,json.max);
-    })
-}
-
-function drawChart(data,min,max){
-    var chart = am4core.create("chartdiv", am4maps.MapChart);
-
-    chart.geodataSource.url = "images/china.json";
-    chart.projection = new am4maps.projections.Miller();
-    var polygonSeries = new am4maps.MapPolygonSeries();
-    chart.series.push(polygonSeries);
-    polygonSeries.useGeodata = true;
-    polygonSeries.data=data;
-    polygonSeries.heatRules.push({
-        property: "fill",
-        target: polygonSeries.mapPolygons.template,
-        min: chart.colors.getIndex(1).brighten(1),
-        max: chart.colors.getIndex(1).brighten(-0.3)
-    });
-    let heatLegend = chart.createChild(am4maps.HeatLegend);
-    heatLegend.series = polygonSeries;
-    heatLegend.align = "right";
-    heatLegend.valign = "bottom";
-    heatLegend.width = am4core.percent(20);
-    heatLegend.marginRight = am4core.percent(4);
-    heatLegend.minValue = min;
-    heatLegend.maxValue = max;
-
-// Set up custom heat map legend labels using axis ranges
-    var minRange = heatLegend.valueAxis.axisRanges.create();
-    minRange.value = heatLegend.minValue;
-    minRange.label.text = min;
-    var maxRange = heatLegend.valueAxis.axisRanges.create();
-    maxRange.value = heatLegend.maxValue;
-    maxRange.label.text = max+"(人次)";
-
-// Blank out internal heat legend value axis labels
-    heatLegend.valueAxis.renderer.labels.template.adapter.add("text", function(labelText) {
-        return "";
-    });
-
-// Configure series tooltip
-    var polygonTemplate = polygonSeries.mapPolygons.template;
-    polygonTemplate.tooltipText = "{name}: {value}";
-    polygonTemplate.nonScalingStroke = true;
-    polygonTemplate.strokeWidth = 0.5;
-
-// Create hover state and set alternative fill color
-    var hs = polygonTemplate.states.create("hover");
-    hs.properties.fill = am4core.color("#3c5bdc");
-
-
-}
-/**
+}/**
  * Created by zjm97 on 2019/5/25.
  */

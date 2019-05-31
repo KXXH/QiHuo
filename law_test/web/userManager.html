@@ -21,7 +21,7 @@
     <script src="js/utils.js"></script>
 </head>
 
-<body onload="initPage();fetchUserInfo();" class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-pink ">
+<body onload="initPage();fetchUserInfo()" class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-pink ">
 
 
 
@@ -43,7 +43,6 @@
 
 </div>
 <div class="mdui-container">
-
     <ul class="mdui-menu mdui-menu-cascade" id="sort_menu">
         <li class="mdui-menu-item">
             <a class="mdui-ripple">
@@ -96,8 +95,9 @@
     <button class="mdui-btn" mdui-menu="{target:'#sort_menu'}">
         排序
     </button>
-
     <button class="mdui-btn" mdui-dialog="{'target':'#search_dialog'}">查找</button>
+    <a class="mdui-btn" href="user_print.htm">打印</a>
+    <a class="mdui-btn" id="output">导出</a>
     <div class="mdui-dialog" id="search_dialog">
         <div class="mdui-dialog-title">查找用户</div>
         <form name="user_search_form" class="mdui-dialog-content">
@@ -211,21 +211,6 @@
     </div>
 
 </div>
-<div class="mdui-fab-wrapper" id="Fab" mdui-fab="{trigger: 'hover'}">
-    <button class="mdui-fab mdui-ripple mdui-color-red" onclick="addUser()">
-        <!-- 默认显示的图标 -->
-        <i class="mdui-icon material-icons">add</i>
-
-        <!-- 在拨号菜单开始打开时，平滑切换到该图标，若不需要切换图标，则可以省略该元素 -->
-        <i class="mdui-icon mdui-fab-opened material-icons">add</i>
-    </button>
-    <div class="mdui-fab-dial">
-
-        <a class="mdui-fab mdui-fab-mini mdui-ripple mdui-color-yellow" href="user_print.htm"><i class="mdui-icon material-icons" mdui-tooltip="{content: '打印',position:'left'}">print</i></a>
-        <a class="mdui-fab mdui-fab-mini mdui-ripple mdui-color-orange"  href="dataToCSVAction"><i class="mdui-icon material-icons" mdui-tooltip="{content: '导出',position:'left'}">file_download</i></a>
-
-    </div>
-</div>
 </body>
 <script defer=true>
 
@@ -243,7 +228,7 @@
     $('input[type=radio][name=sorted_by2]').change(function(){
         fetchUserInfo();
     });
-    //document.getElementById("output").href="/dataToCSVAction?token="+getCookie("tocken");
+    document.getElementById("output").href="/dataToCSVAction?token="+getCookie("tocken");
 
     function addUser(){
         console.log("add method is on");
