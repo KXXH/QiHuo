@@ -11,7 +11,6 @@
 		<script src="js/jquery-2.1.4.min.js"></script>
 		<script src="js/index_beta.js"></script>
 		<script src="js/utils.js"></script>
-
 	</head>
 	<body onload="initPage();show(0);order();" class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-pink ">
 		<div class="mdui-appbar mdui-appbar-fixed">
@@ -29,81 +28,54 @@
 	<div class="mdui-drawer mdui-shadow-5" id="left-drawer">
 		<div class="mdui-spinner mdui-spinner-colorful" id="loader" style="display: block;margin-left:auto;margin-right:auto;margin-top: 50%"></div>
 		<div class="mdui-list mdui-collapse" mdui-collapse="{accordion:true}" id="drawer"></div>
-		</div>
 
-<div class="mdui-container">
-		<ul class="mdui-menu mdui-menu-cascade" id="sort_menu">
-			<li class="mdui-menu-item">
-				<a class="mdui-ripple">
-					首要关键字
-					<span class="mdui-menu-item-more"></span>
-				</a>
-				<ul class="mdui-menu">
-					<li class="mdui-menu-item ">
-						<label class="mdui-radio mdui-m-l-2 mdui-m-r-1"><input type="radio" name="group1" value="OrderId" checked/><i class="mdui-radio-icon"></i>订单号</label>
-					</li>
-					<li class="mdui-menu-item">
-						<label class="mdui-radio mdui-m-l-2 mdui-m-r-1"><input type="radio" name="group1" value="UserId"/><i class="mdui-radio-icon"></i>用户ID</label>
-					</li>
-					<li class="mdui-menu-item">
-						<label class="mdui-radio mdui-m-l-2 mdui-m-r-1"><input type="radio" name="group1" value="UserName"/><i class="mdui-radio-icon"></i>用户名称</label>
-					</li>
-					<li class="mdui-menu-item">
-						<label class="mdui-radio mdui-m-l-2 mdui-m-r-1"><input type="radio" name="group1" value="StockId"/><i class="mdui-radio-icon"></i>股票ID</label>
-					</li>
-					<li class="mdui-menu-item">
-						<label class="mdui-radio mdui-m-l-2 mdui-m-r-1"><input type="radio" name="group1" value="StockName"/><i class="mdui-radio-icon"></i>股票名称</label>
-					</li>
-					<li class="mdui-menu-item">
-						<label class="mdui-radio mdui-m-l-2 mdui-m-r-1"><input type="radio" name="group1" value="Quantity"/><i class="mdui-radio-icon"></i>持有数量</label>
-					</li>
-					<li class="mdui-menu-item">
-						<label class="mdui-radio mdui-m-l-2 mdui-m-r-1"><input type="radio" name="group1" value="BUnitPrice"/><i class="mdui-radio-icon"></i>订单价格</label>
-					</li>
-					<li class="mdui-menu-item">
-						<label class="mdui-radio mdui-m-l-2 mdui-m-r-1"><input type="radio" name="group1" value="CreateAt"/><i class="mdui-radio-icon"></i>创建时间</label>
-					</li>
-				</ul>
-			</li>
-			<li class="mdui-menu-item">
-				<a class="mdui-ripple">
-					次要关键字
-					<span class="mdui-menu-item-more"></span>
-				</a>
-				<ul class="mdui-menu">
-					<li class="mdui-menu-item ">
-						<label class="mdui-radio mdui-m-l-2 mdui-m-r-1"><input type="radio" name="group2" value="OrderId" checked/><i class="mdui-radio-icon"></i>订单号</label>
-					</li>
-					<li class="mdui-menu-item">
-						<label class="mdui-radio mdui-m-l-2 mdui-m-r-1"><input type="radio" name="group2" value="UserId"/><i class="mdui-radio-icon"></i>用户ID</label>
-					</li>
-					<li class="mdui-menu-item">
-						<label class="mdui-radio mdui-m-l-2 mdui-m-r-1"><input type="radio" name="group2" value="UserName"/><i class="mdui-radio-icon"></i>用户名称</label>
-					</li>
-					<li class="mdui-menu-item">
-						<label class="mdui-radio mdui-m-l-2 mdui-m-r-1"><input type="radio" name="group2" value="StockId"/><i class="mdui-radio-icon"></i>股票ID</label>
-					</li>
-					<li class="mdui-menu-item">
-						<label class="mdui-radio mdui-m-l-2 mdui-m-r-1"><input type="radio" name="group2" value="StockName"/><i class="mdui-radio-icon"></i>股票名称</label>
-					</li>
-					<li class="mdui-menu-item">
-						<label class="mdui-radio mdui-m-l-2 mdui-m-r-1"><input type="radio" name="group2" value="Quantity"/><i class="mdui-radio-icon"></i>持有数量</label>
-					</li>
-					<li class="mdui-menu-item">
-						<label class="mdui-radio mdui-m-l-2 mdui-m-r-1"><input type="radio" name="group2" value="BUnitPrice"/><i class="mdui-radio-icon"></i>订单价格</label>
-					</li>
-					<li class="mdui-menu-item">
-						<label class="mdui-radio mdui-m-l-2 mdui-m-r-1"><input type="radio" name="group2" value="CreateAt"/><i class="mdui-radio-icon"></i>创建时间</label>
-					</li>
-				</ul>
-			</li>
-		</ul>
+	</div>
+		<select class="mdui-select" id="sel1" mdui-select>
+			<option value="OrderId">订单号</option>
+			<option value="UserId">用户ID</option>
+			<option value="UserName">用户名称</option>
+			<option value="StockId">股票ID</option>
+			<option value="StockName">股票名称</option>
+			<option value="Quantity">持有数量</option>
+			<option value="BUnitPrice">订单价格</option>
+			<option value="CreateAt">创建时间</option>
+		</select>
+		<select class="mdui-select" id="sel2" mdui-select>
+			<option value="OrderId">订单号</option>
+			<option value="UserId">用户ID</option>
+			<option value="UserName">用户名称</option>
+			<option value="StockId">股票ID</option>
+			<option value="StockName">股票名称</option>
+			<option value="Quantity">持有数量</option>
+			<option value="BUnitPrice">订单价格</option>
+			<option value="CreateAt">创建时间</option>
+		</select>
+		<select class="mdui-select" id="sel3" mdui-select>
+			<option value="OrderId">订单号</option>
+			<option value="UserId">用户ID</option>
+			<option value="UserName">用户名称</option>
+			<option value="StockId">股票ID</option>
+			<option value="StockName">股票名称</option>
+			<option value="Quantity">持有数量</option>
+			<option value="BUnitPrice">订单价格</option>
+			<option value="CreateAt">创建时间</option>
+		</select>
+		<select class="mdui-select" id="sel4" mdui-select>
+			<option value="OrderId">订单号</option>
+			<option value="UserId">用户ID</option>
+			<option value="UserName">用户名称</option>
+			<option value="StockId">股票ID</option>
+			<option value="StockName">股票名称</option>
+			<option value="Quantity">持有数量</option>
+			<option value="BUnitPrice">订单价格</option>
+			<option value="CreateAt">创建时间</option>
+		</select>
+		<div>
 
-
-			<button class="mdui-btn" mdui-menu="{target:'#sort_menu'}">排序</button>
 			<button class="mdui-btn" mdui-dialog="{'target':'#search_dialog'}">查找</button>
 			<button type="button" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="window.location='bus_print.html'">打印</button>
 			<a href = "busdataToCSV" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent">导出</a>
+			<button type="button" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="window.location='bus_statistics.html'">统计</button>
 			<button type="button"class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="home()">仓库主页</button>
 			<div class="mdui-dialog" id="search_dialog">
 				<div class="mdui-dialog-title">查找订单</div>
@@ -143,49 +115,7 @@
 					</button>
 				</div>
 			</div>
-
-	<div class="mdui-dialog" id="modify">
-		<div class="mdui-dialog-content">
-			<div class="mdui-dialog-title">修改交易记录</div>
-			请将您要修改的内容填入
-			<div class="mdui-textfield">
-				<input class="mdui-textfield-input" type="text" disabled placeholder="order_id" id="order_id"/>
-			</div>
-
-			<div class="mdui-textfield">
-				<label class="mdui-textfield-label">用户ID</label>
-				<input class="mdui-textfield-input" id="user_id" oninput="value=value.replace(/[^\d]/g,'')" maxlength="3"/>
-			</div>
-			<div class="mdui-textfield">
-				<label class="mdui-textfield-label">用户名称</label>
-				<input class="mdui-textfield-input" id="user_name"/>
-			</div>
-			<div class="mdui-textfield">
-				<label class="mdui-textfield-label">股票ID</label>
-				<input class="mdui-textfield-input" id="stock_id" oninput="value=value.replace(/[^\d]/g,'')" maxlength="3"/>
-			</div>
-			<div class="mdui-textfield">
-				<label class="mdui-textfield-label">股票名称</label>
-				<input class="mdui-textfield-input" id="stock_name"/>
-			</div>
-			<div class="mdui-textfield">
-				<label class="mdui-textfield-label">持有数量</label>
-				<input class="mdui-textfield-input" id="quantity" oninput="value=value.replace(/[^\d]/g,'')" maxlength="5"/>
-			</div>
-			<div class="mdui-textfield">
-				<label class="mdui-textfield-label">订单价格</label>
-				<input class="mdui-textfield-input" id="bunitprice" oninput="value=value.replace(/[^\d]/g,'')" maxlength="6"/>
-			</div>
-			<div class="mdui-textfield">
-				<label class="mdui-textfield-label">交易时间</label>
-				<input class="mdui-textfield-input" type="datetime" id="createat"/>
-			</div>
 		</div>
-		<div class="mdui-dialog-actions">
-			<button class="mdui-btn mdui-ripple" onclick="modify()">确定</button>
-		</div>
-	</div>
-
 		<div>
 			<div class="mdui-table-fluid">
 				<table class="mdui-table mdui-table-hoverable" id="bus_table">
@@ -214,7 +144,7 @@
 				</div>
 			</div>
 		</div>
-</div>
+
 	</body>
 </html>
 
@@ -234,74 +164,28 @@
 	var username="";
 	var stockid="";
 	var stockname="";
-	var create="";
 
-	function modify_record(i){
-		var inst = new mdui.Dialog("#modify");
-		inst.open();
-		document.getElementById("order_id").value = list[i].orderid;
-		document.getElementById("user_id").value = list[i].userid;
-		document.getElementById("user_name").value = list[i].username;
-		document.getElementById("stock_id").value = list[i].stockid;
-		document.getElementById("stock_name").value = list[i].stockname;
-		document.getElementById("quantity").value = list[i].quantity;
-		document.getElementById("bunitprice").value = list[i].bunitprice;
-		document.getElementById("createat").value = list[i].createat;
-
+	function modify(id){
+		window.location.href = "bus_change.html?orderid="+id;
 	}
-
-	function modify(){
-		url = "buschangeAction";
-		url = getQueryPath(url)
-		orderid=document.getElementById("order_id").value;
-		userid=document.getElementById("user_id").value;
-		username=document.getElementById("user_name").value;
-		stockid=document.getElementById("stock_id").value;
-		stockname=document.getElementById("stock_name").value;
-		quantity=document.getElementById("quantity").value;
-		bunitprice=document.getElementById("bunitprice").value;
-		createat=document.getElementById("createat").value;
-		var data = '{"OrderId":"'+orderid+'","UserId":"'+userid+'","UserName":"'+username+'","StockId":"'+stockid+'","StockName":"'+stockname+'","Quantity":"'+quantity+'","BUnitPrice":"'+bunitprice+'","CreateAt":"'+createat+'"}';
-		var obj = JSON.parse(data);
-		$.post(url,obj,function(json){
-			if(json.status=="1"){
-				limit = limit -15;
-				mdui.alert("修改成功！");
-				show(1);
-			}
-
-			else
-				alert("修改失败！");
-			show(1);
-		})
-	}
-
 	function home(){
 		window.location="bus_query_list.html";
 	}
 	function delet(id){
-		mdui.confirm("您确认要删除这个用户吗?<br>注意：删除操作是不可逆的，请仔细考虑!","删除确认",function(){
-			var url = "busdeleteAction?OrderId="+id;
-			url=getQueryPath(url);
-			var data1 = '{"OrderId":"'+id+'"}';
+		var url = "busdeleteAction?OrderId="+id;
+		url=getQueryPath(url);
+		var data1 = '{"OrderId":"'+id+'"}';
 
-			var obj = JSON.parse(data1);
+		var obj = JSON.parse(data1);
 
-			$.post(url,obj,function(json){
-				console.log(JSON.stringify(json));
-				if(json.status==1){
-					limit = limit - 15;
-					mdui.snackbar({'message':'删除成功!'});
-					show(1);
-				}
-				else{
-					mdui.snackbar({'message':'删除失败!'});
-				}
-
-			})
-		},function(){
-			;
-		});
+		$.post(url,obj,function(json){
+			console.log(JSON.stringify(json));
+			if(json.status==1){
+				limit = limit - 15;
+				get_all_news(1);
+			}
+		})
+		mdui.alert("删除成功!");
 
 	}
 
@@ -322,8 +206,6 @@
 		username = document.getElementById("UserName").value;
 		stockid = document.getElementById("StockId").value;
 		stockname = document.getElementById("StockName").value;
-		var sel1 = $("input[type=radio][name=group1]:checked").val();
-		var sel2 = $("input[type=radio][name=group2]:checked").val();
 		var parent = document.getElementById("bus_list");
 		parent.innerHTML = "";
 		limit = limit-15;
@@ -351,7 +233,7 @@
 			var id = list[i].orderid;
 			newNode.innerHTML = "<td>"+list[i].orderid+"</td>"
 			newNode.innerHTML += "<td>"+list[i].userid +"</td><td>"+list[i].username +"</td><td>"+list[i].stockid +"</td><td>"+list[i].stockname +"</td><td>"+list[i].quantity +"</td><td>"+list[i].bunitprice +"</td><td>" +list[i].createat + "</td>";
-			newNode.innerHTML += "<td><button class=\"mdui-btn mdui-btn-raised\" onclick='delet("+id+")'>删除</button><button class=\"mdui-btn mdui-btn-raised\" onclick='modify_record("+i+")'>修改</button></td>"
+			newNode.innerHTML += "<td><button class=\"mdui-btn mdui-btn-raised\" onclick='delet("+id+")'>删除</button><button class=\"mdui-btn mdui-btn-raised\" onclick='modify("+id+")'>修改</button></td>"
 			table.appendChild(newNode);
 		}
 	}
@@ -363,16 +245,20 @@
 			parent.innerHTML = "";
 			limit = limit-15;
 
-			show(1);
+			get_all_news(1);
 		});
 	}
 	function show(Order){
 
 		var url = "busquerylistAction";
 		url=getQueryPath(url);
-		sel1 = $("input[type=radio][name=group1]:checked").val();
-		sel2 = $("input[type=radio][name=group2]:checked").val();
-		var data1 = '{"Sel1":"'+sel1+'","Sel2":"'+sel2+'","limit":"'+limit+'","length":"'+len+'","OrderId":"'+orderid+'","UserId":"'+userid+'","UserName":"'+username+'","StockId":"'+stockid+'","StockName":"'+stockname+'"}';
+		var sel1 = document.getElementById("sel1").value;
+		var sel2 = document.getElementById("sel2").value;
+		var sel3 = document.getElementById("sel3").value;
+		var sel4 = document.getElementById("sel4").value;
+
+
+		var data1 = '{"Sel1":"'+sel1+'","Sel2":"'+sel2+'","Sel3":"'+sel3+'","Sel4":"'+sel4+'","limit":"'+limit+'","length":"'+len+'","OrderId":"'+orderid+'","UserId":"'+userid+'","UserName":"'+username+'","StockId":"'+stockid+'","StockName":"'+stockname+'"}';
 
 		var j = JSON.parse(data1);
 		$.post(url,j,function(json){

@@ -4,7 +4,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import permission.manager.permissionChecker;
 import utils.dbOpener;
-import utils.sendManager;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -46,7 +45,7 @@ public class deleteAction extends HttpServlet {
                 System.out.println("Database Closed！！！<br>");
             } catch (SQLException sqlexception) {
                 sqlexception.printStackTrace();
-                sendManager.sendSimpleErrorJSON(response);
+       
             }
 
     }

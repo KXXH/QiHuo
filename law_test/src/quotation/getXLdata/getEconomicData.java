@@ -25,12 +25,12 @@ import java.util.regex.Pattern;
  * Created by 11913 on 2019/5/22.
  */
 public class getEconomicData {
-    static String[] hl = {"fx_susdcny","fx_seurcny","fx_scnyjpy","fx_sgbpcny","fx_susdcnh","fx_skrwcny","fx_shkdcny","fx_scnytwd"};
-    static String[] qh = {"hf_GC","hf_CL","hf_OIL","hf_SI","hf_S","hf_C","hf_XAU"};
+    static String[] hl = {"fx_susdcny","fx_seurcny","fx_scnyjpy","fx_sgbpcny","fx_susdcnh"};
+    static String[] qh = {"hf_GC","hf_CL","hf_OIL","hf_SI"};
     static String[] mg = {"gb_dji","gb_ixic","gb_inx"};
     static String[] og = {"b_NKY","b_DAX","b_CAC","b_UKX"};
     static String[] gg = {"hkHSI"};
-    static String[] zg = {"s_sh000001","s_sh000300","s_sz399001","s_sz399006"};
+    static String[] zg = {"s_sh000001","s_sh000300","s_sz399001"};
 
     static String Glist[][] = {zg,gg,og,mg,qh,hl};
     public static void main(String args[]) throws InterruptedException {

@@ -89,6 +89,7 @@ public class changeAction extends HttpServlet {
 
                 String sql = "insert into tbl_userwh(UserId,UserName,StockId,StockName,Quantity,BUnitPrice,CreateAt) values('"
                         + user.getUserId() + "','" + user.getUserName() + "','" + stockid + "','" + stockname + "','" + quantity + "','" + bunitprice + "','" + createTime + "')";
+                System.out.println("sql" + sql);
                 System.out.println("即将执行的SQL语句是：" + sql);
                 statement.executeUpdate(sql);
                 statement.close();
@@ -114,7 +115,6 @@ public class changeAction extends HttpServlet {
             }
             System.out.println("页面执行完毕！");
         try {
-            System.out.println("!!!!!!!!!!!!!");
             jsonObject.put("status","1");
             response.setContentType("application/json; charset=UTF-8");
             try {

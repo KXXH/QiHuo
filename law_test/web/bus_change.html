@@ -18,7 +18,7 @@
 		<div class="mdui-toolbar mdui-color-theme">
 			<a class="mdui-btn mdui-btn-icon" mdui-drawer="{target: '#left-drawer'}"><i class="mdui-icon material-icons">menu</i></a>
 			<a href="javascript:;" class="mdui-typo-headline">期货交易系统</a>
-			<a href="javascript:;" class="mdui-typo-title">卖出界面</a>
+			<a href="javascript:;" class="mdui-typo-title">记录修改</a>
 			<div class="mdui-toolbar-spacer"></div>
 			<a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></a>
 			<a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">refresh</i></a>
@@ -39,31 +39,51 @@
 	<form name="changewindow" align="center">
 
 		<div class="mdui-textfield mdui-textfield-floating-label" align="center">
-			<label class="mdui-textfield-label" style="width:250px" align="left">股票数量</label>
+			仅需输入要改变的条目
+		</div>
+
+		<div class="mdui-textfield mdui-textfield-floating-label" align="center">
+			<label class="mdui-textfield-label" style="width:250px" align="left">用户ID</label>
+			<input class="mdui-textfield-input" style="width:250px" align="center" type="text" id="UserId" value=""/>
+		</div>
+
+		<div class="mdui-textfield mdui-textfield-floating-label" align="center">
+			<label class="mdui-textfield-label" style="width:250px" align="left">用户名称</label>
+			<input class="mdui-textfield-input" style="width:250px" align="center" type="text" id="UserName" value=""/>
+		</div>
+
+		<div class="mdui-textfield mdui-textfield-floating-label" align="center">
+			<label class="mdui-textfield-label" style="width:250px" align="left">股票ID</label>
+			<input class="mdui-textfield-input" style="width:250px" align="center" type="text" id="StockId" value=""/>
+		</div>
+
+		<div class="mdui-textfield mdui-textfield-floating-label" align="center">
+			<label class="mdui-textfield-label" style="width:250px" align="left">股票名称</label>
+			<input class="mdui-textfield-input" style="width:250px" align="center" type="text" id="StockName" value=""/>
+		</div>
+
+		<div class="mdui-textfield mdui-textfield-floating-label" align="center">
+			<label class="mdui-textfield-label" style="width:250px" align="left">持有数量</label>
 			<input class="mdui-textfield-input" style="width:250px" align="center" type="text" id="Quantity" value=""/>
 		</div>
 		<div class="mdui-textfield mdui-textfield-floating-label" align="center">
-			<label class="mdui-textfield-label" style="width:250px" align="left">买入单价</label>
+			<label class="mdui-textfield-label" style="width:250px" align="left">订单价格</label>
 			<input class="mdui-textfield-input" style="width:250px" align="center" type="text" id="BUnitPrice" value=""/>
 		</div>
 
-		<input type="submit" id="subbtn" name="subbtn" value="提交" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="changestock()"/>
+		<input type="submit" id="subbtn" name="subbtn" value="提交" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="changebus()"/>
 		<br>
-		<button type="button"class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="window.location='wh_query_list.html'">返回</button>
+		<button type="button"class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="window.location='bus_query_list.html'">返回</button>
 		<br>
 		</form>
 	</body>
 </html>
 <script>
-
-	function add(){
-		window.location="register.html";
-	}
 	function modify(){
-		window.location="change_list.html";
+		window.location="bus_change.html";
 	}
 	function query(){
-		window.location="query_list.html";
+		window.location="bus_query_list.html";
 	}
 
 	function getParam(){
@@ -74,18 +94,21 @@
 	}
 	function showSuccess(json){
 
-		window.location="wh_query_list.html";
+		window.location="bus_query_list.html";
 	}
 
-	function changestock(){
-		var stockid = getParam();
-		var url = "changeAction";
+	function changebus(){
+		var orderid = getParam();
+		var url = "buschangeAction";
 		url=getQueryPath(url);
 		console.log("22222222222222");
+		var userid = document.getElementById("UserId").value;
+		var username = document.getElementById("UserName").value;
+		var stockid = document.getElementById("StockId").value;
+		var stockname = document.getElementById("StockName").value;
 		var quantity = document.getElementById("Quantity").value;
 		var bunitprice = document.getElementById("BUnitPrice").value;
-		var coo = getCookie("tocken");
-		var data1 = '{"StockId":"'+stockid+'","Quantity":"'+quantity+'","BUnitPrice":"'+bunitprice+'","Cookie":"'+coo+'"}';
+		var data1 = '{"OrderId":"'+orderid+'","UserId":"'+userid+'","UserName":"'+username+'","StockId":"'+stockid+'","StockName":"'+stockname+'","Quantity":"'+quantity+'","BUnitPrice":"'+bunitprice+'"}';
 
 		var obj = JSON.parse(data1);
 		$.post(url,obj,function(json){
@@ -96,11 +119,12 @@
 			}
 			else
 				mdui.alert("修改失败！");
+
 		})
 
 
 
-	}
 
+	}
 
 </script>

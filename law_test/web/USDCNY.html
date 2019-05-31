@@ -34,23 +34,18 @@
 <!-- Chart code -->
 <script>
     var data;
-    var isonline = 1;
+
     function getdata(){
         url = "showUSDCNYupdateAction"
         url = getQueryPath(url)
-        if(isonline==1){
-            $.post(url,function(json){
-                if(json.status == "error"&&isonline==1){
-                    isonline = 0;
-                    alert("必须登录！");
-                    window.location.href = getQueryPath("login");
-                }
-                else{
-                    setUSDCNYdata(json);
-                }
-            })
-        }
-
+        $.post(url,function(json){
+            if(json.status == "error"){
+                mdui.alert("必须登录！");
+            }
+            else{
+                setUSDCNYdata(json);
+            }
+        })
     }
 
     function setUSDCNYdata(json){
@@ -68,20 +63,15 @@
     }
     function getdatapic(){
         url = "showUSDCNYdataAction"
-        url = getQueryPath(url);
-        if(isonline==1){
-            $.post(url,function(json){
-                if(json.status == "error"){
-                    isonline = 0;
-                    alert("必须登录！");
-                    window.location.href = getQueryPath("login");
-                }
-                else{
-                    setUSDCNY(json);
-                }
-            })
-        }
-
+        url = getQueryPath(url)
+        $.post(url,function(json){
+            if(json.status == "error"){
+                mdui.alert("必须登录！");
+            }
+            else{
+                setUSDCNY(json);
+            }
+        })
     }
     function setUSDCNY(json){
         data = json.aaData;
@@ -469,12 +459,10 @@
     }
 
     function flush(){
-        if(isonline==1){
-            setInterval(function(){
-                console.log("123");
-                getdata();
-            },5*60*1000);
-        }
+        setInterval(function(){
+            console.log("123");
+            getdata();
+        },5*60*1000);
     }
 
     function is_holded(){

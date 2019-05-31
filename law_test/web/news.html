@@ -73,8 +73,7 @@
         url = getQueryPath(url);
         $.post(url,function(json){
             if(json.status == "error"){
-                alert("必须登录！");
-                window.location.href = getQueryPath("login");
+                mdui.alert("必须登录！");
             }
             else{
                 set_news(json);

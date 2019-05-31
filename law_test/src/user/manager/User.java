@@ -2,7 +2,6 @@ package user.manager;
 
 import utils.dbOpener;
 import utils.exceptionManager;
-import utils.checkUserName;
 
 import java.sql.*;
 import java.text.SimpleDateFormat;
@@ -135,9 +134,6 @@ public class User {
     }
 
     public static User addUser(String userName,String passwd,String email,String phone,String wechatId,String role_id) throws SQLException {
-        if(!checkUserName.RegexName(userName)){
-            return null;
-        }
         Connection conn = dbOpener.getDB();
         User user=findUser(userName,"UserName");
         if(user!=null){
@@ -181,6 +177,7 @@ public class User {
     public int getUserId() {
         return UserId;
     }
+
 
     public String getUserName() {
         return UserName;
