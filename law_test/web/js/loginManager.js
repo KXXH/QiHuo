@@ -4,6 +4,7 @@ var login_count=0;
 var token_username="";
 var token_count=0;
 var dayCount=7;
+var fab=new mdui.Fab('#loginFAB');
 function fetchTokenInfo(){
     var url=getQueryPath('getTokenAction');
 
@@ -13,6 +14,17 @@ function fetchTokenInfo(){
             tokenList=json.data;
             initTokenTable();
         }
+    });
+}
+
+function initFAB(){
+    document.getElementById('tokenTab').addEventListener('show.mdui.tab', function () {
+        console.log('token页面');
+        fab.hide();
+    });
+    document.getElementById('loginTab').addEventListener('show.mdui.tab', function () {
+        console.log('login页面');
+        fab.show();
     });
 }
 

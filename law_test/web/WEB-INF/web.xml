@@ -466,6 +466,8 @@
         <servlet-name>loginStatsticAction</servlet-name>
         <url-pattern>/loginStatsticAction</url-pattern>
     </servlet-mapping>
+
+    <servlet>
         <servlet-name>ChatGetUserName</servlet-name>
         <servlet-class>chat.ChatGetUserName</servlet-class>
     </servlet>

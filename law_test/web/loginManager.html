@@ -22,9 +22,9 @@
     <script src="//www.amcharts.com/lib/4/geodata/worldLow.js"></script>
 </head>
 
-<body onload="initPage();fetchTokenInfo();loadMoreLoginRecord();get_statistic()" class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-pink ">
+<body onload="initPage();initFAB();fetchTokenInfo();loadMoreLoginRecord();get_statistic()" class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-pink ">
 
-
+<button class="mdui-fab mdui-ripple mdui-fab-fixed mdui-color-red" style="z-index: 999;" id="loginFAB" mdui-dialog="{target: '#mapDlg'}"><i class="mdui-icon material-icons">equalizer</i></button>
 
 <div class="mdui-appbar mdui-appbar-fixed">
     <div class="mdui-toolbar mdui-color-theme">
@@ -58,8 +58,8 @@
     </div>
 
     <div class="mdui-tab" mdui-tab>
-        <a href="#tokenManager" class="mdui-ripple">Token管理</a>
-        <a href="#loginManager" class="mdui-ripple">登录记录查看</a>
+        <a href="#tokenManager" id="tokenTab" class="mdui-ripple">Token管理</a>
+        <a href="#loginManager" id="loginTab" class="mdui-ripple">登录记录查看</a>
     </div>
     <div id="tokenManager">
         <button class="mdui-btn" onclick="delToken()">删除</button>
@@ -81,7 +81,7 @@
         </div>
     </div>
     <div id="loginManager">
-        <button class="mdui-fab mdui-ripple mdui-fab-fixed mdui-color-red" mdui-dialog="{target: '#mapDlg'}"><i class="mdui-icon material-icons">equalizer</i></button>
+
         <button class="mdui-btn" onclick="queryLoginRecord()">查找</button>
         <div class="mdui-table-fluid mdui-m-b-2">
 
