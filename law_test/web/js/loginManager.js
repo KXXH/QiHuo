@@ -18,6 +18,7 @@ function fetchTokenInfo(){
 }
 
 function initFAB(){
+    fab.hide();
     document.getElementById('tokenTab').addEventListener('show.mdui.tab', function () {
         console.log('token页面');
         fab.hide();
