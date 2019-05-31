@@ -18,9 +18,11 @@
     <script src="https://www.amcharts.com/lib/4/lang/de_DE.js"></script>
     <script src="https://www.amcharts.com/lib/4/geodata/germanyLow.js"></script>
     <script src="js/utils.js"></script>
+    <script src="//www.amcharts.com/lib/4/maps.js"></script>
+    <script src="//www.amcharts.com/lib/4/geodata/worldLow.js"></script>
 </head>
 
-<body onload="initPage();fetchTokenInfo();loadMoreLoginRecord();" class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-pink ">
+<body onload="initPage();fetchTokenInfo();loadMoreLoginRecord();get_statistic()" class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-pink ">
 
 
 
@@ -62,7 +64,7 @@
     <div id="tokenManager">
         <button class="mdui-btn" onclick="delToken()">删除</button>
         <button class="mdui-btn" onclick="queryToken()">查找</button>
-        <div class="mdui-table-fluid">
+        <div class="mdui-table-fluid mdui-m-b-2">
             <table class="mdui-table mdui-table-hoverable mdui-table-selectable" id="token_table">
                 <thead>
                 <tr>
@@ -79,8 +81,9 @@
         </div>
     </div>
     <div id="loginManager">
+        <button class="mdui-fab mdui-ripple mdui-fab-fixed mdui-color-red" mdui-dialog="{target: '#mapDlg'}"><i class="mdui-icon material-icons">equalizer</i></button>
         <button class="mdui-btn" onclick="queryLoginRecord()">查找</button>
-        <div class="mdui-table-fluid">
+        <div class="mdui-table-fluid mdui-m-b-2">
 
             <table class="mdui-table mdui-table-hoverable" id="login_table">
                 <tr>
@@ -93,6 +96,19 @@
                 </tr>
             </table>
             <button class="mdui-btn" onclick="loadMoreLoginRecord()" style="width: 100%">加载更多</button>
+        </div>
+        <div class="mdui-dialog mdui-typo" id="mapDlg">
+            <div class="mdui-container">
+                <h3>登录地理位置热力图</h3>
+                <select class="mdui-select mdui-float-right" mdui-select id="dayCountSelect" onchange="dayCount=this[selectedIndex].value;get_statistic();">
+                    <option value="7">近一周</option>
+                    <option value="30">近30天</option>
+                    <option value="365">近一年</option>
+                </select>
+                <div id="chartdiv" class="mdui-m-a-1" style="height: 300px;" onload="">
+
+                </div>
+            </div>
         </div>
     </div>
 </div>

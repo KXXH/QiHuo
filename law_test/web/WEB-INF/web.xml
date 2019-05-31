@@ -456,4 +456,14 @@
         <servlet-name>showUSDCNYupdateAction</servlet-name>
         <url-pattern>/showUSDCNYupdateAction</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>loginStatsticAction</servlet-name>
+        <servlet-class>login.manager.statisticAction</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>loginStatsticAction</servlet-name>
+        <url-pattern>/loginStatsticAction</url-pattern>
+    </servlet-mapping>
 </web-app>
