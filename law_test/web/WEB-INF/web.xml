@@ -478,5 +478,5 @@
         <url-pattern>/ChatGetUserName</url-pattern>
     </servlet-mapping>
 
-    
+
 </web-app>
