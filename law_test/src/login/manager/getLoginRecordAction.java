@@ -30,21 +30,6 @@ public class getLoginRecordAction extends javax.servlet.http.HttpServlet {
         String user=request.getParameter("username");
         String lastUser=(String)session.getAttribute("lastUsername");
         User opUser= tokenChecker.tokenToUser(tokenExtractor.extractToken(request));
-        /*
-        if((user==null||user.length()==0)&&(lastUser==null||lastUser.length()==0)){
-            //上次访问未指定用户且本次访问未指定用户,则按照标准惰性加载
-        }else if(!(user==null||user.length()==0)&&(lastUser==null||lastUser.length()==0)){
-            //上次访问未指定用户但本次访问指定了用户,则清空惰性加载记忆
-            count=0;
-        }else if((user==null||user.length()==0)&&!(lastUser==null||lastUser.length()==0)){
-            //上次访问指定用户但本次访问未指定用户,则清空惰性加载记忆
-            count=0;
-        }else if(!(user==null||user.length()==0)&&!(lastUser==null||lastUser.length()==0)&&!user.equals(lastUser)){
-            //如果上次访问和本次访问都指定了用户且它们不同,则清空惰性加载记忆
-            count=0;
-        }else if(!(user==null||user.length()==0)&&!(lastUser==null||lastUser.length()==0)&&user.equals(lastUser)){
-            //否则,则不改变惰性加载记忆
-        }*/
         if(!Objects.equals(user, opUser.getUserName())&&!Objects.equals(opUser.getRole_id(), "super_admin")){
             sendManager.sendDefaultPermissionError(response);
         }
