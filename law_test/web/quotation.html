@@ -131,11 +131,22 @@
 
         </div>
         <div class="mdui-col-xs-4">
+
+            <div class="mdui-dialog" id="dialog">
+                <div class="mdui-dialog-title">Are you sure?</div>
+                <div class="mdui-dialog-content">You'll lose all photos and media!</div>
+                <div class="mdui-dialog-actions">
+                    <button class="mdui-btn mdui-ripple">cancel</button>
+                    <button class="mdui-btn mdui-ripple">erase</button>
+                </div>
+            </div>
+
             <form id="chatForm" style="margin-top: 3%">
                 <button type="button" class="mdui-btn mdui-color-theme-accent mdui-ripple" onclick="connect()"><i class="mdui-icon material-icons">&#xe0b7;</i> Chat</button>
+                <button type="button" class="mdui-btn mdui-color-theme-accent mdui-ripple" onclick="help()"><i class="mdui-icon material-icons">&#xe887;</i> Help</button>
             </form>
             <div class="mdui-textfield">
-                <textarea id="msg" class="mdui-textfield-input" placeholder="格式:@xxx#消息 , 或者@ALL#消息"></textarea>
+                <textarea id="msg" class="mdui-textfield-input"></textarea>
 
             </div>
             <button type="button" class="mdui-btn mdui-color-theme-accent mdui-ripple" onclick="send()"><i class="mdui-icon material-icons">&#xe163;</i> Send</button>
@@ -282,5 +293,14 @@
             },5*60*1000);
         }
 
+    }
+    function help(){
+        var title = '聊天帮助手册';
+        var content = '操作步骤：点击Chat按钮进入聊天室，连接成功会有提示，在第一个对话框输入内容，点击按钮Send发送' +
+                '<br><br>群发：@ALL#message，比如@ALL#大家好；当然也可以直接发消息，比如大家好' +
+                '<br>私发：@xxx@xxx#message,比如@A@B#你们好，表示给A和B发送你们好' +
+                '<br><br>大家可以在这里谈论当前行情的情况' +
+                '<br>该聊天室必须连接进入才能收到消息，所以@对象不在线是无法发送的！';
+        mdui.alert(content,title);
     }
 </script>
