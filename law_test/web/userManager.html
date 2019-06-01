@@ -247,6 +247,7 @@
     //document.getElementById("output").href="/dataToCSVAction?token="+getCookie("tocken");
 
     function addUser(){
+
         console.log("add method is on");
         document.forms['user_edit_form']['user_id'].value="";
         document.forms['user_edit_form']['username'].value="";
@@ -285,11 +286,13 @@
         if(!(is_email_ok&&is_username_ok)){
             return;
         }
+        console.log(document.forms['user_edit_form']['user_id'].value.length);
         if(document.forms['user_edit_form']['user_id'].value.length==0){addUserInfo();}
         else{updateUserInfo();}
     }
     function addUserInfo(){
-
+        checkEmail(false);
+        checkUsername(false);
         if(!(is_email_ok&&is_username_ok)){
             return;
         }
@@ -305,6 +308,7 @@
         $.post(url,j,function(json){
             if(json.status=="ok"){
                 mdui.snackbar({'message':'添加成功!'});
+                edit_dialog.close();
             }
             else{
                 mdui.snackbar({'message':'添加失败!'});
@@ -458,6 +462,8 @@
     }
 
     function updateUserInfo(){
+        checkEmail(true);
+        checkUsername(true);
         if(!(is_email_ok&&is_username_ok)){
             return;
         }
@@ -473,6 +479,7 @@
         $.post(url,j,function(json){
             if(json.status=="ok"){
                 mdui.snackbar({'message':'修改成功!'});
+                edit_dialog.close();
             }
             else{
                 mdui.snackbar({'message':'修改失败!'});
@@ -532,7 +539,7 @@
                     option.parentNode.removeAttribute("mdui-tooltip");
                     is_email_ok=false;
                     is_username_ok=false;
-                    document.getElementById("btn_submit").onclick=function(){addUserInfo();};
+                    document.getElementById("btn_submit").onclick=function(){updateUserInfo();};
                     document.getElementById("username_textfield").className="mdui-textfield";
                     document.getElementById("username_edit").onblur=function(){checkUsername(true);};
                     document.getElementById("email_edit").onblur=function(){checkEmail(true);};
@@ -651,13 +658,14 @@
     }
 
     function checkEmail(flag){
-        if(flag==true){
+        var email=document.getElementById("email_edit").value;
+        if(flag&&raw_email==email){
             is_email_ok=true;
             document.getElementById("email_textfield").className="mdui-textfield";
             document.getElementById("email_err_msg").innerHTML="请填写邮箱!";
             return;
         }
-        var email=document.getElementById("email_edit").value;
+
         var j={'email':email};
         var url=getQueryPath("checkEmailAvailable");
 
