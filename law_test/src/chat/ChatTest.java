@@ -4,6 +4,7 @@ package chat;
  * Created by 11913 on 2019/5/29.
  */
 import com.mysql.jdbc.StringUtils;
+import utils.SensitiveWordChecked;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -48,24 +49,28 @@ public class ChatTest {
 
     @OnMessage
     public void sendTex(String msg){
+        SensitiveWordChecked sensitiveWordChecked = new SensitiveWordChecked();
         //@ALL表示群发，@XXX#message表示私发
+        //System.out.println(msg.charAt(msg.length()-1));
         try{
-            if(msg=="")
+            if(msg.length()==0||msg.charAt(msg.length()-1)=='#')
                 return;
             String[] split = msg.split("#");
             if(split.length>1){
                 String[] users = split[0].split("@");
                 if(users.length<2){return;}
                 String firstuser = users[1].trim();
+                String txt = sensitiveWordChecked.replaceSensitiveWord(split[1],1,"*");
                 if (firstuser==""||"ALL".equals(firstuser.toUpperCase())){
-                    String message =username +": "+ split[1];
+                    String message =username +": "+ txt;
                     sendInfo(message);//群发消息
                 }else{//给特定人员发消息
                     for (String user : users) {
-                        sendMessageToSomeBody(user.trim(),split[1]);
+                        sendMessageToSomeBody(user.trim(),txt);
                     }
                 }
             }else{
+                msg = sensitiveWordChecked.replaceSensitiveWord(msg,1,"*");
                 sendInfo(username +": "+msg);
             }
         }catch (IOException e) {

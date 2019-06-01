@@ -10,7 +10,14 @@ import news.getNews.mainGetNews;
 import quotation.getXLdata.getEconomicData;
 import quotation.getXLdata.moveDataToDB;
 import quotation.getXLdata.updateUSDCNYdata;
+import utils.SensitiveWordChecked;
+import utils.SensitiveWordInit;
 import utils.checkUserName;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
 public class autoRun implements ServletContextListener{
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
@@ -27,6 +34,10 @@ public class autoRun implements ServletContextListener{
         updateUSDCNYdata.main(null);
         */
 
+        SensitiveWordInit sensitiveWordInit = new SensitiveWordInit();
+        HashMap<String,String> map = (HashMap) sensitiveWordInit.initKeyWord();
+
+        System.out.println(SensitiveWordInit.sensitiveWordMap);
 
     }
 
