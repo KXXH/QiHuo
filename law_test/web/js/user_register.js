@@ -17,7 +17,7 @@ function checkUsername(){
             document.getElementById("username_err_msg").innerText="用户名不能为空!";
         }else{
             is_username_ok=false;
-            document.getElementById("username_err_msg").innerText="用户名已存在!";
+            document.getElementById("username_err_msg").innerText=json.error;
             document.getElementById("username_textfield").className="mdui-textfield mdui-textfield-invalid-html5 mdui-textfield-has-bottom";
         }
     })

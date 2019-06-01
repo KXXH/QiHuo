@@ -6,11 +6,15 @@ import utils.*;
 public class checkUsernameAvailable extends javax.servlet.http.HttpServlet {
     protected void doPost(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, java.io.IOException {
         String username=request.getParameter("username");
+        if(!checkUserName.RegexName(username)){
+            sendManager.sendErrorJSONWithMsg(response,"用户名不合法");
+        }
         User user=User.findUser(username,"UserName");
+
         if(user==null){
             sendManager.sendSimpleOKJSON(response);
         }else{
-            sendManager.sendErrorJSONWithMsg(response,"用户未找到");
+            sendManager.sendErrorJSONWithMsg(response,"该用户名已存在!");
         }
     }
 
