@@ -21,27 +21,22 @@
     <script src="js/utils.js"></script>
 </head>
 
-<body onload="initPage();fetchUserInfo();" class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-pink ">
+<body onload="fetchUserInfo();" class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-pink ">
 
 
 
-<div class="mdui-appbar mdui-appbar-fixed">
-    <div class="mdui-toolbar mdui-color-theme">
-        <a class="mdui-btn mdui-btn-icon" mdui-drawer="{target: '#left-drawer'}"><i class="mdui-icon material-icons">menu</i></a>
-        <a href="javascript:;" class="mdui-typo-headline">期货交易系统</a>
-        <a href="javascript:;" class="mdui-typo-title">用户管理</a>
-        <div class="mdui-toolbar-spacer"></div>
-        <a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></a>
-        <a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">refresh</i></a>
-        <a onclick="logOut();" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">exit_to_app</i></a>
-    </div>
+<div id="inc_appbar">
 </div>
 
-<div class="mdui-drawer mdui-shadow-5" id="left-drawer">
-    <div class="mdui-spinner mdui-spinner-colorful" id="loader" style="display: block;margin-left:auto;margin-right:auto;margin-top: 50%"></div>
-    <div class="mdui-list mdui-collapse" mdui-collapse="{accordion:true}" id="drawer"></div>
-
+<div id="inc_drawer">
 </div>
+<script>
+    $('#inc_appbar').load("index_beta.html #appbar");
+    $('#inc_drawer').load("index_beta.html #left-drawer",function(responseTxt,statusTxt,xhr){
+        initPage();
+        $('#title').text("用户管理");
+    });
+</script>
 <div class="mdui-container">
 
     <ul class="mdui-menu mdui-menu-cascade" id="sort_menu">
