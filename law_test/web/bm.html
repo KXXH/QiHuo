@@ -102,8 +102,8 @@
 
 			<button class="mdui-btn" mdui-menu="{target:'#sort_menu'}">排序</button>
 			<button class="mdui-btn" mdui-dialog="{'target':'#search_dialog'}">查找</button>
-			<button type="button" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="window.location='bus_print.html'">打印</button>
-			<a href = "busdataToCSV" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent">导出</a>
+			<button type="button" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="window.location='bm_print.html'">打印</button>
+			<a href = "bmdataToCSV" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent">导出</a>
 			<button type="button"class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="home()">仓库主页</button>
 			<div class="mdui-dialog" id="search_dialog">
 				<div class="mdui-dialog-title">查找订单</div>
@@ -146,39 +146,41 @@
 
 	<div class="mdui-dialog" id="modify">
 		<div class="mdui-dialog-content">
-			<div class="mdui-dialog-title">修改交易记录</div>
-			请将您要修改的内容填入
+			<div class="mdui-dialog-title">确认订单</div>
+			请将您确定订单内容
 			<div class="mdui-textfield">
 				<input class="mdui-textfield-input" type="text" disabled placeholder="order_id" id="order_id"/>
 			</div>
 
 			<div class="mdui-textfield">
 				<label class="mdui-textfield-label">用户ID</label>
-				<input class="mdui-textfield-input" id="user_id" oninput="value=value.replace(/[^\d]/g,'')" maxlength="3"/>
+				<input class="mdui-textfield-input" id="user_id" disabled placeholder="user_id"/>
 			</div>
+
 			<div class="mdui-textfield">
 				<label class="mdui-textfield-label">用户名称</label>
-				<input class="mdui-textfield-input" id="user_name"/>
+				<input class="mdui-textfield-input" id="user_name" disabled placeholder="user_name"/>
 			</div>
+
 			<div class="mdui-textfield">
 				<label class="mdui-textfield-label">股票ID</label>
-				<input class="mdui-textfield-input" id="stock_id" oninput="value=value.replace(/[^\d]/g,'')" maxlength="3"/>
+				<input class="mdui-textfield-input" id="stock_id" disabled placeholder="stock_id"/>
 			</div>
 			<div class="mdui-textfield">
 				<label class="mdui-textfield-label">股票名称</label>
-				<input class="mdui-textfield-input" id="stock_name"/>
+				<input class="mdui-textfield-input" id="stock_name" disabled placeholder="stock_name"/>
 			</div>
 			<div class="mdui-textfield">
 				<label class="mdui-textfield-label">持有数量</label>
-				<input class="mdui-textfield-input" id="quantity" oninput="value=value.replace(/[^\d]/g,'')" maxlength="5"/>
+				<input class="mdui-textfield-input" id="quantity" disabled placeholder="quantity"/>
 			</div>
 			<div class="mdui-textfield">
 				<label class="mdui-textfield-label">订单价格</label>
-				<input class="mdui-textfield-input" id="bunitprice" oninput="value=value.replace(/[^\d]/g,'')" maxlength="6"/>
+				<input class="mdui-textfield-input" id="bunitprice" disabled placeholder="bunitprice"/>
 			</div>
 			<div class="mdui-textfield">
 				<label class="mdui-textfield-label">交易时间</label>
-				<input class="mdui-textfield-input" type="datetime" id="createat"/>
+				<input class="mdui-textfield-input" type="datetime" id="createat" disabled placeholder="createat"/>
 			</div>
 		</div>
 		<div class="mdui-dialog-actions">
@@ -251,7 +253,7 @@
 	}
 
 	function modify(){
-		url = "buschangeAction";
+		url = "bmchangeAction";
 		url = getQueryPath(url)
 		orderid=document.getElementById("order_id").value;
 		userid=document.getElementById("user_id").value;
@@ -264,24 +266,39 @@
 		var data = '{"OrderId":"'+orderid+'","UserId":"'+userid+'","UserName":"'+username+'","StockId":"'+stockid+'","StockName":"'+stockname+'","Quantity":"'+quantity+'","BUnitPrice":"'+bunitprice+'","CreateAt":"'+createat+'"}';
 		var obj = JSON.parse(data);
 		$.post(url,obj,function(json){
+			console.log("dao zhe li le!!!");
 			if(json.status=="1"){
 				limit = limit -15;
 				mdui.snackbar({'message':'修改成功！'});
 				show(1);
 			}
+			else if(json.status=="error")
+			{
+				console.log("1234567788");
+				if(json.code==2)
+				{
+					console.log("4645635");
+					mdui.snackbar({'message':'不能购买自己发布的订单！'});
+					show(1);
+				}
+				else
+				{
+					console.log("7777777777");
+					mdui.snackbar({'message':'修改失败！'});
+					show(1);
+				}
 
-			else
-				mdui.snackbar({'message':'修改失败！'});
-			show(1);
+			}
 		})
 	}
 
 	function home(){
-		window.location="bus_query_list.html";
+		window.location="bm_query_list.html";
 	}
+
 	function delet(id){
 		mdui.confirm("您确认要删除这个用户吗?<br>注意：删除操作是不可逆的，请仔细考虑!","删除确认",function(){
-			var url = "busdeleteAction?OrderId="+id;
+			var url = "bmdeleteAction?OrderId="+id;
 			url=getQueryPath(url);
 			var data1 = '{"OrderId":"'+id+'"}';
 
@@ -306,7 +323,7 @@
 	}
 
 	function exported(){
-		var url = "busdataToCSV";
+		var url = "bmdataToCSV";
 		url=getQueryPath(url);
 		$.post(url,function(json){
 			console.log(JSON.stringify(json));
@@ -314,7 +331,7 @@
 	}
 
 	function query(){
-		var url = "busquerylistAction";
+		var url = "bmquerylistAction";
 		url=getQueryPath(url);
 		console.log("22222222222222");
 		orderid = document.getElementById("OrderId").value;
@@ -351,7 +368,7 @@
 			var id = list[i].orderid;
 			newNode.innerHTML = "<td>"+list[i].orderid+"</td>"
 			newNode.innerHTML += "<td>"+list[i].userid +"</td><td>"+list[i].username +"</td><td>"+list[i].stockid +"</td><td>"+list[i].stockname +"</td><td>"+list[i].quantity +"</td><td>"+list[i].bunitprice +"</td><td>" +list[i].createat + "</td>";
-			newNode.innerHTML += "<td><button class=\"mdui-btn mdui-btn-raised\" onclick='delet("+id+")'>删除</button><button class=\"mdui-btn mdui-btn-raised\" onclick='modify_record("+i+")'>修改</button></td>"
+			newNode.innerHTML += "<td><button class=\"mdui-btn mdui-btn-raised\" onclick='modify_record("+i+")'>买入</button></td>"
 			table.appendChild(newNode);
 		}
 	}
@@ -368,7 +385,7 @@
 	}
 	function show(Order){
 
-		var url = "busquerylistAction";
+		var url = "bmquerylistAction";
 		url=getQueryPath(url);
 		sel1 = $("input[type=radio][name=group1]:checked").val();
 		sel2 = $("input[type=radio][name=group2]:checked").val();
@@ -379,7 +396,7 @@
 			//console.log(JSON.stringify(json));
 			bus_info=json.list;
 			if(json.status == "error"){
-				mdui.alert("您不是管理员！");
+				mdui.alert("出错了！");
 			}
 			else{
 				if(json.end == 1 && Order == 0)
@@ -427,7 +444,7 @@
 	}
 
 	function statistics(){
-		var url = "busstatisticAction";
+		var url = "bmstatisticAction";
 		url=getQueryPath(url);
 		$.post(url,function(json){
 			console.log(JSON.stringify(json));

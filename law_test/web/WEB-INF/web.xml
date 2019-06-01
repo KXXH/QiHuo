@@ -294,7 +294,6 @@
         <servlet-name>busquerylistAction</servlet-name>
         <servlet-class>business.query.busquerylistAction</servlet-class>
     </servlet>
-
     <servlet-mapping>
         <servlet-name>busquerylistAction</servlet-name>
         <url-pattern>/busquerylistAction</url-pattern>
@@ -345,7 +344,52 @@
         <servlet-name>busstatisticAction</servlet-name>
         <url-pattern>/busstatisticAction</url-pattern>
     </servlet-mapping>
-    
+
+    <servlet>
+        <servlet-name>bmquerylistAction</servlet-name>
+        <servlet-class>transaction.bm.query.bmquerylistAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>bmquerylistAction</servlet-name>
+        <url-pattern>/bmquerylistAction</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>bmregisterAction</servlet-name>
+        <servlet-class>transaction.bm.register.bmregisterAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>bmregisterAction</servlet-name>
+        <url-pattern>/bmregisterAction</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>bmchangeAction</servlet-name>
+        <servlet-class>transaction.bm.change.bmchangeAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>bmchangeAction</servlet-name>
+        <url-pattern>/bmchangeAction</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>bmdataToCSV</servlet-name>
+        <servlet-class>transaction.bm.expor.bmdataToCSV</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>bmdataToCSV</servlet-name>
+        <url-pattern>/bmdataToCSV</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>bmstatisticAction</servlet-name>
+        <servlet-class>transaction.bm.statistic.bmstatisticAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>bmstatisticAction</servlet-name>
+        <url-pattern>/bmstatisticAction</url-pattern>
+    </servlet-mapping>
+
     <servlet>
         <servlet-name>getDataToShowAction</servlet-name>
         <servlet-class>quotation.getXLdata.getDataToShowAction</servlet-class>

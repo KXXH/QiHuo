@@ -266,12 +266,12 @@
 		$.post(url,obj,function(json){
 			if(json.status=="1"){
 				limit = limit -15;
-				mdui.snackbar({'message':'修改成功！'});
+				mdui.alert("修改成功！");
 				show(1);
 			}
 
 			else
-				mdui.snackbar({'message':'修改失败！'});
+				alert("修改失败！");
 			show(1);
 		})
 	}

@@ -1,4 +1,4 @@
-package business.query;
+package transaction.bm.query;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,9 +23,8 @@ import java.util.List;
 import java.util.Map;
 
 
-
-@WebServlet(name = "busquerylistAction")
-public class busquerylistAction extends HttpServlet {
+@WebServlet(name = "bmquerylistAction")
+public class bmquerylistAction extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 
@@ -54,10 +53,10 @@ public class busquerylistAction extends HttpServlet {
             Statement statement = conn.createStatement();
             String sql;
             if(orderid.length()==0 && userid.length()==0 && username.length()==0 && stockid.length()==0 && stockname.length()==0){
-                sql = "SELECT * FROM tbl_userwh ORDER BY " + sel1 +"," +sel1 + "," +sel3 + "," +sel4 + " desc LIMIT " +limit;
+                sql = "SELECT * FROM tbl_bm ORDER BY " + sel1 +"," +sel1 + "," +sel3 + "," +sel4 + " desc LIMIT " +limit;
             }
             else{
-                sql = "select * from tbl_userwh WHERE UserId='"+userid+"'or UserName='"+username+"' or StockId='"+stockid+"' or StockName='"+stockname+"' or OrderId='"+orderid+"' ORDER BY "+sel1+","+sel2+","+sel3+","+sel4+" DESC LIMIT " +limit;
+                sql = "select * from tbl_bm WHERE UserId='"+userid+"'or UserName='"+username+"' or StockId='"+stockid+"' or StockName='"+stockname+"' or OrderId='"+orderid+"' ORDER BY "+sel1+","+sel2+","+sel3+","+sel4+" DESC LIMIT " +limit;
             }
             System.out.println(sql);
             ResultSet rs = statement.executeQuery(sql);

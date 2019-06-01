@@ -15,7 +15,7 @@ xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
 xmlns="http://www.w3.org/TR/REC-html40">
 
 <head>
- <title>打印交易记录信息</title>
+ <title>打印买方市场订单</title>
 <meta http-equiv=Content-Type content="text/html; charset=UTF-8">
 <meta name=ProgId content=Word.Document>
 <meta name=Generator content="Microsoft Word 15">
@@ -968,11 +968,11 @@ table.MsoTable15Plain1OddRow
  var stockname="";
 
  function getback(){
-  window.location.href="bus_query_list.html";
+  window.location.href="bm.html";
  }
 
  function get_all_news(){
-    var url = "busquerylistAction";
+    var url = "bmquerylistAction";
     url=getQueryPath(url);
     var sel1 = "OrderId";
     var sel2 = "UserId";
