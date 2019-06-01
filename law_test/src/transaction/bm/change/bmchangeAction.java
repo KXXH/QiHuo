@@ -52,7 +52,6 @@ public class bmchangeAction extends HttpServlet {
                 //sendManager.sendErrorJSONWithMsgAndCode(response,a,2);
                 return;
             }
-            if((quantity*bunitprice)>)
             String sql = "update tbl_userwh set UserId='" + userid + "',UserName='" + user_name + "',StockId='" + stockid + "',StockName='" + stockname + "',Quantity='" + quantity + "',BUnitPrice='" + bunitprice + "',CreateAt='" + createat + "' WHERE OrderId='" + orderid + "'";
             System.out.println(sql);
             Statement statement = conn.createStatement();

@@ -23,7 +23,8 @@ public class User {
     private String WechatId;
     private String CreateAt;
     private String role_id;
-    public User(int id,String username,String password, String email, String phone, String wechatId, String createAt, String role){
+    private double balance;
+    public User(int id,String username,String password, String email, String phone, String wechatId, String createAt, String role,double balance){
         UserId=id;
         UserName=username;
         Passwd=password;
@@ -32,6 +33,7 @@ public class User {
         WechatId=wechatId;
         CreateAt=createAt;
         role_id=role;
+        this.balance=balance;
     }
     private static String getQuerySQL(String column){
         return "SELECT * FROM tbl_userinfo WHERE "+column+"=?";
@@ -45,6 +47,17 @@ public class User {
         ptmt.execute();
         conn.close();
     }
+
+    private void executeUpdate(double target,String column) throws SQLException {
+        Connection conn = dbOpener.getDB();
+        String sql="UPDATE tbl_userinfo SET "+column+"=? WHERE UserId=?";
+        PreparedStatement ptmt = conn.prepareStatement(sql);
+        ptmt.setDouble(1,target);
+        ptmt.setInt(2,UserId);
+        ptmt.execute();
+        conn.close();
+    }
+
     public static User login(String userName,String passwd){
         try {
             Connection conn = dbOpener.getDB();
@@ -121,7 +134,7 @@ public class User {
                 User user = new User(
                         rs.getInt("UserId"),rs.getString("UserName"),rs.getString("Passwd"),
                         rs.getString("Email"),rs.getString("Phone"),rs.getString("WechatId"),
-                        rs.getString("CreateAt"),rs.getString("role_id")
+                        rs.getString("CreateAt"),rs.getString("role_id"),rs.getDouble("Balance")
                 );
                 conn.close();
                 return user;
@@ -148,7 +161,7 @@ public class User {
                 User user = new User(
                         rs.getInt("UserId"),rs.getString("UserName"),rs.getString("Passwd"),
                         rs.getString("Email"),rs.getString("Phone"),rs.getString("WechatId"),
-                        rs.getString("CreateAt"),rs.getString("role_id")
+                        rs.getString("CreateAt"),rs.getString("role_id"),rs.getDouble("Balance")
                 );
                 conn.close();
                 return user;
@@ -213,7 +226,7 @@ public class User {
             id=rs.getInt("UserId");
         }
         conn.close();
-        user=new User(id,userName,passwd,email,phone,wechatId,sdate,role_id);
+        user=new User(id,userName,passwd,email,phone,wechatId,sdate,role_id,0);
         return user;
 
     }
@@ -336,5 +349,15 @@ public class User {
             case "super_admin":default:
                 return false;
         }
+    }
+
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) throws SQLException {
+        this.balance = balance;
+        executeUpdate(balance,"Balance");
     }
 }

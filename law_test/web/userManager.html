@@ -236,6 +236,7 @@
     var is_email_ok=false;
     var is_username_ok=false;
     var raw_username="";
+    var raw_email="";
     edit_dialog.close();
     $('input[type=radio][name=sorted_by]').change(function(){
         fetchUserInfo();
@@ -270,9 +271,17 @@
         document.getElementById("btn_submit").innerText='提交';
         document.getElementById("username_textfield").className="mdui-textfield";
         document.getElementById("username_edit").onblur=function(){checkUsername(false);};
+        document.getElementById("email_edit").onblur=function(){checkEmail(false);};
         edit_dialog.open();
     }
     function submitEdit(){
+        if(document.forms['user_edit_form']['user_id'].value.length==0){
+            checkEmail(false);
+            checkUsername(false);
+        }else{
+            checkEmail(true);
+            checkUsername(true);
+        }
         if(!(is_email_ok&&is_username_ok)){
             return;
         }
@@ -503,7 +512,9 @@
         document.forms['user_edit_form']['user_id'].value=user_info[i].user_id;
         document.forms['user_edit_form']['username'].value=user_info[i].username;
         raw_username=user_info[i].username;
+
         document.forms['user_edit_form']['email'].value=user_info[i].email;
+        raw_email=user_info[i].email;
         document.forms['user_edit_form']['phone'].value=user_info[i].phone;
         document.forms['user_edit_form']['wechat_id'].value=user_info[i].wechat_id;
         document.forms['user_edit_form']['role_id_radio'].value=user_info[i].role_id;
@@ -524,6 +535,7 @@
                     document.getElementById("btn_submit").onclick=function(){addUserInfo();};
                     document.getElementById("username_textfield").className="mdui-textfield";
                     document.getElementById("username_edit").onblur=function(){checkUsername(true);};
+                    document.getElementById("email_edit").onblur=function(){checkEmail(true);};
                     edit_dialog.open();
                 }
             }else if(json.status=="error"&&json.code==123){
@@ -638,11 +650,17 @@
         })
     }
 
-    function checkEmail(){
-
+    function checkEmail(flag){
+        if(flag==true){
+            is_email_ok=true;
+            document.getElementById("email_textfield").className="mdui-textfield";
+            document.getElementById("email_err_msg").innerHTML="请填写邮箱!";
+            return;
+        }
         var email=document.getElementById("email_edit").value;
         var j={'email':email};
         var url=getQueryPath("checkEmailAvailable");
+
         $.post(url,j,function(json){
             if(json.status=="error"){
                 is_email_ok=false;
