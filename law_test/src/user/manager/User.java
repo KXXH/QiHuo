@@ -1,5 +1,6 @@
 package user.manager;
 
+import utils.MD5;
 import utils.dbOpener;
 import utils.exceptionManager;
 import utils.checkUserName;
@@ -7,6 +8,8 @@ import utils.checkUserName;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
+
+
 
 /**
  * Created by zjm97 on 2019/5/15.
@@ -45,6 +48,8 @@ public class User {
     public static User login(String userName,String passwd){
         try {
             Connection conn = dbOpener.getDB();
+            /*
+
             String sql="SELECT * FROM tbl_userinfo WHERE UserName=? AND Passwd=?";
             PreparedStatement ptmt = conn.prepareStatement(sql);
             ptmt.setString(1,userName);
@@ -58,6 +63,41 @@ public class User {
                 conn.close();
                 return findUser(userName,"UserName");
             }
+            */
+            String sql="SELECT * FROM tbl_userinfo WHERE UserName=?";
+            PreparedStatement ptmt=conn.prepareStatement(sql);
+            ptmt.setString(1,userName);
+            ResultSet rs=ptmt.executeQuery();
+            if(rs.next()){
+                int encryptFlag=rs.getInt("is_encrypted");
+                if(encryptFlag==0){
+                    String password=rs.getString("Passwd");
+                    if(Objects.equals(password, passwd)){
+                       sql="UPDATE tbl_userinfo SET Passwd=?,is_encrypted=1 WHERE UserName=?";
+                        ptmt=conn.prepareStatement(sql);
+                        ptmt.setString(1, MD5.md5(passwd));
+                        ptmt.setString(2,userName);
+                        ptmt.execute();
+                        conn.close();
+                        return findUser(userName,"UserName");
+                    }else{
+                        conn.close();
+                        return null;
+                    }
+                }else{
+                    if(MD5.verify(passwd,rs.getString("Passwd"))){
+                        conn.close();
+                        return findUser(userName,"UserName");
+                    }else{
+                        conn.close();
+                        return null;
+                    }
+                }
+            }else{
+                conn.close();
+                return null;
+            }
+
         } catch (SQLException e) {
             exceptionManager.logException(e,Thread.currentThread().getStackTrace()[1].getClassName());
             e.printStackTrace();

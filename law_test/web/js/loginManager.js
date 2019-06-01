@@ -122,6 +122,8 @@ function get_statistic(){
 }
 
 function drawChart(data,min,max){
+    am4core.useTheme(am4themes_material);
+    am4core.useTheme(am4themes_animated);
     var chart = am4core.create("chartdiv", am4maps.MapChart);
 
     chart.geodataSource.url = "images/china.json";
