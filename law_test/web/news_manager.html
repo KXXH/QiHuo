@@ -80,8 +80,6 @@
         排序
     </button>
     <button class="mdui-btn" mdui-dialog="{'target':'#search_dialog'}">查找</button>
-    <a class="mdui-btn" href="news_print.htm">打印</a>
-    <a class="mdui-btn" id="output" href="newsExportAction">导出</a>
     <div class="mdui-dialog" id="search_dialog">
         <div class="mdui-dialog-title">查找新闻</div>
         <form name="user_search_form" class="mdui-dialog-content">
@@ -152,6 +150,21 @@
         </div>
     </div>
 
+    <div class="mdui-fab-wrapper" id="Fab" mdui-fab="{trigger: 'hover'}">
+        <button class="mdui-fab mdui-ripple mdui-color-red">
+            <!-- 默认显示的图标 -->
+            <i class="mdui-icon material-icons">add</i>
+
+            <!-- 在拨号菜单开始打开时，平滑切换到该图标，若不需要切换图标，则可以省略该元素 -->
+            <i class="mdui-icon mdui-fab-opened material-icons">add</i>
+        </button>
+        <div class="mdui-fab-dial">
+
+            <a class="mdui-fab mdui-fab-mini mdui-ripple mdui-color-yellow" href="news_print.htm"><i class="mdui-icon material-icons" mdui-tooltip="{content: '打印',position:'left'}">print</i></a>
+            <a class="mdui-fab mdui-fab-mini mdui-ripple mdui-color-orange"  id="export_dialog"><i class="mdui-icon material-icons" mdui-tooltip="{content: '导出',position:'left'}">file_download</i></a>
+
+        </div>
+    </div>
 
 </div>
 </body>
@@ -308,5 +321,24 @@ function get_all_news(Order){
 
         })
     }
+    mdui.JQ('#export_dialog').on('click',function(){
+        mdui.dialog({
+            title: '新闻导出',
+            content: '确定导出到本地吗？',
+            buttons: [
+                {
+                    text: '取消'
+                },
+                {
+                    text: '确认',
+                    onClick: function(inst){
+                        window.location.href='';
+                        window.location.href='newsExportAction';
+                        mdui.alert("已导出到本地！");
+                    }
+                }
+            ]
+        });
+    })
 </script>
 </html>

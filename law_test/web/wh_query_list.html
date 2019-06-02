@@ -54,7 +54,7 @@
 				<button class="mdui-btn" mdui-dialog="{'target':'#search_dialog'}">查找</button>
 				<button type="button" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="add()">添加</button>
 				<button type="button" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="window.location='wh_print.html'">打印</button>
-				<a href = "whdataToCSV" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent">导出</a>
+				<a class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" id="export_dialog">导出</a>
 				<button type="button" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="window.location='wh_statistics.html'">统计</button>
 			</div>
 
@@ -104,5 +104,23 @@
 </html>
 
 <script>
-
+	mdui.JQ('#export_dialog').on('click',function(){
+		mdui.dialog({
+			title: '持仓导出',
+			content: '确定导出到本地吗？',
+			buttons: [
+				{
+					text: '取消'
+				},
+				{
+					text: '确认',
+					onClick: function(inst){
+						window.location.href='';
+						window.location.href='whdataToCSV';
+						mdui.alert("已导出到本地！");
+					}
+				}
+			]
+		});
+	})
 </script>
