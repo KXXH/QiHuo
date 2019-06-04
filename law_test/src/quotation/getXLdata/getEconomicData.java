@@ -160,8 +160,8 @@ class GetDataThread extends Thread {
                         q[i].setName(content.split(",")[9]);
                         q[i].setQuotation(Double.parseDouble(content.split(",")[1]));
                         DecimalFormat df=new DecimalFormat("0.0000");
-                        double d1 = Double.parseDouble(content.split(",")[3])-Double.parseDouble(content.split(",")[2]);
-                        double d2 = d1/Double.parseDouble(content.split(",")[3]);
+                        double d1 = Double.parseDouble(content.split(",")[2])-Double.parseDouble(content.split(",")[3]);
+                        double d2 = d1/Double.parseDouble(content.split(",")[3])*100;
                         q[i].setRiseOrFall(Double.parseDouble(df.format(d1)));
                         q[i].setROFper(Double.parseDouble(df.format(d2)));
                         break;
@@ -169,8 +169,8 @@ class GetDataThread extends Thread {
                         q[i].setName(content.split(",")[9]);
                         q[i].setQuotation(Double.parseDouble(content.split(",")[8]));
                         DecimalFormat df1=new DecimalFormat("0.0000");
-                        double d3 = Double.parseDouble(content.split(",")[3])-Double.parseDouble(content.split(",")[8]);
-                        double d4 = d3/Double.parseDouble(content.split(",")[3]);
+                        double d3 = Double.parseDouble(content.split(",")[8])-Double.parseDouble(content.split(",")[3]);
+                        double d4 = d3/Double.parseDouble(content.split(",")[3])*100;
                         q[i].setRiseOrFall(Double.parseDouble(df1.format(d3)));
                         q[i].setROFper(Double.parseDouble(df1.format(d4)));
                         break;

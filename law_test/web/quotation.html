@@ -245,6 +245,7 @@
                     imageNode.innerHTML = "<img src='http://image.sinajs.cn/newchart/futures/forex/min5_m_hollow/"+ list[i].image+".gif' width='60%' height=auto>"
                     parent.appendChild(imageNode);
                     break;
+                case 9:
                 case 3:
                     var parent = document.getElementById("us");
                     parent.appendChild(Node);
@@ -260,6 +261,8 @@
                 case 5:
                     var parent = document.getElementById("hl");
                     parent.appendChild(Node);
+                    imageNode.innerHTML = "<img src='http://image.sinajs.cn/newchart/v5/forex/min_m/"+ list[i].image+".gif' width='60%' height=auto>"
+                    parent.appendChild(imageNode);
                     break;
                 case 6:
                     var parent = document.getElementById("jp");
@@ -267,18 +270,8 @@
                     imageNode.innerHTML = "<img src='http://image.sinajs.cn/newchart/futures/forex/min5_m_hollow/"+ list[i].image+".gif' width='60%' height=auto>"
                     parent.appendChild(imageNode);
                     break;
-                case 7:
-                    var parent = document.getElementById("qh");
-                    parent.appendChild(Node);
-                    imageNode.innerHTML = "<img src='https://image.sinajs.cn/newchart/v5/forex/min_m/"+ list[i].image+".gif ' width='60%' height=auto>"
-                    parent.appendChild(imageNode);
-                    break;
                 case 8:
                     var parent = document.getElementById("hl");
-                    parent.appendChild(Node);
-                    break;
-                case 9:
-                    var parent = document.getElementById("us");
                     parent.appendChild(Node);
                     break;
             }

@@ -21,7 +21,7 @@ import java.util.Map;
 public class autoRun implements ServletContextListener{
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
-        /*
+
         //System.out.println("正在尝试获取新闻");
         mainGetNews.main(null);
 
@@ -30,9 +30,7 @@ public class autoRun implements ServletContextListener{
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        //moveDataToDB.main(null);
         updateUSDCNYdata.main(null);
-        */
 
         SensitiveWordInit sensitiveWordInit = new SensitiveWordInit();
         HashMap<String,String> map = (HashMap) sensitiveWordInit.initKeyWord();
