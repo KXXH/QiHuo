@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
     <meta name="keywords" content="" />
+    <script src="js/jquery-2.1.4.min.js"></script>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="//cdnjs.loli.net/ajax/libs/mdui/0.4.2/css/mdui.min.css">
     <script src="//cdnjs.loli.net/ajax/libs/mdui/0.4.2/js/mdui.min.js"></script>
     <script src="js/jquery-2.1.4.min.js"></script>
@@ -130,29 +135,26 @@
             </div>
 
         </div>
-        <div class="mdui-col-xs-4">
+        <div class="mdui-col-xs-5">
 
-            <div class="mdui-dialog" id="dialog">
-                <div class="mdui-dialog-title">Are you sure?</div>
-                <div class="mdui-dialog-content">You'll lose all photos and media!</div>
-                <div class="mdui-dialog-actions">
-                    <button class="mdui-btn mdui-ripple">cancel</button>
-                    <button class="mdui-btn mdui-ripple">erase</button>
-                </div>
-            </div>
+            <div class="col-md-4" role="complementary" style="margin-top: 5%;">
+                <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix mdui-shadow-1" style="border-style:solid; padding: 10px; border-width: 1px; border-color:gray;">
+                    <h3>行情讨论中心</h3>
+                    <form id="chatForm" style="margin-top: 3%">
+                        <button type="button" class="mdui-btn mdui-color-theme-accent mdui-ripple" onclick="connect()"><i class="mdui-icon material-icons">&#xe0b7;</i> 连接</button>
+                        <button type="button" class="mdui-btn mdui-color-theme-accent mdui-ripple" onclick="help()"><i class="mdui-icon material-icons">&#xe887;</i> 帮助</button>
+                    </form>
+                    <div class="mdui-textfield">
+                        <textarea id="msg" class="mdui-textfield-input" placeholder="请输入内容"></textarea>
 
-            <form id="chatForm" style="margin-top: 3%">
-                <button type="button" class="mdui-btn mdui-color-theme-accent mdui-ripple" onclick="connect()"><i class="mdui-icon material-icons">&#xe0b7;</i> Chat</button>
-                <button type="button" class="mdui-btn mdui-color-theme-accent mdui-ripple" onclick="help()"><i class="mdui-icon material-icons">&#xe887;</i> Help</button>
-            </form>
-            <div class="mdui-textfield">
-                <textarea id="msg" class="mdui-textfield-input"></textarea>
+                    </div>
+                    <button type="button" class="mdui-btn mdui-color-theme-accent mdui-ripple" onclick="send()"><i class="mdui-icon material-icons">&#xe163;</i> 发送</button>
 
-            </div>
-            <button type="button" class="mdui-btn mdui-color-theme-accent mdui-ripple" onclick="send()"><i class="mdui-icon material-icons">&#xe163;</i> Send</button>
-
-            <textarea id="history" style="width: 100%;height: 200px ; max-lines: 10" >
+            <textarea id="history" style="width: 100%;height: 200px ; max-lines: 10" readonly>
             </textarea>
+                </nav>
+            </div>
+
         </div>
     </div>
 
