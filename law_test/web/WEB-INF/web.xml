@@ -521,6 +521,20 @@
         <servlet-name>ChatGetUserName</servlet-name>
         <url-pattern>/ChatGetUserName</url-pattern>
     </servlet-mapping>
-
-
+    <servlet>
+        <servlet-name>QRLoginRedirector</servlet-name>
+        <servlet-class>login.manager.QRLoginRedirector</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>QRLoginRedirector</servlet-name>
+        <url-pattern>/QRLoginRedirector</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>githubLogin</servlet-name>
+        <servlet-class>login.manager.QRLoginCallback</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>githubLogin</servlet-name>
+        <url-pattern>/githubLogin</url-pattern>
+    </servlet-mapping>
 </web-app>

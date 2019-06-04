@@ -30,6 +30,16 @@ public class loginAction extends HttpServlet {
     //11:验证码错误
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("执行了post");
+        //HttpSession session=request.getSession();
+        //String wechat_id=(String)session.getAttribute("wechat_id");
+        //sString wechat_name=(String)session.getAttribute("wechat_name");
+        /*
+        if(wechat_id!=null&&wechat_name!=null&&wechat_id.length()>0&&wechat_name.length()>0){
+            String ans=networkOpener.getResponse("https://api.github.com/user?access_token="+token,"utf-8");
+            System.out.println("QRLoginCallback:ans="+ans);
+            JSONObject user_data=new JSONObject(ans);
+        }
+        */
         HttpSession session = request.getSession(true);
         String userName = request.getParameter("UserName");
         String password = request.getParameter("PassWd");

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body onload="makeCode()">
+<div class="mdui-img-rounded mdui-img-fluid" id="qrcode">
+
+</div>
+<a href="QRLoginRedirector">click</a>
+<script src="js/qrcode.js"></script>
+<script>
+    function makeCode(){
+        var qrcode=new QRCode('qrcode');
+        qrcode.makeCode('http://127.0.0.1：8080/XM10/QRLoginRedirector?'+uuid());
+    }
+</script>
+</body>
+</html>

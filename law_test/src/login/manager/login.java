@@ -18,6 +18,16 @@ public class login extends javax.servlet.http.HttpServlet {
 
     protected void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, java.io.IOException {
         try{
+            String wechat_id=request.getParameter("wechat_id");
+            String wechat_name=request.getParameter("wechat_name");
+            if(wechat_id!=null&&wechat_id.length()>0){
+                User user=User.findUser(wechat_id,"WeChatId");
+                if(user==null){
+                    request.getRequestDispatcher("login_with_wechat.html").forward(request, response);
+                }else{
+                    request.getRequestDispatcher("login_with_wechat_confirm.html?wechat_name="+wechat_name).forward(request,response);
+                }
+            }
             HttpSession session=request.getSession();
             String token=tokenExtractor.extractToken(request);
             User user=tokenChecker.tokenToUser(token);

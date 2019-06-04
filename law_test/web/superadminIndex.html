@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>管理首页</title>
+    <link rel="stylesheet" href="//cdnjs.loli.net/ajax/libs/mdui/0.4.2/css/mdui.min.css">
+    <script src="//cdnjs.loli.net/ajax/libs/mdui/0.4.2/js/mdui.min.js"></script>
+    <script src="js/jquery-2.1.4.min.js"></script>
+    <script src="js/index_beta.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="https://www.amcharts.com/lib/4/core.js"></script>
+    <script src="https://www.amcharts.com/lib/4/charts.js"></script>
+    <script src="https://www.amcharts.com/lib/4/themes/material.js"></script>
+    <script src="https://www.amcharts.com/lib/4/lang/de_DE.js"></script>
+    <script src="https://www.amcharts.com/lib/4/geodata/germanyLow.js"></script>
+    <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="//www.amcharts.com/lib/4/maps.js"></script>
+    <script src="//www.amcharts.com/lib/4/geodata/worldLow.js"></script>
+
+</head>
+<body class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-pink ">
+<div id="inc_appbar"></div>
+<div id="inc_menu"></div>
+
+<div class="mdui-container mdui-typo">
+    <div class="mdui-col-sm-12 mdui-col-lg-6">
+        <h3>用户登录地理位置统计</h3>
+        <div id="inc_loginFig"></div>
+    </div>
+    <div class="mdui-col-sm-12 mdui-col-lg-6">
+        <h3>用户注册统计</h3>
+        <div id="inc_userFig"></div>
+    </div>
+</div>
+
+<script>
+    $('#inc_appbar').load("index_beta.html #appbar");
+    $('#inc_menu').load("index_beta.html #left-drawer",function(responseTxt,statusTxt,xhr){
+        initPage();
+        $('#title').text("管理首页");
+    });
+    $('#inc_loginFig').load("loginManager.html #chartdiv",function(a,b,c){
+        get_statistic();
+    });
+    $('#inc_userFig').load("userManager.html #chartdiv1",function(a,b,c){
+        //am4core.useTheme(am4themes_material);
+        var token=getCookie("tocken");
+        var j={'token':token};
+        var url=getQueryPath('userStatisticAction');
+        $.post(url,j,function(json){
+            console.log(JSON.stringify(json));
+            drawChart111(json);
+        });
+    })
+</script>
+<script src="js/userManager.js"></script>
+<script src="js/loginManager.js"></script>
+</body>
+</html>

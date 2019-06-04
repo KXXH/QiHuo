@@ -9,24 +9,27 @@
     <meta charset="utf-8">
     <meta name="keywords" content="" />
     <link rel="stylesheet" href="//cdnjs.loli.net/ajax/libs/mdui/0.4.2/css/mdui.min.css">
+    <link rel="stylesheet" href="css/animate.css">
     <script src="//cdnjs.loli.net/ajax/libs/mdui/0.4.2/js/mdui.min.js"></script>
     <script src="js/jquery-2.1.4.min.js"></script>
     <script src="js/index_beta.js"></script>
     <script src="js/utils.js"></script>
     <script src="js/pace.min.js"></script>
+
 </head>
 
 <body onload="initPage();" class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-pink ">
-<div class="mdui-appbar mdui-appbar-fixed" id="appbar">
+<div class="mdui-appbar mdui-appbar-fixed" id="appbar" >
     <div class="mdui-toolbar mdui-color-theme">
         <a class="mdui-btn mdui-btn-icon" mdui-drawer="{target: '#left-drawer'}"><i class="mdui-icon material-icons">menu</i></a>
-        <a href="javascript:;" class="mdui-typo-headline">期货交易系统</a>
+        <a class="mdui-typo-headline" >期货交易系统</a>
         <a href="javascript:;" class="mdui-typo-title" id="title">首页</a>
         <div class="mdui-toolbar-spacer"></div>
         <a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></a>
-        <a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">refresh</i></a>
+        <a  class="mdui-btn mdui-btn-icon" ><i class="mdui-icon material-icons" >refresh</i></a>
         <a onclick="logOut();" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">exit_to_app</i></a>
     </div>
+
 </div>
 
 <div class="mdui-drawer mdui-shadow-5" id="left-drawer">
@@ -37,7 +40,19 @@
 <div class="mdui-container">
 
 </div>
+<div class="mdui-hidden" id="notice" >
+    <ul class="mdui-list">
+        <li class="mdui-list-item mdui-ripple">
+            Test1
+        </li>
+        <li class="mdui-list-item mdui-ripple">
+            Test2
+        </li>
+    </ul>
+</div>
 </body>
+<script src="js/anijs.js"></script>
+<script src="js/helpers/dom/anijs-helper-dom.js"></script>
 <script>
 
 </script>
