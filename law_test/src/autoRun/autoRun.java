@@ -23,6 +23,8 @@ public class autoRun implements ServletContextListener{
     public void contextInitialized(ServletContextEvent servletContextEvent) {
 
         //System.out.println("正在尝试获取新闻");
+
+        /*
         mainGetNews.main(null);
 
         try {
@@ -36,6 +38,7 @@ public class autoRun implements ServletContextListener{
         HashMap<String,String> map = (HashMap) sensitiveWordInit.initKeyWord();
 
         System.out.println(SensitiveWordInit.sensitiveWordMap);
+        */
 
     }
 

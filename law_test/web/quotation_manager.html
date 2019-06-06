@@ -4,7 +4,7 @@
 <html lang="en">
 
 <head>
-    <title>新闻管理</title>
+    <title>行情管理</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
     <meta name="keywords" content="" />
@@ -15,21 +15,32 @@
     <script src="js/utils.js"></script>
     <script src="https://www.amcharts.com/lib/4/core.js"></script>
     <script src="https://www.amcharts.com/lib/4/charts.js"></script>
-    <script src="https://www.amcharts.com/lib/4/themes/material.js"></script>
-    <script src="https://www.amcharts.com/lib/4/lang/de_DE.js"></script>
-    <script src="https://www.amcharts.com/lib/4/geodata/germanyLow.js"></script>
+    <script src="https://www.amcharts.com/lib/4/themes/dataviz.js"></script>
+    <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
 </head>
 
-<body onload="initPage();get_all_news(0);order();statistics()" class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-pink ">
+<style>
+    #chartdiv {
+        width: 100%;
+        height: 500px;
+    }
+</style>
+
+<body onload="initPage();get_all_quotation();order();statistics();" class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-pink ">
 <div class="mdui-appbar mdui-appbar-fixed">
     <div class="mdui-toolbar mdui-color-theme">
         <a class="mdui-btn mdui-btn-icon" mdui-drawer="{target: '#left-drawer'}"><i class="mdui-icon material-icons">menu</i></a>
         <a href="javascript:;" class="mdui-typo-headline">期货交易系统</a>
-        <a href="javascript:;" class="mdui-typo-title">新闻管理</a>
+        <a href="javascript:;" class="mdui-typo-title">行情管理</a>
         <div class="mdui-toolbar-spacer"></div>
         <a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></a>
         <a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">refresh</i></a>
         <a onclick="logOut();" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">exit_to_app</i></a>
+        <script src="https://www.amcharts.com/lib/4/core.js"></script>
+        <script src="https://www.amcharts.com/lib/4/charts.js"></script>
+        <script src="https://www.amcharts.com/lib/4/themes/material.js"></script>
+        <script src="https://www.amcharts.com/lib/4/lang/de_DE.js"></script>
+        <script src="https://www.amcharts.com/lib/4/geodata/germanyLow.js"></script>
     </div>
 </div>
 
@@ -51,10 +62,10 @@
                     <label class="mdui-radio mdui-m-l-2 mdui-m-r-1"><input type="radio" name="group1" value="id" checked/><i class="mdui-radio-icon"></i>id</label>
                 </li>
                 <li class="mdui-menu-item">
-                    <label class="mdui-radio mdui-m-l-2 mdui-m-r-1"><input type="radio" name="group1" value="title"/><i class="mdui-radio-icon"></i>title</label>
+                    <label class="mdui-radio mdui-m-l-2 mdui-m-r-1"><input type="radio" name="group1" value="Code"/><i class="mdui-radio-icon"></i>Code</label>
                 </li>
                 <li class="mdui-menu-item">
-                    <label class="mdui-radio mdui-m-l-2 mdui-m-r-1"><input type="radio" name="group1" value="author_name"/><i class="mdui-radio-icon"></i>author_name</label>
+                    <label class="mdui-radio mdui-m-l-2 mdui-m-r-1"><input type="radio" name="group1" value="Name"/><i class="mdui-radio-icon"></i>Name</label>
                 </li>
             </ul>
         </li>
@@ -68,10 +79,10 @@
                     <label class="mdui-radio mdui-m-l-2 mdui-m-r-1"><input type="radio" name="group2" value="id" checked/><i class="mdui-radio-icon"></i>id</label>
                 </li>
                 <li class="mdui-menu-item">
-                    <label class="mdui-radio mdui-m-l-2 mdui-m-r-1"><input type="radio" name="group2" value="title"/><i class="mdui-radio-icon"></i>title</label>
+                    <label class="mdui-radio mdui-m-l-2 mdui-m-r-1"><input type="radio" name="group2" value="Code"/><i class="mdui-radio-icon"></i>Code</label>
                 </li>
                 <li class="mdui-menu-item">
-                    <label class="mdui-radio mdui-m-l-2 mdui-m-r-1"><input type="radio" name="group2" value="author_name"/><i class="mdui-radio-icon"></i>author_name</label>
+                    <label class="mdui-radio mdui-m-l-2 mdui-m-r-1"><input type="radio" name="group2" value="Name"/><i class="mdui-radio-icon"></i>Name</label>
                 </li>
             </ul>
         </li>
@@ -81,15 +92,15 @@
     </button>
     <button class="mdui-btn" mdui-dialog="{'target':'#search_dialog'}">查找</button>
     <div class="mdui-dialog" id="search_dialog">
-        <div class="mdui-dialog-title">查找新闻</div>
+        <div class="mdui-dialog-title">查找行情</div>
         <form name="user_search_form" class="mdui-dialog-content">
             <div class="mdui-textfield">
-                <label class="mdui-textfield-label">标题关键字</label>
+                <label class="mdui-textfield-label">行情关键字</label>
                 <input class="mdui-textfield-input" id="search" name="search"/>
             </div>
         </form>
         <div class="mdui-dialog-actions">
-            <button class="mdui-btn" onclick="search_news()" mdui-dialog-confirm>
+            <button class="mdui-btn" onclick="search_quotation()" mdui-dialog-confirm>
                 搜索
             </button>
         </div>
@@ -98,23 +109,29 @@
 
     <div class="mdui-dialog" id="modify">
         <div class="mdui-dialog-content">
-            <div class="mdui-dialog-title">修改新闻</div>
+            <div class="mdui-dialog-title">修改行情</div>
             请将您要修改的内容填入
             <div class="mdui-textfield">
                 <input class="mdui-textfield-input" type="text" disabled placeholder="id" id="id"/>
             </div>
 
             <div class="mdui-textfield">
-                <label class="mdui-textfield-label">title</label>
-                <input class="mdui-textfield-input" id="title"/>
+                <input class="mdui-textfield-input" type="text" disabled placeholder="Code" id="Code"/>
             </div>
             <div class="mdui-textfield">
-                <label class="mdui-textfield-label">date</label>
-                <input class="mdui-textfield-input" type="datetime" id="date"/>
+                <input class="mdui-textfield-input" type="text" disabled placeholder="Name" id="Name"/>
             </div>
             <div class="mdui-textfield">
-                <label class="mdui-textfield-label">author_name</label>
-                <input class="mdui-textfield-input" id="author_name"/>
+                <label class="mdui-textfield-label">Quotation</label>
+                <input class="mdui-textfield-input" id="Quotation"/>
+            </div>
+            <div class="mdui-textfield">
+                <label class="mdui-textfield-label">RiseOrFall</label>
+                <input class="mdui-textfield-input" id="RiseOrFall"/>
+            </div>
+            <div class="mdui-textfield">
+                <label class="mdui-textfield-label">ROFper(%)</label>
+                <input class="mdui-textfield-input" id="ROFper"/>
             </div>
         </div>
         <div class="mdui-dialog-actions">
@@ -127,11 +144,12 @@
             <thead>
             <tr>
                 <th>id</th>
-                <th>title</th>
-                <th>date</th>
-                <th>author_name</th>
-                <th>operation
-                </th>
+                <th>Code</th>
+                <th>Name</th>
+                <th>Quotation</th>
+                <th>RiseOrFall</th>
+                <th>ROFper(%)</th>
+                <th>operation</th>
             </tr>
             </thead>
 
@@ -139,12 +157,10 @@
 
             </tbody>
         </table>
-
-        <button class="mdui-btn" onclick="get_all_news(0)" style="width: 100%">加载更多</button>
     </div>
 
     <div class="mdui-typo">
-        <h1>新闻获取统计</h1>
+        <h1>USDCNY各项指标按月统计</h1>
         <div class="mdui-img-fluid" id="chartdiv">
 
         </div>
@@ -160,7 +176,7 @@
         </button>
         <div class="mdui-fab-dial">
 
-            <a class="mdui-fab mdui-fab-mini mdui-ripple mdui-color-yellow" href="news_print.htm"><i class="mdui-icon material-icons" mdui-tooltip="{content: '打印',position:'left'}">print</i></a>
+            <a class="mdui-fab mdui-fab-mini mdui-ripple mdui-color-yellow" href="quotation_print.htm"><i class="mdui-icon material-icons" mdui-tooltip="{content: '打印',position:'left'}">print</i></a>
             <a class="mdui-fab mdui-fab-mini mdui-ripple mdui-color-orange"  id="export_dialog"><i class="mdui-icon material-icons" mdui-tooltip="{content: '导出',position:'left'}">file_download</i></a>
 
         </div>
@@ -170,148 +186,143 @@
 </body>
 <script>
     var list;
-    var limit = 15;
     var order_1 = $("input[type=radio][name=group1]:checked").val();
     var order_2 = $("input[type=radio][name=group2]:checked").val();
     var search = document.getElementById("search").value;
-    var len = 0;
-    var Order = 0;
     var inst = new mdui.Dialog("#modify");
 
-function get_all_news(Order){
-    url = "newsManagerAction";
-    url = getQueryPath(url)
-    order_1 = $("input[type=radio][name=group1]:checked").val();
-    order_2 = $("input[type=radio][name=group2]:checked").val();
-    search = document.getElementById("search").value;
-    var data = {'order_1':order_1,'order_2':order_2,'limit':limit,'search':search,'length':len}
-    $.post(url,data,function(json){
-        if(json.status == "error"){
-            mdui.alert("您不是管理员！");
-        }
-        else{
-            if(json.end == 1 && Order == 0)
-                mdui.snackbar("已经到达最后了!");
+    function get_all_quotation(){
+        url = "getAllquotationAction";
+        url = getQueryPath(url)
+        order_1 = $("input[type=radio][name=group1]:checked").val();
+        order_2 = $("input[type=radio][name=group2]:checked").val();
+        search = document.getElementById("search").value;
+        var data = {'order_1':order_1,'order_2':order_2,'search':search};
+        $.post(url,data,function(json){
+            if(json.status == "error"){
+                mdui.alert("您不是管理员！");
+            }
             else{
                 initTable(json);
             }
-        }
 
-    })
-}
+        })
+    }
     function initTable(json){
         list = json.aaData;
-        limit = limit + 15;
-        len = list.length;
         var parent = document.getElementById("tbody");
         parent.innerHTML = "";
         for(var i = 0; i < list.length; i++){
             var newNode = document.createElement("tr");
             newNode.innerHTML = "<td>"+list[i].id+"</td>"
-            newNode.innerHTML += "<td>"+list[i].title+"</td><td>"+list[i].date +"</td><td>" +list[i].author_name + "</td>";
-            newNode.innerHTML += "<td><button class=\"mdui-btn mdui-btn-raised\" onclick='delete_record("+list[i].id+")'>删除</button><button class=\"mdui-btn mdui-btn-raised\" onclick='modify_record("+i+")'>修改</button></td>"
+            newNode.innerHTML += "<td>"+list[i].Code+"</td><td>"+list[i].Name +"</td><td>" +list[i].Quotation + "</td><td>" +list[i].RiseOrFall + "</td><td>" +list[i].ROFper + "</td>";
+            newNode.innerHTML += "<td><button class=\"mdui-btn mdui-btn-raised\" onclick='modify_record("+i+")'>修改</button></td>"
             parent.appendChild(newNode);
         }
-    }
-    function delete_record(id) {
-        url = "newsDeleteAction"
-        url = getQueryPath(url)
-        var data = '{"id":"'+id+'"}';
-        var obj = JSON.parse(data);
-        $.post(url,obj,function(json){
-            if(json.status==1){
-                limit = limit - 15;
-                get_all_news(1);
-                mdui.alert("删除成功！");
-            }
-            else
-                alert("删除失败!");
-        })
     }
     function order(){
         $("input[type=radio]").change(function(){
             var parent = document.getElementById("tbody");
             parent.innerHTML = "";
-            limit = limit-15;
-
-            get_all_news(1);
+            get_all_quotation();
         });
     }
-    function search_news(){
+    function search_quotation(){
         var parent = document.getElementById("tbody");
         parent.innerHTML = "";
-        limit = limit-15;
-        get_all_news(1);
+        get_all_quotation();
     }
     function modify_record(i){
-
         inst.open();
         document.getElementById("id").value = list[i].id;
-        document.getElementById("title").value = list[i].title;
-        document.getElementById("date").value = list[i].date;
-        document.getElementById("author_name").value = list[i].author_name;
-
+        document.getElementById("Code").value = list[i].Code;
+        document.getElementById("Name").value = list[i].Name;
+        document.getElementById("Quotation").value = list[i].Quotation;
+        document.getElementById("RiseOrFall").value = list[i].RiseOrFall;
+        document.getElementById("ROFper").value = list[i].ROFper;
     }
+
     function modify(){
-        url = "newsModifyAction";
-        url = getQueryPath(url)
+        url = "QuotationModifyAction";
         var id = document.getElementById("id").value;
-        var title = document.getElementById("title").value;
-        var date = document.getElementById("date").value;
-        var author_name = document.getElementById("author_name").value;
-        var data = '{"id":"'+id+'","title":"'+title+'","date":"'+date+'","author_name":"'+author_name+'"}';
-        var obj = JSON.parse(data);
+        var Code = document.getElementById("Code").value;
+        var Name = document.getElementById("Name").value;
+        var Quotation = document.getElementById("Quotation").value;
+        var RiseOrFall = document.getElementById("RiseOrFall").value;
+        var ROFper = document.getElementById("ROFper").value;
+        var data = {"id":id,"Code":Code,"Name":Name,"RiseOrFall":RiseOrFall,"ROFper":ROFper,"Quotation":Quotation};
         inst.close();
-        $.post(url,obj,function(json){
-            if(json.status=="1"){
-                limit = limit -15;
-                get_all_news(1);
+        $.post(url,data,function(json){
+            if(json.status=="ok"){
+                get_all_quotation();
                 mdui.alert("修改成功！");
             }
-
             else
                 alert("修改失败！");
         })
     }
     function drawChart(json){
-        console.log('开始绘图');
-        var chart=am4core.create("chartdiv",am4charts.XYChart);
-        chart.dateFormatter.inputDateFormat="yyyy-MM-dd";
-        chart.data=json.aaData;
-        var dateAxis=chart.xAxes.push(new am4charts.DateAxis());
-        var valueAxix=chart.yAxes.push(new am4charts.ValueAxis());
-        var lineSeries=chart.series.push(new am4charts.LineSeries());
-        lineSeries.tooltipText = "{value}"
-        lineSeries.dataFields.valueY="value";
-        lineSeries.dataFields.dateX="date";
-        lineSeries.tooltip.background.cornerRadius = 20;
-        lineSeries.tooltip.background.strokeOpacity = 0;
-        lineSeries.tooltip.pointerOrientation = "vertical";
-        lineSeries.tooltip.label.minWidth = 40;
-        lineSeries.tooltip.label.minHeight = 40;
-        lineSeries.tooltip.label.textAlign = "middle";
-        lineSeries.tooltip.label.textValign = "middle";
+        // Themes begin
+        am4core.useTheme(am4themes_dataviz);
+        am4core.useTheme(am4themes_animated);
+// Themes end
 
-        var bullet = lineSeries.bullets.push(new am4charts.CircleBullet());
-        bullet.circle.strokeWidth = 2;
-        bullet.circle.radius = 4;
-        bullet.circle.fill = am4core.color("#fff");
-        var bullethover = bullet.states.create("hover");
-        bullethover.properties.scale = 1.3;
-        chart.cursor = new am4charts.XYCursor();
-        chart.cursor.behavior = "panXY";
-        chart.cursor.xAxis = dateAxis;
-        chart.cursor.snapToSeries = lineSeries;
-        lineSeries.name="Sales";
+        // Create chart instance
+        var chart = am4core.create("chartdiv", am4charts.XYChart);
+
+// Add data
+        chart.data = json.aaData;
+
+// Create axes
+        var categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis());
+        categoryAxis.dataFields.category = "month";
+        categoryAxis.numberFormatter.numberFormat = "#";
+        categoryAxis.renderer.inversed = true;
+        categoryAxis.renderer.grid.template.location = 0;
+        categoryAxis.renderer.cellStartLocation = 0.1;
+        categoryAxis.renderer.cellEndLocation = 0.9;
+
+        var  valueAxis = chart.xAxes.push(new am4charts.ValueAxis());
+        valueAxis.renderer.opposite = true;
+
+// Create series
+        function createSeries(field, name) {
+            var series = chart.series.push(new am4charts.ColumnSeries());
+            series.dataFields.valueX = field;
+            series.dataFields.categoryY = "month";
+            series.name = name;
+            series.columns.template.tooltipText = "{name}: [bold]{valueX}[/]";
+            series.columns.template.height = am4core.percent(100);
+            series.sequencedInterpolation = true;
+
+            var valueLabel = series.bullets.push(new am4charts.LabelBullet());
+            valueLabel.label.text = "{valueX}";
+            valueLabel.label.horizontalCenter = "left";
+            valueLabel.label.dx = 10;
+            valueLabel.label.hideOversized = false;
+            valueLabel.label.truncate = false;
+
+            var categoryLabel = series.bullets.push(new am4charts.LabelBullet());
+            categoryLabel.label.text = "{name}";
+            categoryLabel.label.horizontalCenter = "right";
+            categoryLabel.label.dx = -10;
+            categoryLabel.label.fill = am4core.color("#fff");
+            categoryLabel.label.hideOversized = false;
+            categoryLabel.label.truncate = false;
+        }
+
+        createSeries("avg_open", "AVGOpen");
+        createSeries("avg_close", "AVGClose");
+        createSeries("avg_high", "AVGHigh");
+        createSeries("avg_low", "AVGLow");
     }
     function statistics(){
         var order_1 = "id";
-        var order_2 = "author_name";
-        var data = '{"order_1":"'+order_1+'","order_2":"'+order_2+'"}';
-        var obj = JSON.parse(data);
-        url = "newsStatisticsAction";
+        var order_2 = "Code";
+        var data = {"order_1":order_1,"order_2":order_2,"search":""};
+        url = "QuotationStatisitcsAction";
         url = getQueryPath(url)
-        $.post(url,obj,function(json){
+        $.post(url,data,function(json){
             if(json.status == "error"){
                 return;
             }
@@ -324,7 +335,7 @@ function get_all_news(Order){
     }
     mdui.JQ('#export_dialog').on('click',function(){
         mdui.dialog({
-            title: '新闻导出',
+            title: '行情导出',
             content: '确定导出到本地吗？',
             buttons: [
                 {
@@ -334,7 +345,7 @@ function get_all_news(Order){
                     text: '确认',
                     onClick: function(inst){
                         window.location.href='';
-                        window.location.href='newsExportAction';
+                        window.location.href='QuotationExportAction';
                         mdui.alert("已导出到本地！");
                     }
                 }

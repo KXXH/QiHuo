@@ -120,7 +120,7 @@ class GetDataThread extends Thread {
                 String content = result.split("\"")[1];
                 String code = getEconomicData.Glist[QueryKind][i];
                 q[i].setCode(code);
-
+                DecimalFormat df=new DecimalFormat("0.0000");
                 switch (QueryKind){
                     case 0:
                         q[i].setName(content.split(",")[0]);
@@ -150,16 +150,19 @@ class GetDataThread extends Thread {
                         q[i].setName(content.split(",")[13]);
                         q[i].setQuotation(Double.parseDouble(content.split(",")[0]));
                         q[i].setROFper(Double.parseDouble(content.split(",")[1]));
+                        Double d = Double.parseDouble(content.split(",")[0])-Double.parseDouble(content.split(",")[7]);
+                        q[i].setRiseOrFall(Double.parseDouble(df.format(d)));
                         break;
                     case 5:
                         q[i].setName(content.split(",")[9]);
                         q[i].setQuotation(Double.parseDouble(content.split(",")[2]));
                         q[i].setROFper(Double.parseDouble(content.split(",")[10]));
+                        d = Double.parseDouble(content.split(",")[2])-Double.parseDouble(content.split(",")[3]);
+                        q[i].setRiseOrFall(Double.parseDouble(df.format(d)));
                         break;
                     case 6:
                         q[i].setName(content.split(",")[9]);
                         q[i].setQuotation(Double.parseDouble(content.split(",")[1]));
-                        DecimalFormat df=new DecimalFormat("0.0000");
                         double d1 = Double.parseDouble(content.split(",")[2])-Double.parseDouble(content.split(",")[3]);
                         double d2 = d1/Double.parseDouble(content.split(",")[3])*100;
                         q[i].setRiseOrFall(Double.parseDouble(df.format(d1)));
@@ -168,11 +171,10 @@ class GetDataThread extends Thread {
                     case 7:
                         q[i].setName(content.split(",")[9]);
                         q[i].setQuotation(Double.parseDouble(content.split(",")[8]));
-                        DecimalFormat df1=new DecimalFormat("0.0000");
                         double d3 = Double.parseDouble(content.split(",")[8])-Double.parseDouble(content.split(",")[3]);
                         double d4 = d3/Double.parseDouble(content.split(",")[3])*100;
-                        q[i].setRiseOrFall(Double.parseDouble(df1.format(d3)));
-                        q[i].setROFper(Double.parseDouble(df1.format(d4)));
+                        q[i].setRiseOrFall(Double.parseDouble(df.format(d3)));
+                        q[i].setROFper(Double.parseDouble(df.format(d4)));
                         break;
                 }
                 q[i].setKind(QueryKind);

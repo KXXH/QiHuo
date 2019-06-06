@@ -537,4 +537,41 @@
         <servlet-name>githubLogin</servlet-name>
         <url-pattern>/githubLogin</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>getAllquotationAction</servlet-name>
+        <servlet-class>quotation.getXLdata.manager.getAllquotationAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getAllquotationAction</servlet-name>
+        <url-pattern>/getAllquotationAction</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>QuotationModifyAction</servlet-name>
+        <servlet-class>quotation.getXLdata.manager.QuotationModifyAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>QuotationModifyAction</servlet-name>
+        <url-pattern>/QuotationModifyAction</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>QuotationExportAction</servlet-name>
+        <servlet-class>quotation.getXLdata.manager.QuotationExportAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>QuotationExportAction</servlet-name>
+        <url-pattern>/QuotationExportAction</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>QuotationStatisitcsAction</servlet-name>
+        <servlet-class>quotation.getXLdata.manager.QuotationStatisitcsAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>QuotationStatisitcsAction</servlet-name>
+        <url-pattern>/QuotationStatisitcsAction</url-pattern>
+    </servlet-mapping>
 </web-app>
