@@ -252,7 +252,9 @@ public class User {
 
 
     public void setPasswd(String passwd) throws SQLException {
+        passwd=MD5.md5(passwd);
         executeUpdate(passwd,"Passwd");
+        executeUpdate("1","is_encrypted");
         Passwd = passwd;
     }
 

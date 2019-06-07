@@ -86,6 +86,15 @@
 		<button type="button" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="window.location='wh_print.html'">打印</button>
 		<a class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" id="export_dialog">导出</a>
 		<button type="button" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="window.location='wh_statistics.html'">统计</button>
+		<div>
+			<div name="chaxunForm" style="float:left;">
+
+				<button class="mdui-btn" mdui-dialog="{'target':'#search_dialog'}">查找</button>
+				<button type="button" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="add()">添加</button>
+				<button type="button" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="window.location='wh_print.html'">打印</button>
+				<a href = "whdataToCSV" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent">导出</a>
+				<button type="button" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="window.location='wh_statistics.html'">统计</button>
+			</div>
 
 			<div class="mdui-dialog" id="search_dialog">
 				<div class="mdui-dialog-title">持仓查找</div>
@@ -194,4 +203,5 @@
 		});
 	})
 </script>
+
 

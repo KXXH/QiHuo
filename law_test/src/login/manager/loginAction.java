@@ -28,19 +28,13 @@ public class loginAction extends HttpServlet {
     //2:token不存在
     //10:尝试次数过多，需要验证码
     //11:验证码错误
+    //20:微信ID不存在
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("执行了post");
-        //HttpSession session=request.getSession();
-        //String wechat_id=(String)session.getAttribute("wechat_id");
-        //sString wechat_name=(String)session.getAttribute("wechat_name");
-        /*
-        if(wechat_id!=null&&wechat_name!=null&&wechat_id.length()>0&&wechat_name.length()>0){
-            String ans=networkOpener.getResponse("https://api.github.com/user?access_token="+token,"utf-8");
-            System.out.println("QRLoginCallback:ans="+ans);
-            JSONObject user_data=new JSONObject(ans);
-        }
-        */
         HttpSession session = request.getSession(true);
+        String wechat_id=(String)session.getAttribute("user_wechat_id");
+        String wechat_token=(String)session.getAttribute("user_wechat_token");
+        User wechat_user=User.findUser(wechat_id,"WeChatId");
         String userName = request.getParameter("UserName");
         String password = request.getParameter("PassWd");
         String rememberPassword = request.getParameter("rememberPassword");
@@ -49,6 +43,72 @@ public class loginAction extends HttpServlet {
         Cookie tokenCookie=cookieManager.getCookieByName(request,"token");
         String userCaptchaResponse = request.getParameter("jcaptcha");
         System.out.println("session id="+session.getId());
+        if(wechat_id==null||wechat_token==null||wechat_id.length()==0||wechat_token.length()==0){
+            ;
+        }
+        else if(wechat_user==null){
+            sendManager.sendErrorJSONWithMsgAndCode(response,"该微信未绑定帐号!",20);
+            return;
+        }else if(userName!=null&&password!=null&&userName.length()>0&&password.length()>0&&wechat_id!=null&&wechat_id.length()>0){
+            User user=User.login(userName,password);
+            if(user==null){
+                sendManager.sendErrorJSONWithMsgAndCode(response,"用户名或密码错误!",1);
+                return;
+            }else if(user.getWechatId()!=null&& !Objects.equals(user.getWechatId(), "undefined")){
+                try {
+                    user.setWechatId(wechat_id);
+                    String new_token=tokenGenerator.getAndStoreToken(user.getUserName());
+                    JSONObject jsonObject = new JSONObject();
+                    try {
+                        jsonObject.put("status","success");
+                        jsonObject.put("tocken",new_token);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    try{
+                        session.invalidate();
+                    }catch(IllegalStateException ignored){
+                        ;
+                    }
+                    session= request.getSession();
+                    session.setAttribute("token",new_token);
+                    session.setAttribute("captcha_flag",false);
+                    session.setAttribute("attempt_count",0);
+                    sendManager.sendJSON(response,jsonObject);
+                    return;
+
+                } catch (SQLException e) {
+                    exceptionManager.logException(e,this);
+                    e.printStackTrace();
+                }
+            }
+
+        }
+        else if(wechat_user.getWechatId()!=null&& !Objects.equals(wechat_user.getWechatId(), "undefined")){
+            String new_token=tokenGenerator.getAndStoreToken(wechat_user.getUserName());
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("status","success");
+                jsonObject.put("tocken",new_token);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            try{
+                session.invalidate();
+            }catch(IllegalStateException ignored){
+                ;
+            }
+            session= request.getSession();
+            session.setAttribute("token",new_token);
+            session.setAttribute("captcha_flag",false);
+            session.setAttribute("attempt_count",0);
+            sendManager.sendJSON(response,jsonObject);
+            return;
+        }
+
+
         if(session==null){
             System.out.println("session is null!");
         }
@@ -150,7 +210,11 @@ public class loginAction extends HttpServlet {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("status","success");
             jsonObject.put("tocken",token);
-            session.invalidate();
+            try{
+                session.invalidate();
+            }catch(IllegalStateException ignored){
+                ;
+            }
             session= request.getSession();
             session.setAttribute("token",token);
             session.setAttribute("captcha_flag",false);

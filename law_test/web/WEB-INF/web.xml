@@ -42,7 +42,7 @@
         <servlet-name>logoutAction</servlet-name>
         <url-pattern>/logoutAction</url-pattern>
     </servlet-mapping>
-    
+
 
     <servlet>
         <servlet-name>userQueryAction</servlet-name>
@@ -245,15 +245,6 @@
         <url-pattern>/statisticAction</url-pattern>
     </servlet-mapping>
 
-    <servlet>
-        <servlet-name>checkMoneyAction</servlet-name>
-        <servlet-class>warehouse.check.checkMoneyAction</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>checkMoneyAction</servlet-name>
-        <url-pattern>/checkMoneyAction</url-pattern>
-    </servlet-mapping>
-
     <listener>
         <listener-class>autoRun.autoRun</listener-class>
     </listener>
@@ -391,6 +382,24 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>checkMoneyAction</servlet-name>
+        <servlet-class>warehouse.check.checkMoneyAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>checkMoneyAction</servlet-name>
+        <url-pattern>/checkMoneyAction</url-pattern>
+    </servlet-mapping>
+
+        <servlet>
+            <servlet-name>indexquerylistAction</servlet-name>
+            <servlet-class>index.query.indexquerylistAction</servlet-class>
+        </servlet>
+        <servlet-mapping>
+            <servlet-name>indexquerylistAction</servlet-name>
+            <url-pattern>/indexquerylistAction</url-pattern>
+        </servlet-mapping>
+
+    <servlet>
         <servlet-name>bmstatisticAction</servlet-name>
         <servlet-class>transaction.bm.statistic.bmstatisticAction</servlet-class>
     </servlet>
@@ -514,7 +523,7 @@
         <servlet-name>loginStatsticAction</servlet-name>
         <servlet-class>login.manager.statisticAction</servlet-class>
     </servlet>
-    
+
     <servlet-mapping>
         <servlet-name>loginStatsticAction</servlet-name>
         <url-pattern>/loginStatsticAction</url-pattern>
@@ -530,14 +539,97 @@
         <servlet-name>ChatGetUserName</servlet-name>
         <url-pattern>/ChatGetUserName</url-pattern>
     </servlet-mapping>
-
     <servlet>
-        <servlet-name>indexquerylistAction</servlet-name>
-        <servlet-class>index.query.indexquerylistAction</servlet-class>
+        <servlet-name>QRLoginRedirector</servlet-name>
+        <servlet-class>login.manager.QRLoginRedirector</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>indexquerylistAction</servlet-name>
-        <url-pattern>/indexquerylistAction</url-pattern>
+        <servlet-name>QRLoginRedirector</servlet-name>
+        <url-pattern>/QRLoginRedirector</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>githubLogin</servlet-name>
+        <servlet-class>login.manager.QRLoginCallback</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>githubLogin</servlet-name>
+        <url-pattern>/githubLogin</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>getTokenOutputAction</servlet-name>
+        <servlet-class>login.manager.getTokenOutputAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getTokenOutputAction</servlet-name>
+        <url-pattern>/getTokenOutputAction</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>tokenStatisticAction</servlet-name>
+        <servlet-class>login.manager.tokenStatisticAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>tokenStatisticAction</servlet-name>
+        <url-pattern>/tokenStatisticAction</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>getLoginOutputAction</servlet-name>
+        <servlet-class>login.manager.getLoginOutputAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getLoginOutputAction</servlet-name>
+        <url-pattern>/getLoginOutputAction</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>delLoginRecordAction</servlet-name>
+        <servlet-class>login.manager.delLoginRecordAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>delLoginRecordAction</servlet-name>
+        <url-pattern>/delLoginRecordAction</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>editLoginRecordAction</servlet-name>
+        <servlet-class>login.manager.editLoginRecordAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>editLoginRecordAction</servlet-name>
+        <url-pattern>/editLoginRecordAction</url-pattern>
+        <servlet-name>getAllquotationAction</servlet-name>
+        <servlet-class>quotation.getXLdata.manager.getAllquotationAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getAllquotationAction</servlet-name>
+        <url-pattern>/getAllquotationAction</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>QuotationModifyAction</servlet-name>
+        <servlet-class>quotation.getXLdata.manager.QuotationModifyAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>QuotationModifyAction</servlet-name>
+        <url-pattern>/QuotationModifyAction</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>QuotationExportAction</servlet-name>
+        <servlet-class>quotation.getXLdata.manager.QuotationExportAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>QuotationExportAction</servlet-name>
+        <url-pattern>/QuotationExportAction</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>QuotationStatisitcsAction</servlet-name>
+        <servlet-class>quotation.getXLdata.manager.QuotationStatisitcsAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>QuotationStatisitcsAction</servlet-name>
+        <url-pattern>/QuotationStatisitcsAction</url-pattern>
     </servlet-mapping>
 
 

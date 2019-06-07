@@ -103,7 +103,11 @@
 			<button class="mdui-btn" mdui-menu="{target:'#sort_menu'}">排序</button>
 			<button class="mdui-btn" mdui-dialog="{'target':'#search_dialog'}">查找</button>
 			<button type="button" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="window.location='bus_print.html'">打印</button>
+
 	<a class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" id="export_dialog">导出</a>
+
+			<a href = "busdataToCSV" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent">导出</a>
+
 			<button type="button"class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent" onclick="home()">仓库主页</button>
 			<div class="mdui-dialog" id="search_dialog">
 				<div class="mdui-dialog-title">查找订单</div>
@@ -434,23 +438,5 @@
 			drawChart(json);
 		})
 	}
-	mdui.JQ('#export_dialog').on('click',function(){
-		mdui.dialog({
-			title: '交易记录导出',
-			content: '确定导出到本地吗？',
-			buttons: [
-				{
-					text: '取消'
-				},
-				{
-					text: '确认',
-					onClick: function(inst){
-						window.location.href='';
-						window.location.href='busdataToCSV';
-						mdui.alert("已导出到本地！");
-					}
-				}
-			]
-		});
-	})
+
 </script>

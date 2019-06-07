@@ -8,8 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
     <meta name="keywords" content="" />
-    <link rel="stylesheet" href="//cdnjs.loli.net/ajax/libs/mdui/0.4.2/css/mdui.min.css">
-    <script src="//cdnjs.loli.net/ajax/libs/mdui/0.4.2/js/mdui.min.js"></script>
+    <link rel="stylesheet" href="css/mdui.min.css">
+    <script src="js/mdui.min.js"></script>
     <script src="js/index_beta.js"></script>
     <script src="js/jquery-2.1.4.min.js"></script>
     <script src="https://www.amcharts.com/lib/4/core.js"></script>
@@ -23,7 +23,7 @@
     <script src="//www.amcharts.com/lib/4/geodata/worldLow.js"></script>
 </head>
 
-<body onload="initPage();initFAB();fetchTokenInfo();loadMoreLoginRecord();get_statistic()" class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-pink ">
+<body onload="initPage();initFAB();fetchTokenInfo();loadMoreLoginRecord();get_statistic();getPieChart()" class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-pink ">
 
 <button class="mdui-fab mdui-ripple mdui-fab-fixed mdui-color-red" style="z-index: 999;" id="loginFAB" mdui-dialog="{target: '#mapDlg'}"><i class="mdui-icon material-icons">equalizer</i></button>
 
@@ -63,8 +63,78 @@
         <a href="#loginManager" id="loginTab" class="mdui-ripple">登录记录查看</a>
     </div>
     <div id="tokenManager">
+
         <button class="mdui-btn" onclick="delToken()">删除</button>
         <button class="mdui-btn" onclick="queryToken()">查找</button>
+        <button class="mdui-btn" mdui-dialog="{target: '#tokenOutputDlg'}">导出</button>
+        <button class="mdui-btn" mdui-dialog="{target: '#tokenSortDlg'}">排序</button>
+
+        <a class="mdui-btn" href="token_print.html">打印</a>
+        <div class="mdui-dialog" id="tokenSortDlg">
+            <div class="mdui-dialog-title">排序方式</div>
+            <div class="mdui-dialog-content mdui-typo">
+                <p class="mdui-p-l-3">首要关键字</p>
+                <ul class="mdui-list">
+                    <li class="mdui-list-item mdui-ripple">
+                        <label class="mdui-radio mdui-m-l-1 mdui-m-r-1"><input type="radio" name="token_sorted_by" value="id" checked/><i class="mdui-radio-icon"></i>ID</label>
+                    </li>
+                    <li class="mdui-list-item mdui-ripple">
+                        <label class="mdui-radio mdui-m-l-1 mdui-m-r-1"><input type="radio" name="token_sorted_by" value="UserName"/><i class="mdui-radio-icon"></i>用户名</label>
+                    </li>
+                    <li class="mdui-list-item mdui-ripple">
+                        <label class="mdui-radio mdui-m-l-1 mdui-m-r-1"><input type="radio" name="token_sorted_by" value="UserId"/><i class="mdui-radio-icon"></i>用户ID</label>
+                    </li>
+                    <li class="mdui-list-item mdui-ripple">
+                        <label class="mdui-radio mdui-m-l-1 mdui-m-r-1"><input type="radio" name="token_sorted_by" value="TTL"/><i class="mdui-radio-icon"></i>TTL</label>
+                    </li>
+                </ul>
+
+                <p class="mdui-p-l-3">次要关键字</p>
+                <ul class="mdui-list">
+                    <li class="mdui-list-item mdui-ripple">
+                        <label class="mdui-radio mdui-m-l-1 mdui-m-r-1"><input type="radio" name="token_sorted_by2" value="id" checked/><i class="mdui-radio-icon"></i>ID</label>
+                    </li>
+                    <li class="mdui-list-item mdui-ripple">
+                        <label class="mdui-radio mdui-m-l-1 mdui-m-r-1"><input type="radio" name="token_sorted_by2" value="UserName"/><i class="mdui-radio-icon"></i>用户名</label>
+                    </li>
+                    <li class="mdui-list-item mdui-ripple">
+                        <label class="mdui-radio mdui-m-l-1 mdui-m-r-1"><input type="radio" name="token_sorted_by2" value="UserId"/><i class="mdui-radio-icon"></i>用户ID</label>
+                    </li>
+                    <li class="mdui-list-item mdui-ripple">
+                        <label class="mdui-radio mdui-m-l-1 mdui-m-r-1"><input type="radio" name="token_sorted_by2" value="TTL"/><i class="mdui-radio-icon"></i>TTL</label>
+                    </li>
+                </ul>
+            </div>
+            <div class="mdui-dialog-actions">
+                <button class="mdui-btn" onclick="submitSort();token_sort_dlg.close();" mdui-dialog-close>确定</button>
+            </div>
+        </div>
+        <div class="mdui-dialog" id="tokenOutputDlg">
+
+            <div class="mdui-dialog-title">Token记录导出</div>
+            <div class="mdui-dialog-content mdui-typo">
+            <p>请选择导出的时间范围</p>
+                <select class="mdui-select" id="tokenOutputFromSelect" mdui-select>
+                    <option value="7">最近7天</option>
+                    <option value="30">最近30天</option>
+                    <option value="-1" onselect="showTokenOutputDlgDataPiker()">自定义</option>
+                </select>
+                <div class="mdui-invisible" id="tokenOutputDatePicker">
+                    <p>起始时间</p>
+                    <input type="date" onchange="tokenOutputSetEndTimeLimit()" id="tokenOutputStDate">
+                    <p>结束时间</p>
+                    <input type="date" onchange="tokenOutputSetStTimeLimit()" id="tokenOutputEndDate">
+                </div>
+            </div>
+            <div class="mdui-dialog-actions">
+                <button class="mdui-btn" onclick="tokenOutputSubmit()">确定</button>
+            </div>
+        </div>
+        <div class="mdui-dialog" id="tokenPieDlg">
+            <div id="piediv" style="height: 300px">
+
+            </div>
+        </div>
         <div class="mdui-table-fluid mdui-m-b-2">
             <table class="mdui-table mdui-table-hoverable mdui-table-selectable" id="token_table">
                 <thead>
@@ -84,9 +154,132 @@
     <div id="loginManager">
 
         <button class="mdui-btn" onclick="queryLoginRecord()">查找</button>
+        <button class="mdui-btn" onclick="delLoginRecord()">删除</button>
+        <button class="mdui-btn" mdui-dialog="{target: '#loginOutputDlg'}">导出</button>
+        <button class="mdui-btn" mdui-dialog="{target: '#loginSortDlg'}">排序</button>
+        <button class="mdui-btn" mdui-dialog="{target:'#loginPrintDlg'}">打印</button>
+        <div class="mdui-dialog" id="loginOutputDlg">
+            <div class="mdui-dialog-title">登录记录导出</div>
+            <div class="mdui-dialog-content mdui-typo">
+                <p>请选择导出的时间范围</p>
+                <select class="mdui-select" id="loginOutputFromSelect" mdui-select>
+                    <option value="7">最近7天</option>
+                    <option value="30">最近30天</option>
+                    <option value="-1">自定义</option>
+                </select>
+                <div class="mdui-invisible" id="loginOutputDatePicker">
+                    <p>起始时间</p>
+                    <input type="date" onchange="loginOutputSetEndTimeLimit()" id="loginOutputStDate">
+                    <p>结束时间</p>
+                    <input type="date" onchange="loginOutputSetStTimeLimit()" id="loginOutputEndDate">
+                </div>
+            </div>
+            <div class="mdui-dialog-actions">
+                <button class="mdui-btn" onclick="loginOutputSubmit()">确定</button>
+            </div>
+        </div>
+        <div class="mdui-dialog" id="loginSortDlg">
+            <div class="mdui-dialog-title">排序方式</div>
+            <div class="mdui-dialog-content mdui-typo">
+                <p class="mdui-p-l-3">首要关键字</p>
+                <ul class="mdui-list">
+                    <li class="mdui-list-item mdui-ripple">
+                        <label class="mdui-radio mdui-m-l-1 mdui-m-r-1"><input type="radio" name="login_sorted_by" value="id" checked/><i class="mdui-radio-icon"></i>ID</label>
+                    </li>
+                    <li class="mdui-list-item mdui-ripple">
+                        <label class="mdui-radio mdui-m-l-1 mdui-m-r-1"><input type="radio" name="login_sorted_by" value="userName"/><i class="mdui-radio-icon"></i>用户名</label>
+                    </li>
+                    <li class="mdui-list-item mdui-ripple">
+                        <label class="mdui-radio mdui-m-l-1 mdui-m-r-1"><input type="radio" name="login_sorted_by" value="time"/><i class="mdui-radio-icon"></i>时间</label>
+                    </li>
+                    <li class="mdui-list-item mdui-ripple">
+                        <label class="mdui-radio mdui-m-l-1 mdui-m-r-1"><input type="radio" name="login_sorted_by" value="action"/><i class="mdui-radio-icon"></i>操作</label>
+                    </li>
+                    <li class="mdui-list-item mdui-ripple">
+                        <label class="mdui-radio mdui-m-l-1 mdui-m-r-1"><input type="radio" name="login_sorted_by" value="ip"/><i class="mdui-radio-icon"></i>IP</label>
+                    </li>
+                    <li class="mdui-list-item mdui-ripple">
+                        <label class="mdui-radio mdui-m-l-1 mdui-m-r-1"><input type="radio" name="login_sorted_by" value="location"/><i class="mdui-radio-icon"></i>地点</label>
+                    </li>
+                </ul>
+
+                <p class="mdui-p-l-3">次要关键字</p>
+                <ul class="mdui-list">
+                    <li class="mdui-list-item mdui-ripple">
+                        <label class="mdui-radio mdui-m-l-1 mdui-m-r-1"><input type="radio" name="login_sorted_by2" value="id" checked/><i class="mdui-radio-icon"></i>ID</label>
+                    </li>
+                    <li class="mdui-list-item mdui-ripple">
+                        <label class="mdui-radio mdui-m-l-1 mdui-m-r-1"><input type="radio" name="login_sorted_by2" value="userName"/><i class="mdui-radio-icon"></i>用户名</label>
+                    </li>
+                    <li class="mdui-list-item mdui-ripple">
+                        <label class="mdui-radio mdui-m-l-1 mdui-m-r-1"><input type="radio" name="login_sorted_by2" value="time"/><i class="mdui-radio-icon"></i>时间</label>
+                    </li>
+                    <li class="mdui-list-item mdui-ripple">
+                        <label class="mdui-radio mdui-m-l-1 mdui-m-r-1"><input type="radio" name="login_sorted_by2" value="action"/><i class="mdui-radio-icon"></i>操作</label>
+                    </li>
+                    <li class="mdui-list-item mdui-ripple">
+                        <label class="mdui-radio mdui-m-l-1 mdui-m-r-1"><input type="radio" name="login_sorted_by2" value="ip"/><i class="mdui-radio-icon"></i>IP</label>
+                    </li>
+                    <li class="mdui-list-item mdui-ripple">
+                        <label class="mdui-radio mdui-m-l-1 mdui-m-r-1"><input type="radio" name="login_sorted_by2" value="location"/><i class="mdui-radio-icon"></i>地点</label>
+                    </li>
+                </ul>
+            </div>
+            <div class="mdui-dialog-actions">
+                <button class="mdui-btn" onclick="submitLoginSort();" mdui-dialog-close>确定</button>
+            </div>
+        </div>
+        <div class="mdui-dialog" id="loginPrintDlg">
+            <div class="mdui-dialog-title">打印</div>
+            <from>
+                <div class="mdui-dialog-content">
+                    <div class="mdui-textfield">
+                        <label class="mdui-textfield-label">请输入打印的最多纪录条数</label>
+                        <input class="mdui-textfield-input" id="loginPrintCount" type="number" value="100" required/>
+                    </div>
+                </div>
+                <div class="mdui-dialog-actions">
+                    <button class="mdui-btn" onclick="submitLoginPrint();" mdui-dialog-close>确定</button>
+                </div>
+            </from>
+        </div>
+        <div class="mdui-dialog" id="loginEditDlg">
+            <div class="mdui-dialog-title">登录记录编辑</div>
+            <div class="mdui-dialog-content">
+                <div class="mdui-textfield" mdui-tooltip="{content: '提示:为确保系统日志的一致性,不允许修改ID!'}">
+                    <label class="mdui-textfield-label">ID</label>
+                    <input class="mdui-textfield-input" type="number" id="login_record_edit_id" disabled/>
+                </div>
+                <div class="mdui-textfield" mdui-tooltip="{content: '提示:为确保系统日志的一致性,不允许修改用户名!'}">
+                    <label class="mdui-textfield-label">用户名</label>
+                    <input class="mdui-textfield-input" type="text" id="login_record_edit_username" disabled/>
+                </div>
+                <div class="mdui-textfield">
+                    <label class="mdui-textfield-label"　mdui-tooltip="{content: '提示:为确保系统日志的一致性,不允许修改登录时间!'}">时间</label>
+                    <input class="mdui-textfield-input" type="text" id="login_record_edit_time" disabled/>
+                </div>
+                <div class="mdui-textfield">
+                    <label class="mdui-textfield-label">操作</label>
+                    <input class="mdui-textfield-input" type="text" id="login_record_edit_action" maxlength="255"/>
+                </div>
+                <div class="mdui-textfield">
+                    <label class="mdui-textfield-label">IP</label>
+                    <input class="mdui-textfield-input" type="text" id="login_record_edit_ip" maxlength="128"/>
+                </div>
+                <div class="mdui-textfield">
+                    <label class="mdui-textfield-label">位置</label>
+                    <input class="mdui-textfield-input" type="text" id="login_record_edit_position" maxlength="255"/>
+                </div>
+            </div>
+            <div class="mdui-dialog-actions">
+                <button class="mdui-btn" onclick="editLoginRecord()">确定</button>
+            </div>
+        </div>
+
         <div class="mdui-table-fluid mdui-m-b-2">
 
-            <table class="mdui-table mdui-table-hoverable" id="login_table">
+            <table class="mdui-table mdui-table-hoverable mdui-table-selectable" id="login_table">
+                <thead>
                 <tr>
                     <th>ID</th>
                     <th>用户名</th>
@@ -95,6 +288,10 @@
                     <th>IP</th>
                     <th>位置</th>
                 </tr>
+                </thead>
+                <tbody id="login_table_body">
+
+                </tbody>
             </table>
             <button class="mdui-btn" onclick="loadMoreLoginRecord()" style="width: 100%">加载更多</button>
         </div>
