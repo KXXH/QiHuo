@@ -1,12 +1,17 @@
 var wh_info;
-var id;
+var list;
+var len=0;
+var Order=0;
+var id="";
+var userid="";
+var username="";
+var stockid="";
+var stockname="";
+var create="";
 function add(){
     window.location.href="wh_register.html";
 }
-function modify(id){
-    window.location.href = "wh_change.html?StockId="+id;
 
-}
 function home(){
     window.location="wh_query_list.html";
 }
@@ -35,6 +40,44 @@ function delet(id){
     });
 }
 
+function modify_record(i){
+    var inst = new mdui.Dialog("#modify");
+    inst.open();
+    document.getElementById("user_id").value = list[i].userid;
+    document.getElementById("user_name").value = list[i].username;
+    document.getElementById("stock_id").value = list[i].stockid;
+    document.getElementById("stock_name").value = list[i].stockname;
+    document.getElementById("quantity").value = list[i].quantity;
+    document.getElementById("bunitprice").value = list[i].quotation;
+    document.getElementById("createat").value = list[i].createat;
+
+}
+
+function modify(){
+    url = "changeAction";
+    url = getQueryPath(url)
+    //orderid=document.getElementById("order_id").value;
+    userid=document.getElementById("user_id").value;
+    username=document.getElementById("user_name").value;
+    stockid=document.getElementById("stock_id").value;
+    stockname=document.getElementById("stock_name").value;
+    quantity=document.getElementById("quantity").value;
+    quotation=document.getElementById("bunitprice").value;
+    createat=document.getElementById("createat").value;
+    var data = '{"UserId":"'+userid+'","UserName":"'+username+'","StockId":"'+stockid+'","StockName":"'+stockname+'","Quantity":"'+quantity+'","Quotation":"'+quotation+'","CreateAt":"'+createat+'"}';
+    var obj = JSON.parse(data);
+    $.post(url,obj,function(json){
+        if(json.status=="1"){
+            mdui.snackbar({'message':'发布成功！'});
+            show();
+        }
+
+        else
+            mdui.snackbar({'message':'发布失败！'});
+        show();
+    })
+}
+
 function exported(){
     var url = "whdataToCSV";
     url=getQueryPath(url);
@@ -55,9 +98,8 @@ function query(){
     console.log("22222222222222");
     var stockid = document.getElementById("StockId").value;
     var stockname = document.getElementById("StockName").value;
-    var coo = getCookie("tocken");
     console.log("11111111111111111");
-    var data1 = '{"StockId":"'+stockid+'","StockName":"'+stockname+'","Cookie":"'+coo+'"}';
+    var data1 = '{"StockId":"'+stockid+'","StockName":"'+stockname+'"}';
     console.log("================");
     var obj = JSON.parse(data1);
     console.log(data1);
@@ -68,77 +110,40 @@ function query(){
 }
 
 function updateTable(json){
-    wh_info=json.list;
+    list=json.list;
     var table = document.getElementById('wh_list');
     table.innerHTML="";
-    for(var i=0;i<json.list.length;i++){
-        var row = document.createElement('tr');
-        id=json.list[i].stockid;
-
-        var stockId = document.createElement('td');
-        stockId.innerText=json.list[i].stockid;
-        row.appendChild(stockId);
-
-        var stockName = document.createElement('td');
-        stockName.innerText=json.list[i].stockname;
-        row.appendChild(stockName);
-
-        var Quantity = document.createElement('td');
-        Quantity.innerText=json.list[i].quantity;
-        row.appendChild(Quantity);
-
-        var createAt = document.createElement('td');
-        createAt.innerText=json.list[i].createat;
-        row.appendChild(createAt);
-
-        var buttonBox = document.createElement('td');
-        var button = document.createElement('button');
-        button.className="mdui-btn mdui-color-theme-accent"
-        button.setAttribute("mdui-menu","{target:'#userMenu"+i+"',position:'bottom',fixed:true}");
-        button.innerText="编辑";
-
-
-        var menu = document.createElement('ul');
-        menu.id="userMenu"+i;
-        menu.className="mdui-menu";
-        var item = document.createElement('li');
-        item.className="mdui-menu-item";
-        item.onclick="delet("+id+")";
-        item.innerHTML="<a onclick='delet("+id+")'>删除</a>";
-        menu.appendChild(item);
-        var item = document.createElement('li');
-        item.className="mdui-menu-item";
-        item.innerHTML="<a onclick='modify("+id+")'>修改</a>";
-        menu.appendChild(item);
-        buttonBox.appendChild(button);
-        buttonBox.appendChild(menu);
-        row.appendChild(buttonBox);
-        table.appendChild(row);
+    for(var i = 0; i < list.length; i++){
+        var newNode = document.createElement("tr");
+        var id = list[i].stockid;
+        newNode.innerHTML = "<td>"+list[i].stockid+"</td>"
+        newNode.innerHTML += "<td>"+list[i].stockname +"</td><td>"+list[i].quantity +"</td><td>"+list[i].quotation +"</td><td>" +list[i].createat + "</td>";
+        newNode.innerHTML += "<td><button class=\"mdui-btn mdui-btn-raised\" onclick='delet("+id+")'>删除</button><button class=\"mdui-btn mdui-btn-raised\" onclick='modify_record("+i+")'>卖出</button></td>"
+        table.appendChild(newNode);
     }
-    mdui.updateTables("#wh_list")
 }
-
-
 
 
 function show(){
 
     var url = "querylistAction";
     url=getQueryPath(url);
-    var sel1 = document.getElementById("sel1").value;
-    var sel2 = document.getElementById("sel2").value;
-    var sel3 = document.getElementById("sel3").value;
-    //var sel4 = document.getElementById("sel4").value;
+    sel1 = $("input[type=radio][name=group1]:checked").val();
+    sel2 = $("input[type=radio][name=group2]:checked").val();
+    var data1 = '{"Sel1":"'+sel1+'","Sel2":"'+sel2+'","StockId":"'+stockid+'","StockName":"'+stockname+'"}';
 
-    var coo = getCookie("tocken");
-
-    var data1 = '{"Sel1":"'+sel1+'","Sel2":"'+sel2+'","Sel3":"'+sel3+'","Cookie":"'+coo+'"}';
-
-    var obj = JSON.parse(data1);
-    $.post(url,obj,function(json){
+    var j = JSON.parse(data1);
+    $.post(url,j,function(json){
         //console.log(JSON.stringify(json));
-        wh_info=json.list;
-        updateTable(json);
+        bus_info=json.list;
+        if(json.status == "error"){
+            mdui.alert("错误!");
+        }
+        else
+        {
+            updateTable(json);
+        }
+
     })
 }
 

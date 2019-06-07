@@ -4,6 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import permission.manager.permissionChecker;
 import user.manager.User;
+import utils.changeMoney;
 import utils.dbOpener;
 import utils.tokenChecker;
 import utils.tokenExtractor;
@@ -30,21 +31,15 @@ public class changeAction extends HttpServlet {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String createTime = sdf.format(currDate);
 
-        String stockid = request.getParameter("StockId");
-        String stockname= "1";
-        int quantity=0;
-        int bunitprice=0;
-
-        String tocken= tokenExtractor.extractToken(request);
-        System.out.println(tocken);
-        User user = tokenChecker.tokenToUser(tocken);
-        System.out.println(tocken);
-
+        int userid =Integer.parseInt(request.getParameter("UserId"));
+        String username = request.getParameter("UserName");
+        int stockid = Integer.parseInt(request.getParameter("StockId"));
+        String stockname = request.getParameter("StockName");
+        int quantity = Integer.parseInt(request.getParameter("Quantity"));
+        double bunitprice = Double.valueOf(request.getParameter("Quotation"));
+        double money=quantity*bunitprice;
         if(request.getParameter("Quantity")!=null){
             quantity=Integer.parseInt(request.getParameter("Quantity"));
-        }
-        if(request.getParameter("Quantity")!=null){
-            bunitprice=Integer.parseInt(request.getParameter("BUnitPrice"));
         }
         request.setCharacterEncoding("UTF-8");
         System.out.println("页面传递过来的数据获取完毕");
@@ -64,35 +59,22 @@ public class changeAction extends HttpServlet {
             Statement statement = conn.createStatement();
             System.out.println("已经链接上数据库！");
 
-            String sql3 = "select * from tbl_userrealwh WHERE StockId=?";
-            //String sql3 = "select * from tbl_userrealwh WHERE UserName=? and StockId=? and StockName=?";
-            System.out.println("即将执行的SQL3语句是：" + sql3);
+            String sql1 = "insert into tbl_bm(UserId,UserName,StockId,StockName,Quantity,BUnitPrice,CreateAt) values('"
+                    + userid + "','" + username + "','"+ stockid + "','" + stockname + "','" + quantity + "','" + bunitprice + "','" + createTime + "')";
+            System.out.println("即将执行的SQL1语句是：" + sql1);
+            System.out.println("sql1:" + sql1);
+            statement.executeUpdate(sql1);
 
-            System.out.println(stockid);
-            PreparedStatement ps;
+            String sql2 = "update tbl_userrealwh set Quantity=Quantity-'"+quantity+"' where UserId = '"+userid+"'and StockId= '"+stockid+"'";
+            System.out.println("即将执行的SQL语句是：" + sql2);
+            statement.executeUpdate(sql2);
 
-                ps = conn.prepareStatement(sql3);    //实例化PreparedStatement对象
-                ps.setString(1, stockid);
-                ResultSet rs = ps.executeQuery();   //执行预处理语句获取查询结果集
-                System.out.println("执行完毕，逐条显示<br>");
-                //如果查询有结果，则循环显示查询出来的记录
-                while (rs.next()) {
-                    stockname = rs.getString("StockName");
-                }
-
-                System.out.println(stockname);
-
-
-                String sql1 = "update tbl_userrealwh set Quantity='" + quantity + "' WHERE UserId='" + user.getUserId() + "' and StockId='" + stockid + "'";
-                System.out.println("sql1:" + sql1);
-                statement.executeUpdate(sql1);
-
-                String sql = "insert into tbl_userwh(UserId,UserName,StockId,StockName,Quantity,BUnitPrice,CreateAt) values('"
-                        + user.getUserId() + "','" + user.getUserName() + "','" + stockid + "','" + stockname + "','" + quantity + "','" + bunitprice + "','" + createTime + "')";
-                System.out.println("即将执行的SQL语句是：" + sql);
-                statement.executeUpdate(sql);
-                statement.close();
-                conn.close();
+            String sql = "insert into tbl_userwh(UserId,UserName,StockId,StockName,Quantity,BUnitPrice,CreateAt) values('"
+                    + userid + "','" + username + "','" + stockid + "','" + stockname + "','" + quantity + "','" + bunitprice + "','" + createTime + "')";
+            System.out.println("即将执行的SQL语句是：" + sql);
+            statement.executeUpdate(sql);
+            statement.close();
+            conn.close();
 
                 System.out.println("操作数据完毕，关闭了数据库！");
 
@@ -112,9 +94,8 @@ public class changeAction extends HttpServlet {
             e.printStackTrace();
             return;
             }
-            System.out.println("页面执行完毕！");
+
         try {
-            System.out.println("!!!!!!!!!!!!!");
             jsonObject.put("status","1");
             response.setContentType("application/json; charset=UTF-8");
             try {
@@ -127,6 +108,8 @@ public class changeAction extends HttpServlet {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        //changeMoney.reduceMoney(response,userid,money);
+        System.out.println("页面执行完毕！");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

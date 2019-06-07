@@ -184,7 +184,7 @@
 			</div>
 		</div>
 		<div class="mdui-dialog-actions">
-			<button class="mdui-btn mdui-ripple" onclick="modify()">确定</button>
+			<button class="mdui-btn mdui-ripple" mdui-dialog-close onclick="modify()">确定</button>
 		</div>
 	</div>
 
@@ -264,36 +264,59 @@
 		bunitprice=document.getElementById("bunitprice").value;
 		createat=document.getElementById("createat").value;
 		var data = '{"OrderId":"'+orderid+'","UserId":"'+userid+'","UserName":"'+username+'","StockId":"'+stockid+'","StockName":"'+stockname+'","Quantity":"'+quantity+'","BUnitPrice":"'+bunitprice+'","CreateAt":"'+createat+'"}';
+		console.log(data);
 		var obj = JSON.parse(data);
 		$.post(url,obj,function(json){
 			console.log("dao zhe li le!!!");
 			if(json.status=="1"){
 				limit = limit -15;
-				mdui.snackbar({'message':'修改成功！'});
+				mdui.snackbar({'message':'买入成功！'});
 				show(1);
 			}
 			else if(json.status=="error")
 			{
-				console.log("1234567788");
 				if(json.code==2)
 				{
-					console.log("4645635");
 					mdui.snackbar({'message':'不能购买自己发布的订单！'});
 					show(1);
 				}
 				else
 				{
-					console.log("7777777777");
-					mdui.snackbar({'message':'修改失败！'});
-					show(1);
-				}
+					if(json.code==3)
+					{
+						mdui.snackbar({'message':'买入失败！您的余额不足，请及时冲值！'});
+						show(1);
+					}
+					else
+					{
+						if(json.code==4)
+						{
+							mdui.snackbar({'message':'发生严重错误，数据库期货数量出现问题！'});
+							show(1);
+						}
+						else
+						{
+							if(json.code==5)
+							{
+								mdui.snackbar({'message':'已经没有此订单了！'});
+								show(1);
+							}
+							else
+							{
+								console.log("7777777777");
+								mdui.snackbar({'message':'买入失败！'});
+								show(1);
+							}
 
+						}
+					}
+				}
 			}
 		})
 	}
 
 	function home(){
-		window.location="bm_query_list.html";
+		window.location="bm.html";
 	}
 
 	function delet(id){
