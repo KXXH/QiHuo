@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录记录打印</title>
+    <script src="js/index_beta.js"></script>
+    <script src="js/loginManager.js"></script>
+    <script src="js/jquery-2.1.4.min.js"></script>
+    <link rel="stylesheet" href="css/mdui.min.css">
+    <script src="js/mdui.min.js"></script>
+</head>
+<body>
+<table class="mdui-table mdui-table-hoverable" id="login_table">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>用户名</th>
+        <th>时间</th>
+        <th>描述</th>
+        <th>IP</th>
+        <th>位置</th>
+    </tr>
+    </thead>
+    <tbody id="login_table_body">
+
+    </tbody>
+</table>
+<script>
+    var page_size=getQueryVariable('page_size');
+    var sort_1='id';
+    var sort_2='id';
+    var user_name='';
+    var login_count=0;
+    var asc_1=-1;
+    var asc_2=1;
+    var url='getLoginRecordAction';
+    var j={'username':login_username,'count':login_count,'sort_by_1':sort_1,'sort_by_2':sort_2,'asc_1':-1,'asc_2':1,'page_size':page_size};
+    $.post(url,j,function(json){
+        if(json.status=="ok"){
+            updateLoginTable(json.data);
+            login_count=json.count;
+            setTimeout(function(){window.print()},1000);
+        }else if(json.status=="error"){
+            mdui.alert(json.error,"错误");
+        }else if(json.status=="end"){
+            mdui.snackbar("已经到达最后了!");
+            updateLoginTable(json.data);
+        }
+    });
+</script>
+</body>
+</html>

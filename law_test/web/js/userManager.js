@@ -6,6 +6,7 @@ var is_email_ok=false;
 var is_username_ok=false;
 var raw_username="";
 var raw_email="";
+
 edit_dialog.close();
 $('input[type=radio][name=sorted_by]').change(function(){
     fetchUserInfo();

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>打印</title>
+    <link rel="stylesheet" href="//cdnjs.loli.net/ajax/libs/mdui/0.4.2/css/mdui.min.css">
+    <script src="//cdnjs.loli.net/ajax/libs/mdui/0.4.2/js/mdui.min.js"></script>
+    <script src="js/jquery-2.1.4.min.js"></script>
+</head>
+<body>
+<table class="mdui-table" id="token_table">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Token值</th>
+        <th>用户名</th>
+        <th>TTL</th>
+    </tr>
+    </thead>
+    <tbody id="token_table_body">
+
+    </tbody>
+</table>
+<script>
+    function fetchTokenInfo(){
+        var url='getTokenAction';
+        var sort1='id';
+        var sort2='id';
+        var j={'sort_by_1':sort1,'sort_by_2':sort2,'username':''};
+        $.post(url,j,function(json){
+            console.log(JSON.stringify(json));
+            if(json.status=="ok"){
+                tokenList=json.data;
+                initTokenTable();
+
+            }
+        });
+    }
+    function initTokenTable(){
+        var table=document.getElementById("token_table_body");
+        var rowCount=table.rows.length;
+        for(var i=rowCount-1;i>=0;i--){
+            table.deleteRow(i);
+        }
+        for(var i=0;i<tokenList.length;i++){
+            var row=document.getElementById("token_table_body").insertRow();
+            row.insertCell(0).innerHTML=tokenList[i].id;
+            row.insertCell(1).innerHTML=tokenList[i].tokenValue;
+            row.insertCell(2).innerHTML=tokenList[i].username;
+            row.insertCell(3).innerHTML=tokenList[i].TTL;
+        }
+        mdui.updateTables("#token_table");
+        mdui.mutation();
+    }
+    fetchTokenInfo();
+    window.print();
+</script>
+</body>
+</html>

@@ -537,4 +537,46 @@
         <servlet-name>githubLogin</servlet-name>
         <url-pattern>/githubLogin</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>getTokenOutputAction</servlet-name>
+        <servlet-class>login.manager.getTokenOutputAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getTokenOutputAction</servlet-name>
+        <url-pattern>/getTokenOutputAction</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>tokenStatisticAction</servlet-name>
+        <servlet-class>login.manager.tokenStatisticAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>tokenStatisticAction</servlet-name>
+        <url-pattern>/tokenStatisticAction</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>getLoginOutputAction</servlet-name>
+        <servlet-class>login.manager.getLoginOutputAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getLoginOutputAction</servlet-name>
+        <url-pattern>/getLoginOutputAction</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>delLoginRecordAction</servlet-name>
+        <servlet-class>login.manager.delLoginRecordAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>delLoginRecordAction</servlet-name>
+        <url-pattern>/delLoginRecordAction</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>editLoginRecordAction</servlet-name>
+        <servlet-class>login.manager.editLoginRecordAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>editLoginRecordAction</servlet-name>
+        <url-pattern>/editLoginRecordAction</url-pattern>
+    </servlet-mapping>
 </web-app>

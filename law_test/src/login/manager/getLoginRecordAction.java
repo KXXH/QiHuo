@@ -27,20 +27,47 @@ public class getLoginRecordAction extends javax.servlet.http.HttpServlet {
         }
         int rowCount=0;
         int page_size=15;
+        if(request.getParameter("page_size")!=null){
+            page_size=Integer.parseInt(request.getParameter("page_size"));
+        }
         String user=request.getParameter("username");
-        String lastUser=(String)session.getAttribute("lastUsername");
+        String sort_by_1=request.getParameter("sort_by_1");
+        String sort_by_2=request.getParameter("sort_by_2");
+        int int_asc_1=Integer.parseInt(request.getParameter("asc_1"));
+        int int_acs_2=Integer.parseInt(request.getParameter("asc_2"));
         User opUser= tokenChecker.tokenToUser(tokenExtractor.extractToken(request));
+        //超级管理员可以查看所有用户的登录记录,而普通用户只能察看自己的登录记录
         if(!Objects.equals(user, opUser.getUserName())&&!Objects.equals(opUser.getRole_id(), "super_admin")){
             sendManager.sendDefaultPermissionError(response);
+        }
+        switch(sort_by_1){
+            case "id":case "userName":case "time":case "ip":case "location":break;
+            default:sendManager.sendErrorJSONWithMsg(response,"错误:排序关键字非法!");return;
+        }
+        switch(sort_by_2){
+            case "id":case "userName":case "time":case "ip":case "location":break;
+            default:sendManager.sendErrorJSONWithMsg(response,"错误:排序关键字非法!");return;
+        }
+        String asc_1="DSEC";
+        String asc_2="ASC";
+        if(int_asc_1>0){
+            asc_1="ASC";
+        }else{
+            asc_1="DESC";
+        }
+        if(int_acs_2>0){
+            asc_2="ASC";
+        }else{
+            asc_2="DESC";
         }
         System.out.println("count="+count);
         try {
             Connection conn= dbOpener.getDB();
             String sql=null;
             if(user==null||user.length()==0)
-                sql="SELECT * FROM tbl_logininfo ORDER BY id DESC LIMIT ? OFFSET ? ";
+                sql="SELECT * FROM tbl_logininfo ORDER BY "+sort_by_1+" "+asc_1+" , "+sort_by_2+" "+asc_2+" LIMIT ? OFFSET ? ";
             else
-                sql="SELECT * FROM tbl_logininfo WHERE userName=? ORDER BY id DESC LIMIT ? OFFSET ? ";
+                sql="SELECT * FROM tbl_logininfo WHERE userName=? ORDER BY "+sort_by_1+" "+asc_1+" , "+sort_by_2+" "+asc_2+" LIMIT ? OFFSET ? ";
             PreparedStatement ptmt=conn.prepareStatement(sql);
 
             if(!(user==null||user.length()==0)){
