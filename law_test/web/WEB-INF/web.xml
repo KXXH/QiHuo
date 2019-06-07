@@ -596,6 +596,8 @@
     <servlet-mapping>
         <servlet-name>editLoginRecordAction</servlet-name>
         <url-pattern>/editLoginRecordAction</url-pattern>
+        </servlet-mapping>
+    <servlet>
         <servlet-name>getAllquotationAction</servlet-name>
         <servlet-class>quotation.getXLdata.manager.getAllquotationAction</servlet-class>
     </servlet>
