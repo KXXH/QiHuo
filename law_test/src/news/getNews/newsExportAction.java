@@ -47,7 +47,7 @@ public class newsExportAction extends HttpServlet {
             if(!permissionChecker.checkPermissionAndResponse(request,response,this)) return;
             String csv = getCSV();
             byte[] b = csv.getBytes();
-            String filename = "导出.csv";
+            String filename = "新闻导出.csv";
             filename = URLEncoder.encode(filename, "UTF-8");
             response.setContentType("file/csv");
             response.setHeader("Content-Disposition", "attachment;filename=" + filename);

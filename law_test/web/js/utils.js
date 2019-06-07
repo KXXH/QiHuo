@@ -18,3 +18,7 @@ function uuid() {
     var uuid = s.join("");
     return uuid;
 }
+
+function getLocalHost(){
+    return window.document.location.href.split('/')[2];
+}
