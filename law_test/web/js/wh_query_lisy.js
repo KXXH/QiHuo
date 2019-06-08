@@ -72,11 +72,23 @@ function modify(){
             show();
         }
 
-        else
-            mdui.snackbar({'message':'发布失败！'});
-        show();
+        else if(json.status=="error")
+        {
+            if(json.code == 4)
+            {
+                mdui.snackbar({'message':'持有期货数量小于卖出数量!请重新输入卖出数量!'});
+
+            }
+            else
+            {
+                mdui.snackbar({'message':'发布失败！'});
+            }
+            show();
+        }
     })
 }
+
+
 
 function exported(){
     var url = "whdataToCSV";
@@ -118,7 +130,8 @@ function updateTable(json){
         var id = list[i].stockid;
         newNode.innerHTML = "<td>"+list[i].stockid+"</td>"
         newNode.innerHTML += "<td>"+list[i].stockname +"</td><td>"+list[i].quantity +"</td><td>"+list[i].quotation +"</td><td>" +list[i].createat + "</td>";
-        newNode.innerHTML += "<td><button class=\"mdui-btn mdui-btn-raised\" onclick='delet("+id+")'>删除</button><button class=\"mdui-btn mdui-btn-raised\" onclick='modify_record("+i+")'>卖出</button></td>"
+        //newNode.innerHTML += "<td><button class=\"mdui-btn mdui-btn-raised\" onclick='delet("+id+")'>删除</button></td>"
+        newNode.innerHTML += "<td><button class=\"mdui-btn mdui-btn-raised\" onclick='modify_record("+i+")'>卖出</button></td>"
         table.appendChild(newNode);
     }
 }
@@ -136,8 +149,8 @@ function show(){
     $.post(url,j,function(json){
         //console.log(JSON.stringify(json));
         bus_info=json.list;
-        if(json.status == "error"){
-            mdui.alert("错误!");
+        if(json.status == 1){
+            mdui.snackbar({'message':'发生错误！'});
         }
         else
         {

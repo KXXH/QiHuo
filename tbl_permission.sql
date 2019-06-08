@@ -4,13 +4,13 @@ Navicat MySQL Data Transfer
 Source Server         : localhost
 Source Server Version : 50151
 Source Host           : localhost:3306
-Source Database       : mydb
+Source Database       : xm10-qihuo
 
 Target Server Type    : MYSQL
 Target Server Version : 50151
 File Encoding         : 65001
 
-Date: 2019-05-26 12:17:15
+Date: 2019-06-07 17:41:11
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -24,7 +24,7 @@ CREATE TABLE `tbl_permission` (
   `className` varchar(255) NOT NULL,
   `permissionCode` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tbl_permission
@@ -74,3 +74,9 @@ INSERT INTO `tbl_permission` VALUES ('50', 'warehouse.query.chaxunAction', '28')
 INSERT INTO `tbl_permission` VALUES ('51', 'warehouse.query.querylistAction', '28');
 INSERT INTO `tbl_permission` VALUES ('52', 'warehouse.register.registerAction', '28');
 INSERT INTO `tbl_permission` VALUES ('53', 'warehouse.statistic.statisticAction', '28');
+INSERT INTO `tbl_permission` VALUES ('54', 'transaction.bm.query.bmquerylistAction', '28');
+INSERT INTO `tbl_permission` VALUES ('55', 'transaction.bm.register.bmregisterAction', '28');
+INSERT INTO `tbl_permission` VALUES ('56', 'transaction.bm.qstatistic.bmstatisticAction', '28');
+INSERT INTO `tbl_permission` VALUES ('57', 'transaction.bm.expor.bmdataToCSV', '28');
+INSERT INTO `tbl_permission` VALUES ('58', 'transaction.bm.change.bmchangeAction', '28');
+INSERT INTO `tbl_permission` VALUES ('59', 'index.query.indexquerylistAction', '30');

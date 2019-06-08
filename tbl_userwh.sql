@@ -4,13 +4,13 @@ Navicat MySQL Data Transfer
 Source Server         : localhost
 Source Server Version : 50151
 Source Host           : localhost:3306
-Source Database       : mydb
+Source Database       : xm10-qihuo
 
 Target Server Type    : MYSQL
 Target Server Version : 50151
 File Encoding         : 65001
 
-Date: 2019-05-26 19:12:27
+Date: 2019-06-07 17:41:53
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -26,37 +26,38 @@ CREATE TABLE `tbl_userwh` (
   `StockId` int(11) NOT NULL,
   `StockName` varchar(255) NOT NULL,
   `Quantity` int(255) NOT NULL,
-  `BUnitPrice` double(255,2) NOT NULL,
+  `BUnitPrice` double(11,2) NOT NULL,
   `CreateAt` datetime NOT NULL,
   `role_id` varchar(255) NOT NULL DEFAULT 'normal',
   PRIMARY KEY (`OrderId`)
-) ENGINE=InnoDB AUTO_INCREMENT=89 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=205 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tbl_userwh
 -- ----------------------------
-INSERT INTO `tbl_userwh` VALUES ('1', '5', 'aeds123', '15', '河南井盖', '200', '10.00', '2019-05-16 21:35:01', 'normal');
-INSERT INTO `tbl_userwh` VALUES ('2', '5', 'aeds123', '1', '腾讯科技', '200', '20.30', '2019-05-16 21:35:33', 'normal');
-INSERT INTO `tbl_userwh` VALUES ('3', '5', 'aeds123', '2', '中国银行', '1000', '3.52', '2019-05-16 21:35:58', 'normal');
-INSERT INTO `tbl_userwh` VALUES ('4', '5', 'aeds123', '3', '川大智胜', '500', '5.68', '2019-05-16 21:36:13', 'normal');
-INSERT INTO `tbl_userwh` VALUES ('5', '5', 'aeds123', '8', '江湖穿克难', '500', '20.00', '2019-05-16 21:36:38', 'normal');
-INSERT INTO `tbl_userwh` VALUES ('6', '5', 'aeds123', '3', '川大智胜', '500', '5.68', '2019-05-16 21:36:13', 'normal');
-INSERT INTO `tbl_userwh` VALUES ('7', '5', 'aeds123', '3', '川大智胜', '500', '5.68', '2019-05-16 21:36:13', 'normal');
-INSERT INTO `tbl_userwh` VALUES ('8', '5', 'aeds123', '3', '川大智胜', '500', '5.68', '2019-05-16 21:36:13', 'normal');
-INSERT INTO `tbl_userwh` VALUES ('9', '5', 'aeds123', '2', '中国银行', '1000', '3.52', '2019-05-16 21:35:58', 'normal');
-INSERT INTO `tbl_userwh` VALUES ('10', '5', 'aeds123', '2', '中国银行', '1000', '3.52', '2019-05-16 21:35:58', 'normal');
-INSERT INTO `tbl_userwh` VALUES ('11', '5', 'aeds123', '2', '中国银行', '1000', '3.52', '2019-05-16 21:35:58', 'normal');
-INSERT INTO `tbl_userwh` VALUES ('12', '5', 'aeds123', '2', '中国银行', '1000', '3.52', '2019-05-16 21:35:58', 'normal');
-INSERT INTO `tbl_userwh` VALUES ('13', '5', 'aeds123', '1', '腾讯科技', '200', '20.30', '2019-05-16 21:35:33', 'normal');
-INSERT INTO `tbl_userwh` VALUES ('14', '5', 'aeds123', '1', '腾讯科技', '200', '20.30', '2019-05-16 21:35:33', 'normal');
-INSERT INTO `tbl_userwh` VALUES ('15', '5', 'aeds123', '1', '腾讯科技', '200', '20.30', '2019-05-16 21:35:33', 'normal');
-INSERT INTO `tbl_userwh` VALUES ('16', '5', 'aeds123', '1', '腾讯科技', '200', '20.30', '2019-05-16 21:35:33', 'normal');
-INSERT INTO `tbl_userwh` VALUES ('17', '5', 'aeds123', '1', '腾讯科技', '200', '20.30', '2019-05-16 21:35:33', 'normal');
-INSERT INTO `tbl_userwh` VALUES ('43', '7', 'FTT123', '9', '三九感冒', '50', '9.00', '2019-05-16 21:43:08', 'normal');
-INSERT INTO `tbl_userwh` VALUES ('44', '5', 'aeds123', '3', '川大智胜', '200', '6.00', '2019-05-16 22:16:56', 'normal');
-INSERT INTO `tbl_userwh` VALUES ('82', '5', 'aeds123', '8', '江湖穿克难', '400', '18.00', '2019-05-17 14:17:40', 'normal');
-INSERT INTO `tbl_userwh` VALUES ('83', '5', 'aeds123', '8', '江湖穿克难', '400', '20.00', '2019-05-17 14:20:14', 'normal');
-INSERT INTO `tbl_userwh` VALUES ('84', '5', 'aeds123', '8', '江湖穿克难', '400', '20.00', '2019-05-17 14:29:00', 'normal');
-INSERT INTO `tbl_userwh` VALUES ('86', '5', 'aeds123', '2', '中国银行', '200', '4.00', '2019-05-21 22:47:55', 'normal');
-INSERT INTO `tbl_userwh` VALUES ('87', '5', 'aeds123', '58', '58同城', '400', '8.00', '2019-05-22 15:01:41', 'normal');
-INSERT INTO `tbl_userwh` VALUES ('88', '5', 'aeds123', '58', '58同城', '600', '98.00', '2019-05-23 21:34:19', 'normal');
+INSERT INTO `tbl_userwh` VALUES ('179', '5', 'aeds123', '15', '纽约白银', '1000', '14.50', '2019-06-05 00:22:32', 'normal');
+INSERT INTO `tbl_userwh` VALUES ('180', '5', 'aeds123', '14', '布伦特原油', '200', '64.61', '2019-06-05 09:26:51', 'normal');
+INSERT INTO `tbl_userwh` VALUES ('181', '5', 'aeds123', '15', '纽约白银', '200', '14.50', '2019-06-05 09:29:53', 'normal');
+INSERT INTO `tbl_userwh` VALUES ('182', '5', 'aeds123', '14', '布伦特原油', '100', '64.61', '2019-06-05 09:29:59', 'normal');
+INSERT INTO `tbl_userwh` VALUES ('183', '5', 'aeds123', '32', '亚马逊', '20', '1816.32', '2019-06-05 09:30:05', 'normal');
+INSERT INTO `tbl_userwh` VALUES ('184', '5', 'aeds123', '22', '美国大豆', '10', '884.25', '2019-06-05 09:30:11', 'normal');
+INSERT INTO `tbl_userwh` VALUES ('185', '5', 'aeds123', '32', '亚马逊', '100', '1816.32', '2019-06-05 09:30:21', 'normal');
+INSERT INTO `tbl_userwh` VALUES ('186', '7', 'FTT123', '22', '美国大豆', '10', '884.25', '2019-06-05 09:30:48', 'normal');
+INSERT INTO `tbl_userwh` VALUES ('187', '7', 'FTT123', '32', '亚马逊', '20', '1816.32', '2019-06-05 09:31:13', 'normal');
+INSERT INTO `tbl_userwh` VALUES ('188', '7', 'FTT123', '14', '布伦特原油', '100', '64.61', '2019-06-05 09:31:26', 'normal');
+INSERT INTO `tbl_userwh` VALUES ('189', '7', 'FTT123', '15', '纽约白银', '200', '14.50', '2019-06-05 09:35:53', 'normal');
+INSERT INTO `tbl_userwh` VALUES ('190', '7', 'FTT123', '15', '纽约白银', '1000', '14.50', '2019-06-05 09:45:35', 'normal');
+INSERT INTO `tbl_userwh` VALUES ('191', '7', 'FTT123', '15', '纽约白银', '1000', '14.50', '2019-06-05 09:45:35', 'normal');
+INSERT INTO `tbl_userwh` VALUES ('192', '7', 'FTT123', '15', '纽约白银', '100', '14.50', '2019-06-05 12:41:43', 'normal');
+INSERT INTO `tbl_userwh` VALUES ('193', '7', 'FTT123', '15', '纽约白银', '150', '14.50', '2019-06-05 12:41:48', 'normal');
+INSERT INTO `tbl_userwh` VALUES ('194', '7', 'FTT123', '15', '纽约白银', '150', '14.50', '2019-06-05 12:41:48', 'normal');
+INSERT INTO `tbl_userwh` VALUES ('195', '7', 'FTT123', '15', '纽约白银', '150', '14.50', '2019-06-05 12:41:48', 'normal');
+INSERT INTO `tbl_userwh` VALUES ('196', '7', 'FTT123', '15', '纽约白银', '150', '14.50', '2019-06-05 12:41:50', 'normal');
+INSERT INTO `tbl_userwh` VALUES ('197', '7', 'FTT123', '15', '纽约白银', '150', '14.50', '2019-06-05 12:41:50', 'normal');
+INSERT INTO `tbl_userwh` VALUES ('198', '7', 'FTT123', '15', '纽约白银', '150', '14.50', '2019-06-05 12:41:50', 'normal');
+INSERT INTO `tbl_userwh` VALUES ('199', '7', 'FTT123', '15', '纽约白银', '150', '14.50', '2019-06-05 12:41:50', 'normal');
+INSERT INTO `tbl_userwh` VALUES ('200', '7', 'FTT123', '15', '纽约白银', '150', '14.50', '2019-06-05 12:41:51', 'normal');
+INSERT INTO `tbl_userwh` VALUES ('201', '7', 'FTT123', '22', '美国大豆', '10', '884.25', '2019-06-05 12:42:18', 'normal');
+INSERT INTO `tbl_userwh` VALUES ('202', '5', 'aeds123', '15', '纽约白银', '150', '14.50', '2019-06-05 12:54:01', 'normal');
+INSERT INTO `tbl_userwh` VALUES ('203', '5', 'aeds123', '15', '纽约白银', '150', '14.50', '2019-06-07 11:08:32', 'normal');
+INSERT INTO `tbl_userwh` VALUES ('204', '5', 'aeds123', '22', '美国大豆', '20', '884.25', '2019-06-07 17:40:15', 'normal');
