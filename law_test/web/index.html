@@ -33,6 +33,34 @@
 
 <div class="mdui-container">
 
+	<div class="mdui-dialog" id="modify">
+		<div class="mdui-dialog-content">
+		<div class="mdui-dialog-title">增加订单</div>
+			<div class="mdui-textfield">
+				<label class="mdui-textfield-label">股票ID</label>
+				<input class="mdui-textfield-input" id="stock_id" disabled placeholder="stock_id"/>
+			</div>
+			<div class="mdui-textfield">
+				<label class="mdui-textfield-label">股票名称</label>
+				<input class="mdui-textfield-input" id="stock_name" disabled placeholder="stock_name"/>
+			</div>
+			<div class="mdui-textfield">
+				<label class="mdui-textfield-label">买入数量</label>
+				<input class="mdui-textfield-input" id="quantity" oninput="value=value.replace(/[^\d]/g,'')" minlength="1" maxlength="5"/>
+			</div>
+			<div class="mdui-textfield">
+				<label class="mdui-textfield-label">订单价格</label>
+				<input class="mdui-textfield-input" id="bunitprice" disabled placeholder="bunitprice"/>
+			</div>
+			<div class="mdui-textfield">
+				<label class="mdui-textfield-label">交易时间</label>
+				<input class="mdui-textfield-input" type="datetime" id="createat" disabled placeholder="createat"/>
+			</div>
+			</div>
+		<div class="mdui-dialog-actions" id="submit_btn">
+			<button class="mdui-btn" id="btn_submit" mdui-dialog-close onclick="addbmInfo()">确定</button>
+		</div>
+	</div>
 
 	<div>
 		<div class="mdui-table-fluid">
@@ -43,7 +71,8 @@
 					<th>实时价格</th>
 					<th>涨幅</th>
 					<th>涨幅百分比</th>
-
+					<th>更新时间</th>
+					<th>操作</th>
 				</tr>
 				<tbody id="bus_list">
 
@@ -81,13 +110,48 @@
 		for(var i = 0; i < list.length; i++){
 			var newNode = document.createElement("tr");
 			newNode.innerHTML = "<td>"+list[i].id+"</td>"
-			newNode.innerHTML += "<td>"+list[i].name +"</td><td>"+list[i].quotation +"</td><td>"+list[i].riseorfall +"</td><td>"+list[i].rofper +"</td>";
+			newNode.innerHTML += "<td>"+list[i].name +"</td><td>"+list[i].quotation +"</td><td>"+list[i].riseorfall +"</td><td>"+list[i].rofper +"</td><td>"+list[i].createat +"</td>";
+			newNode.innerHTML += "<td><button class=\"mdui-btn mdui-btn-raised\" onclick='modify_record("+i+")'>买入</button></td>"
 			table.appendChild(newNode);
 		}
 	}
 
+	function modify_record(i){
+		var inst = new mdui.Dialog("#modify");
+		inst.open();
+		document.getElementById("stock_id").value = list[i].id;
+		document.getElementById("stock_name").value = list[i].name;
+		document.getElementById("quantity").value = list[i].quantity;
+		document.getElementById("bunitprice").value = list[i].quotation;
+		document.getElementById("createat").value = list[i].createat;
 
-	function show(Order){
+	}
+	function addbmInfo(){
+
+		url = "registerAction";
+		url = getQueryPath(url)
+		stockid=document.getElementById("stock_id").value;
+		stockname=document.getElementById("stock_name").value;
+		quantity=document.getElementById("quantity").value;
+		bunitprice=document.getElementById("bunitprice").value;
+		createat=document.getElementById("createat").value;
+		var data = '{"StockId":"'+stockid+'","StockName":"'+stockname+'","Quantity":"'+quantity+'","BUnitPrice":"'+bunitprice+'","CreateAt":"'+createat+'"}';
+		var obj = JSON.parse(data);
+		$.post(url,obj,function(json){
+			if(json.status=="1"){
+				mdui.snackbar({'message':'发布成功！'});
+				show();
+			}
+			else
+			{
+				mdui.snackbar({'message':'发布失败！'});
+				show();
+			}
+
+		})
+	}
+
+	function show(){
 
 		var url = "indexquerylistAction";
 		url=getQueryPath(url);

@@ -17,18 +17,18 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.*;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 
 @WebServlet(name = "indexquerylistAction")
 public class indexquerylistAction extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+java.util.Date currDate = Calendar.getInstance().getTime();
 
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String createTime = sdf.format(currDate);
         if(!permissionChecker.checkPermissionAndResponse(request,response,this)) return;
         String a = null;
         try{
@@ -49,6 +49,7 @@ public class indexquerylistAction extends HttpServlet {
                 map.put("quotation",rs.getString("Quotation"));
                 map.put("riseorfall",rs.getString("RiseOrFall"));
                 map.put("rofper",rs.getString("ROFper"));
+                map.put("createat",createTime);
                 list.add(map);
             }
             conn.close();

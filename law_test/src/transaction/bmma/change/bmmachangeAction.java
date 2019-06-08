@@ -1,4 +1,4 @@
-package transaction.bm.change;
+package transaction.bmma.change;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,8 +19,8 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 
-@WebServlet(name = "bmchangeAction")
-public class bmchangeAction extends HttpServlet {
+@WebServlet(name = "bmmachangeAction")
+public class bmmachangeAction extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         if(!permissionChecker.checkPermissionAndResponse(request,response,this)) return;

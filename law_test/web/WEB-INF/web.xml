@@ -346,6 +346,60 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>bmmaquerylistAction</servlet-name>
+        <servlet-class>transaction.bmma.query.bmmaquerylistAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>bmmaquerylistAction</servlet-name>
+        <url-pattern>/bmmaquerylistAction</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>bmmaregisterAction</servlet-name>
+        <servlet-class>transaction.bmma.register.bmmaregisterAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>bmmaregisterAction</servlet-name>
+        <url-pattern>/bmmaregisterAction</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>bmmachangeAction</servlet-name>
+        <servlet-class>transaction.bmma.change.bmmachangeAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>bmmachangeAction</servlet-name>
+        <url-pattern>/bmmachangeAction</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>bmmadataToCSV</servlet-name>
+        <servlet-class>transaction.bmma.expor.bmmadataToCSV</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>bmmadataToCSV</servlet-name>
+        <url-pattern>/bmmadataToCSV</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>bmmastatisticAction</servlet-name>
+        <servlet-class>transaction.bmma.statistic.bmmastatisticAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>bmmastatisticAction</servlet-name>
+        <url-pattern>/bmmastatisticAction</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>bmmadeleteAction</servlet-name>
+        <servlet-class>transaction.bmma.delet.bmmadeleteAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>bmmadeleteAction</servlet-name>
+        <url-pattern>/bmmadeleteAction</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>bmquerylistAction</servlet-name>
         <servlet-class>transaction.bm.query.bmquerylistAction</servlet-class>
     </servlet>
@@ -382,6 +436,16 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>bmstatisticAction</servlet-name>
+        <servlet-class>transaction.bm.statistic.bmstatisticAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>bmstatisticAction</servlet-name>
+        <url-pattern>/bmstatisticAction</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
         <servlet-name>checkMoneyAction</servlet-name>
         <servlet-class>warehouse.check.checkMoneyAction</servlet-class>
     </servlet>
@@ -398,15 +462,6 @@
             <servlet-name>indexquerylistAction</servlet-name>
             <url-pattern>/indexquerylistAction</url-pattern>
         </servlet-mapping>
-
-    <servlet>
-        <servlet-name>bmstatisticAction</servlet-name>
-        <servlet-class>transaction.bm.statistic.bmstatisticAction</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>bmstatisticAction</servlet-name>
-        <url-pattern>/bmstatisticAction</url-pattern>
-    </servlet-mapping>
 
     <servlet>
         <servlet-name>getDataToShowAction</servlet-name>

@@ -4,10 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import permission.manager.permissionChecker;
 import user.manager.User;
-import utils.changeMoney;
-import utils.dbOpener;
-import utils.tokenChecker;
-import utils.tokenExtractor;
+import utils.*;
 
 
 import javax.servlet.ServletException;
@@ -51,13 +48,40 @@ public class changeAction extends HttpServlet {
             classnotfoundexception.printStackTrace();
         }
         System.out.println("加载了JDBC驱动");
-
+        Connection conn = null;
         //然后链接数据库，开始操作数据表
         try {
-            Connection conn = dbOpener.getDB();
+            conn = dbOpener.getDB();
+            conn.setAutoCommit(false);
             System.out.println("准备statement。");
             Statement statement = conn.createStatement();
             System.out.println("已经链接上数据库！");
+
+            String sql3 = "select * from tbl_userrealwh WHERE UserId=? and StockId=? and StockName=?";  //查一下有没有已经存在了吗
+            System.out.println("即将执行的SQL3语句是：" + sql3);
+
+            System.out.println(stockid);
+            PreparedStatement ps;
+            ps = conn.prepareStatement(sql3);    //实例化PreparedStatement对象
+            ps.setInt(1, userid);
+            ps.setInt(2, stockid);       //设置预处理语句参数
+            ps.setString(3, stockname);
+            ResultSet rs = ps.executeQuery();   //执行预处理语句获取查询结果集
+            System.out.println("执行完毕，逐条显示<br>");
+            //如果查询有结果，则循环显示查询出来的记录
+            int checkquantity=0;
+            String a=null;
+            if(rs.next())
+            {
+                checkquantity=rs.getInt("Quantity");
+            }
+            System.out.println("checkquantity是：：：："+checkquantity);
+            if(checkquantity<quantity)
+            {
+                System.out.println("到这里了33333333");
+                sendManager.sendErrorJSONWithMsgAndCode(response,a,4);
+                return;
+            }
 
             String sql1 = "insert into tbl_bm(UserId,UserName,StockId,StockName,Quantity,BUnitPrice,CreateAt) values('"
                     + userid + "','" + username + "','"+ stockid + "','" + stockname + "','" + quantity + "','" + bunitprice + "','" + createTime + "')";
@@ -73,6 +97,7 @@ public class changeAction extends HttpServlet {
                     + userid + "','" + username + "','" + stockid + "','" + stockname + "','" + quantity + "','" + bunitprice + "','" + createTime + "')";
             System.out.println("即将执行的SQL语句是：" + sql);
             statement.executeUpdate(sql);
+            conn.commit();//提交事务
             statement.close();
             conn.close();
 
@@ -89,6 +114,12 @@ public class changeAction extends HttpServlet {
                     et.printStackTrace();
                 }
             } catch (JSONException e1) {
+                e1.printStackTrace();
+            }
+            try {
+                conn.rollback();//某一条数据添加失败时，回滚
+                System.out.println("进行了回滚!!!!!!!!!!!!!!!!!");
+            } catch (SQLException e1) {
                 e1.printStackTrace();
             }
             e.printStackTrace();
