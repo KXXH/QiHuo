@@ -35,37 +35,12 @@
 
 
             <div class="mdui-card-content">
-                <div class="mdui-textfield mdui-textfield-floating-label">
-                    <label class="mdui-textfield-label" >用户名</label>
-                    <input class="mdui-textfield-input" id="UserName" name="UserName" type="text" required/>
-                    <div class="mdui-textfield-error">用户名不能为空</div>
-                </div>
-                <div class="mdui-textfield mdui-textfield-floating-label">
-                    <label class="mdui-textfield-label" >密码</label>
-                    <input class="mdui-textfield-input" id="PassWd" name="PassWd" type="password" required/>
-                    <div class="mdui-textfield-error">密码不能为空</div>
-                </div>
-                <div style="display: none" id="captcha_div">
-                    <img class="mdui-col-xs-4" src="jcaptcha.jpg" onclick='this.src=this.src+"?"+Math.random()' id="captcha_img" /> <input class="mdui-textfield-input mdui-col-xs-8" type="text" name="jcaptcha" id="jcaptcha" value="" placeholder="验证码"/>
-                </div>
-                <label class="mdui-checkbox">
-                    <input type="checkbox" name="rememberPassword" id="rememberPassword"/>
-                    <i class="mdui-checkbox-icon"></i>
-                    记住密码
-                </label>
-
-                <div class=" mdui-typo mdui-float-right">
-                    <a class="mdui-float-right" onclick="" href="forgetPassword.html">
-                        忘记密码
-                    </a>
-                </div>
+                <p>确定使用以下用户登录?</p>
+                <div id="wechat_username"></div>
                 <div class="mdui-card-actions">
                     <div>
-                        <a class="mdui-btn mdui-ripple mdui-float-right mdui-color-deep-orange-600" href="user_register.html">
-                            注册
-                        </a>
-                        <button class="mdui-btn mdui-ripple mdui-float-right mdui-color-deep-orange-600" onclick="loginTask();" >
-                            登录
+                        <button class="mdui-btn mdui-ripple mdui-float-right mdui-color-deep-orange-600" onclick="login_with_wechat_confirm();" >
+                            确定
                         </button>
                     </div>
 
@@ -75,5 +50,21 @@
     </div>
 </div>
 <script src="js/login_beta.js"></script>
+<script>
+    $.get('QRLoginChecker',function(json){
+        $("#wechat_username").text(json.username);
+    });
+
+    function login_with_wechat_confirm(){
+        var url="loginAction";
+        $.post(url,function(json){
+            if(json.status=="ok"||json.status=="success"){
+                mdui.alert("微信登录成功!请您返回电脑操作!");
+            }else{
+                mdui.alert(json.error);
+            }
+        })
+    }
+</script>
 </body>
 </html>

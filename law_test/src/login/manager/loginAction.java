@@ -23,6 +23,13 @@ import utils.*;
  */
 @WebServlet(name = "loginAction")
 public class loginAction extends HttpServlet {
+    /**
+     * 登录验证模块,支持微信绑定登录(无需传参,session中有微信号，且与数据库中记录匹配即可登录),微信新增
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     //POST返回错误码对照:
     //1:用户名或密码错误
     //2:token不存在
@@ -43,21 +50,26 @@ public class loginAction extends HttpServlet {
         Cookie tokenCookie=cookieManager.getCookieByName(request,"token");
         String userCaptchaResponse = request.getParameter("jcaptcha");
         System.out.println("session id="+session.getId());
+        //如果微信号不提供，则跳过微信登录部分
         if(wechat_id==null||wechat_token==null||wechat_id.length()==0||wechat_token.length()==0){
             ;
-        }
-        else if(wechat_user==null){
-            sendManager.sendErrorJSONWithMsgAndCode(response,"该微信未绑定帐号!",20);
-            return;
-        }else if(userName!=null&&password!=null&&userName.length()>0&&password.length()>0&&wechat_id!=null&&wechat_id.length()>0){
+        }//如果同时传入用户名、密码、微信号，则视为绑定新微信
+        else if(userName!=null&&password!=null&&userName.length()>0&&password.length()>0&&wechat_id!=null&&wechat_id.length()>0){
+            System.out.println("loginAction:绑定微信!");
+            //首先确定用户名密码是否正确
             User user=User.login(userName,password);
+            System.out.println("loginAction:user.wechatid="+user.getWechatId());
+            //如果用户名密码不正确，则直接报错退出
             if(user==null){
                 sendManager.sendErrorJSONWithMsgAndCode(response,"用户名或密码错误!",1);
                 return;
-            }else if(user.getWechatId()!=null&& !Objects.equals(user.getWechatId(), "undefined")){
+            }
+            //否则，检查用户是否已经绑定微信，如果不是，允许用户绑定微信
+            else if(user.getWechatId()==null||Objects.equals(user.getWechatId(), "undefined")||user.getWechatId().length()==0){
+                System.out.println("loginAction:登录成功!");
                 try {
-                    user.setWechatId(wechat_id);
-                    String new_token=tokenGenerator.getAndStoreToken(user.getUserName());
+                    user.setWechatId(wechat_id);//设置新的微信ID
+                    String new_token=tokenGenerator.getAndStoreToken(user.getUserName());//生成token并返回
                     JSONObject jsonObject = new JSONObject();
                     try {
                         jsonObject.put("status","success");
@@ -65,9 +77,9 @@ public class loginAction extends HttpServlet {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
+                    //设置session
                     try{
-                        session.invalidate();
+                        //session.invalidate();
                     }catch(IllegalStateException ignored){
                         ;
                     }
@@ -76,8 +88,10 @@ public class loginAction extends HttpServlet {
                     session.setAttribute("captcha_flag",false);
                     session.setAttribute("attempt_count",0);
                     sendManager.sendJSON(response,jsonObject);
-                    return;
 
+                    QRLoginChecker.setQRStatus((String)session.getAttribute("uuid"),new_token);
+                    System.out.println("loginAction:uuid="+(String)session.getAttribute("uuid")+",value="+QRLoginChecker.getQRStatus((String)session.getAttribute("uuid")));
+                    return;
                 } catch (SQLException e) {
                     exceptionManager.logException(e,this);
                     e.printStackTrace();
@@ -85,7 +99,9 @@ public class loginAction extends HttpServlet {
             }
 
         }
+        //否则，检查用户关联微信的帐号是否存在
         else if(wechat_user.getWechatId()!=null&& !Objects.equals(wechat_user.getWechatId(), "undefined")){
+            System.out.println("loginAction:查找到对应的用户!");
             String new_token=tokenGenerator.getAndStoreToken(wechat_user.getUserName());
             JSONObject jsonObject = new JSONObject();
             try {
@@ -96,7 +112,7 @@ public class loginAction extends HttpServlet {
             }
 
             try{
-                session.invalidate();
+                //session.invalidate();
             }catch(IllegalStateException ignored){
                 ;
             }
@@ -105,6 +121,11 @@ public class loginAction extends HttpServlet {
             session.setAttribute("captcha_flag",false);
             session.setAttribute("attempt_count",0);
             sendManager.sendJSON(response,jsonObject);
+            QRLoginChecker.setQRStatus((String)session.getAttribute("uuid"),new_token);
+            System.out.println("loginAction:uuid="+(String)session.getAttribute("uuid")+",value="+QRLoginChecker.getQRStatus((String)session.getAttribute("uuid")));
+            return;
+        }else if(wechat_user==null){
+            sendManager.sendErrorJSONWithMsgAndCode(response,"该微信未绑定帐号!",20);
             return;
         }
 

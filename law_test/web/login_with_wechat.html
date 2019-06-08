@@ -64,7 +64,7 @@
                         <a class="mdui-btn mdui-ripple mdui-float-right mdui-color-deep-orange-600" href="user_register.html">
                             注册
                         </a>
-                        <button class="mdui-btn mdui-ripple mdui-float-right mdui-color-deep-orange-600" onclick="loginTask();" >
+                        <button class="mdui-btn mdui-ripple mdui-float-right mdui-color-deep-orange-600" onclick="login_with_wechat();" >
                             登录
                         </button>
                     </div>
@@ -75,5 +75,18 @@
     </div>
 </div>
 <script src="js/login_beta.js"></script>
+<script>
+    function login_with_wechat(){
+        var url="loginAction";
+        var j={'UserName':$('#UserName').val(),'PassWd':$('#PassWd').val()};
+        $.post(url,j,function(json){
+            if(json.status=="ok"||json.status=="success"){
+                mdui.alert("微信绑定成功!请您返回电脑操作!");
+            }else{
+                mdui.alert(json.error);
+            }
+        })
+    }
+</script>
 </body>
 </html>

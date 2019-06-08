@@ -20,12 +20,17 @@ public class login extends javax.servlet.http.HttpServlet {
         try{
             String wechat_id=request.getParameter("wechat_id");
             String wechat_name=request.getParameter("wechat_name");
+            request.getSession().setAttribute("user_wechat_name",wechat_name);
+            request.getSession().setAttribute("uuid",request.getParameter("uuid"));
+            System.out.println("login:cookie="+cookieManager.getCookieByName(request,"uuid"));
             if(wechat_id!=null&&wechat_id.length()>0){
                 User user=User.findUser(wechat_id,"WeChatId");
                 if(user==null){
                     request.getRequestDispatcher("login_with_wechat.html").forward(request, response);
+                    return;
                 }else{
                     request.getRequestDispatcher("login_with_wechat_confirm.html?wechat_name="+wechat_name).forward(request,response);
+                    return;
                 }
             }
             HttpSession session=request.getSession();

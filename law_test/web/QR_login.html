@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="js/jquery-2.1.4.min.js"></script>
 </head>
 <body onload="makeCode()">
 <div class="mdui-img-rounded mdui-img-fluid" id="qrcode">
@@ -10,11 +11,26 @@
 </div>
 <a href="QRLoginRedirector">click</a>
 <script src="js/qrcode.js"></script>
+<script src="js/utils.js"></script>
 <script>
+    var uid=uuid();
     function makeCode(){
         var qrcode=new QRCode('qrcode');
-        qrcode.makeCode('http://127.0.0.1：8080/XM10/QRLoginRedirector?'+uuid());
+        qrcode.makeCode('http://'+getQueryPath('/QRLoginRedirector?uuid=')+uid);
+        $('a').attr('href',getQueryPath('QRLoginRedirector?uuid=')+uid);
     }
+    function checkStatus(){
+        var url="QRLoginChecker";
+        var j={'uuid':uid};
+        $.post(url,j,function(json){
+            switch(json.status){
+                case "unscaned":break;
+                case "scaned":console.log("已扫描,等待登录");break;
+                case "ok":window.location.href="index_beta.html";
+            }
+        })
+    }
+    setInterval(checkStatus,2000);
 </script>
 </body>
 </html>

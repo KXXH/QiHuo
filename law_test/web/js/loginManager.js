@@ -174,7 +174,10 @@ function editLoginRecord(){
 function loadMoreLoginRecord(){
     var sort1=$('input[type=radio][name=login_sorted_by]:checked').val();
     var sort2=$('input[type=radio][name=login_sorted_by2]:checked').val();
-    var j={'username':login_username,'count':login_count,'sort_by_1':sort1,'sort_by_2':sort2,'asc_1':-1,'asc_2':1};
+    var asc_1=$('#asc_1_checkbox').attr('checked')=="checked"?-1:1;
+    var asc_2=$('#asc_2_checkbox').attr('checked')=="checked"?-1:1;
+
+    var j={'username':login_username,'count':login_count,'sort_by_1':sort1,'sort_by_2':sort2,'asc_1':asc_1,'asc_2':asc_2};
     var url=getQueryPath('getLoginRecordAction');
     $.post(url,j,function(json){
         if(json.status=="ok"){
@@ -385,7 +388,18 @@ $('#loginOutputFromSelect').on('close.mdui.select',function(){
         $('#loginOutputDatePicker').addClass('mdui-invisible');
     }
 });
-
+$('#asc_1_checkbox').change(function(){
+    if(this.hasAttribute("checked")) this.removeAttribute("checked");
+    else this.setAttribute("checked","true");
+    if($('#asc_1_label').text()=="升序") $('#asc_1_label').text("降序");
+    else $('#asc_1_label').text("升序");
+});
+$('#asc_2_checkbox').change(function(){
+    if(this.hasAttribute("checked")) this.removeAttribute("checked");
+    else this.setAttribute("checked","true");
+    if($('#asc_1_label').text()=="升序") $('#asc_1_label').text("降序");
+    else $('#asc_1_label').text("升序");
+});
 /**
  * Created by zjm97 on 2019/5/25.
  */

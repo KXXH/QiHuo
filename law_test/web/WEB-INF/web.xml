@@ -553,7 +553,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>githubLogin</servlet-name>
-        <url-pattern>/githubLogin</url-pattern>
+        <url-pattern>/githubLogin/*</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -633,6 +633,13 @@
         <servlet-name>QuotationStatisitcsAction</servlet-name>
         <url-pattern>/QuotationStatisitcsAction</url-pattern>
     </servlet-mapping>
-
+    <servlet>
+        <servlet-name>QRLoginChecker</servlet-name>
+        <servlet-class>login.manager.QRLoginChecker</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>QRLoginChecker</servlet-name>
+        <url-pattern>/QRLoginChecker</url-pattern>
+    </servlet-mapping>
 
 </web-app>

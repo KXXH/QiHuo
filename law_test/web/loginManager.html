@@ -181,7 +181,12 @@
         <div class="mdui-dialog" id="loginSortDlg">
             <div class="mdui-dialog-title">排序方式</div>
             <div class="mdui-dialog-content mdui-typo">
-                <p class="mdui-p-l-3">首要关键字</p>
+                <p class="">首要关键字</p>
+                <div id="asc_1_label">降序</div>
+                <label class="mdui-switch">
+                    <input type="checkbox" id="asc_1_checkbox" checked/>
+                    <i class="mdui-switch-icon"></i>
+                </label>
                 <ul class="mdui-list">
                     <li class="mdui-list-item mdui-ripple">
                         <label class="mdui-radio mdui-m-l-1 mdui-m-r-1"><input type="radio" name="login_sorted_by" value="id" checked/><i class="mdui-radio-icon"></i>ID</label>
@@ -203,7 +208,12 @@
                     </li>
                 </ul>
 
-                <p class="mdui-p-l-3">次要关键字</p>
+                <p class="">次要关键字</p>
+                <div id="asc_2_label">升序</div>
+                <label class="mdui-switch">
+                    <input type="checkbox" id="asc_2_checkbox"/>
+                    <i class="mdui-switch-icon"></i>
+                </label>
                 <ul class="mdui-list">
                     <li class="mdui-list-item mdui-ripple">
                         <label class="mdui-radio mdui-m-l-1 mdui-m-r-1"><input type="radio" name="login_sorted_by2" value="id" checked/><i class="mdui-radio-icon"></i>ID</label>
@@ -255,7 +265,7 @@
                     <input class="mdui-textfield-input" type="text" id="login_record_edit_username" disabled/>
                 </div>
                 <div class="mdui-textfield">
-                    <label class="mdui-textfield-label"　mdui-tooltip="{content: '提示:为确保系统日志的一致性,不允许修改登录时间!'}">时间</label>
+                    <label class="mdui-textfield-label" mdui-tooltip="{content: '提示:为确保系统日志的一致性,不允许修改登录时间!'}">时间</label>
                     <input class="mdui-textfield-input" type="text" id="login_record_edit_time" disabled/>
                 </div>
                 <div class="mdui-textfield">

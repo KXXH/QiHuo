@@ -23,6 +23,8 @@ public class QRLoginCallback extends javax.servlet.http.HttpServlet {
 
     protected void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, java.io.IOException {
         String code=request.getParameter("code");
+        String uuid=request.getPathInfo().substring(1);
+        System.out.println("QRLoginCallback:uuid="+uuid);
         if(code==null||code.length()==0){
             sendManager.sendErrorJSONWithMsg(response,"没有授权码!");
             return;
@@ -45,7 +47,8 @@ public class QRLoginCallback extends javax.servlet.http.HttpServlet {
             String login=user_data.getString("login");
             session.setAttribute("user_wechat_id",user_id);
             session.setAttribute("user_wechat_token",token);
-            request.getRequestDispatcher("login?wechat_id="+user_id+"&wechat_name="+login).forward(request,response);
+            response.sendRedirect("/XM10/login?wechat_id="+user_id+"&wechat_name="+login+"&uuid="+uuid);
+            System.out.println("QRLoginCallback:已转发!");
         } catch (JSONException e) {
             e.printStackTrace();
             exceptionManager.logException(e,this);
