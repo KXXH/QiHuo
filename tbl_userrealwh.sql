@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50151
 File Encoding         : 65001
 
-Date: 2019-06-07 17:41:47
+Date: 2019-06-13 23:03:02
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -36,7 +36,7 @@ CREATE TABLE `tbl_userrealwh` (
 -- Records of tbl_userrealwh
 -- ----------------------------
 INSERT INTO `tbl_userrealwh` VALUES ('1', '5', 'aeds123', '22', '美国大豆', '0', '0.00', '2019-06-04 21:48:21', 'normal');
-INSERT INTO `tbl_userrealwh` VALUES ('2', '5', 'aeds123', '32', '亚马逊', '-100', '0.00', '2019-06-04 21:49:14', 'normal');
+INSERT INTO `tbl_userrealwh` VALUES ('2', '5', 'aeds123', '32', '亚马逊', '300', '0.00', '2019-06-04 21:49:14', 'normal');
 INSERT INTO `tbl_userrealwh` VALUES ('4', '5', 'aeds123', '12', '纽约黄金', '5', '0.00', '2019-06-18 21:43:25', 'normal');
 INSERT INTO `tbl_userrealwh` VALUES ('5', '5', 'aeds123', '13', '纽约原油', '450', '0.00', '2019-06-04 23:55:20', 'normal');
 INSERT INTO `tbl_userrealwh` VALUES ('7', '7', 'FTT123', '13', '纽约原油', '0', '0.00', '2019-06-01 17:36:54', 'normal');
