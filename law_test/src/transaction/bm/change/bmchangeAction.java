@@ -190,7 +190,7 @@ public class bmchangeAction extends HttpServlet {
                     e1.printStackTrace();
                 }
                 try {
-                    jsonObject.put("status", "0");
+                    jsonObject.put("status", "error");
                     try {
                         response.getWriter().print(jsonObject);
                         response.getWriter().flush();
