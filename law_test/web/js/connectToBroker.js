@@ -7,7 +7,7 @@ function initSocket(userId) {
         console.log("您的浏览器支持WebSocket/websocket");
     }
     //socket连接地址: 注意是ws协议
-    var path = 'ws://localhost:8080/XM10/Broker/' + userId;
+    var path = 'ws://' + getLocalHost() + '/XM10/Broker/' + userId;
     console.log(path)
     socket = new WebSocket(path);
     socket.onopen = function() {
