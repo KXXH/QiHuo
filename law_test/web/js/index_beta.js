@@ -177,9 +177,16 @@ function getNotifications(){
 var inst = new mdui.Dialog("#notifications");
 
 function read(i){
-    console.log(i)
-    if(i!=undefined){
-        mdui.alert("消息 "+i+" 已读,id:"+list[i].id);
-    }
+    console.log(i);
+    url = "NotificationDeleteAction";
+    data={"id":list[i].id};
+    $.post(url,data,function(json){
+        if(json.status=="ok"){
+            mdui.alert("消息 "+i+" 已读");
+            getNotifications();
+        }
+        else
+            alert("删除失败!");
+    })
 
 }
