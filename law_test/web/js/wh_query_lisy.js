@@ -3,6 +3,7 @@ var list;
 var len=0;
 var Order=0;
 var id="";
+var tempquan=""
 var userid="";
 var username="";
 var stockid="";
@@ -15,11 +16,13 @@ function add(){
 function home(){
     window.location="wh_query_list.html";
 }
-function delet(id){
+function delet(i){
     mdui.confirm("您确认要删除这个用户吗?<br>注意：删除操作是不可逆的，请仔细考虑!","删除确认",function(){
-        var url = "deleteAction?StockId="+id;
+        var url = "deleteAction";
         url=getQueryPath(url);
-        var data1 = '{"StockId":"'+id+'"}';
+        var id = list[i].stockid;
+        var tempquan=list[i].quantity;
+        var data1 = '{"StockId":"'+id+'","Quantity":"'+tempquan+'"}';
 
         var obj = JSON.parse(data1);
 
@@ -28,7 +31,14 @@ function delet(id){
             //initMenu(json);
             console.log(JSON.stringify(json));
             if(json.status=="error"){
-                mdui.snackbar({'message':'删除失败!'});
+                if(json.code=="1")
+                {
+                    mdui.snackbar({'message':'删除失败!不能删除数量非0的持有!'});
+                }
+                else
+                {
+                    mdui.snackbar({'message':'删除失败!'});
+                }
             }
             else{
                 mdui.snackbar({'message':'删除成功!'});
@@ -127,11 +137,11 @@ function updateTable(json){
     table.innerHTML="";
     for(var i = 0; i < list.length; i++){
         var newNode = document.createElement("tr");
-        var id = list[i].stockid;
+
         newNode.innerHTML = "<td>"+list[i].stockid+"</td>"
         newNode.innerHTML += "<td>"+list[i].stockname +"</td><td>"+list[i].quantity +"</td><td>"+list[i].quotation +"</td><td>" +list[i].createat + "</td>";
         //newNode.innerHTML += "<td><button class=\"mdui-btn mdui-btn-raised\" onclick='delet("+id+")'>删除</button></td>"
-        newNode.innerHTML += "<td><button class=\"mdui-btn mdui-btn-raised\" onclick='modify_record("+i+")'>卖出</button></td>"
+        newNode.innerHTML += "<td><button class=\"mdui-btn mdui-btn-raised\" onclick='delet("+i+")'>删除</button><button class=\"mdui-btn mdui-btn-raised\" onclick='modify_record("+i+")'>卖出</button></td>"
         table.appendChild(newNode);
     }
 }
