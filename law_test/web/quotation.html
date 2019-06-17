@@ -86,7 +86,7 @@
         }
     </script>
 </head>
-<body onload="connect();getQuatations();flush()" class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-pink ">
+<body onload="getQuatations();flush()" class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-pink ">
 
 <div id="inc_appbar"></div>
 <div id="inc_menu"></div>
@@ -155,6 +155,7 @@
     $('#inc_appbar').load("index_beta.html #appbar");
     $('#inc_menu').load("index_beta.html #left-drawer",function(responseTxt,statusTxt,xhr){
         initPage();
+        connect();
         $('#title').text("当前行情");
     });
     $('#inc_notification').load("index_beta.html #notifications");

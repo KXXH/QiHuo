@@ -16,7 +16,7 @@
     <script src="js/utils.js"></script>
     <script src="js/connectToBroker.js"></script>
 </head>
-<body onload="connect();getNews();" class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-pink ">
+<body onload="getNews();" class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-pink ">
 
     <div id="inc_appbar"></div>
 
@@ -60,6 +60,7 @@
     $('#inc_appbar').load("index_beta.html #appbar");
     $('#inc_menu').load("index_beta.html #left-drawer",function(responseTxt,statusTxt,xhr){
         initPage();
+        connect();
         $('#title').text("财经新闻");
     });
     $('#inc_notification').load("index_beta.html #notifications");
