@@ -102,7 +102,7 @@ function checkResult(json){
         else{
             setCookieMins("tocken",json.tocken,5);
         }*/
-        window.location.href = "index_beta.html";
+        window.location.href = "index";
     }
     else{
         var type = json.error;
