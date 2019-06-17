@@ -26,7 +26,7 @@
         <a href="javascript:;" class="mdui-typo-title" id="title">首页</a>
         <div class="mdui-toolbar-spacer"></div>
         <a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></a>
-        <a  class="mdui-btn mdui-btn-icon" ><i class="mdui-icon material-icons" >refresh</i></a>
+        <a  class="mdui-btn mdui-btn-icon" mdui-dialog="{target: '#notifications'}"><i class="mdui-icon material-icons">&#xe7f4;</i></a>
         <a onclick="logOut();" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">exit_to_app</i></a>
     </div>
 
@@ -40,14 +40,9 @@
 <div class="mdui-container">
 
 </div>
-<div class="mdui-hidden" id="notice" >
-    <ul class="mdui-list">
-        <li class="mdui-list-item mdui-ripple">
-            Test1
-        </li>
-        <li class="mdui-list-item mdui-ripple">
-            Test2
-        </li>
+<div class="mdui-dialog" id="notifications">
+    <ul id="notification_list">
+
     </ul>
 </div>
 </body>

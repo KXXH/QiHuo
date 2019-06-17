@@ -15,10 +15,11 @@
     <script src="js/jquery-2.1.4.min.js"></script>
     <script src="js/index_beta.js"></script>
     <script src="js/utils.js"></script>
+    <script src="js/connectToBroker.js"></script>
     <script type="application/javascript">
         var socket ;
         //登录过后初始化socket连接
-        function initSocket(userId) {
+        function initSocketChat(userId) {
             if(typeof(WebSocket) == "undefined") {
                 console.log("您的浏览器不支持WebSocket");
             }else {
@@ -26,6 +27,8 @@
             }
             //socket连接地址: 注意是ws协议
             var path = 'ws://' + getLocalHost() + '/XM10/ChatTest/' + userId;
+            //var path = 'ws://localhost:8080/XM10/Broker/' + userId;
+            console.log(path)
             socket = new WebSocket(path);
             socket.onopen = function() {
                 console.log("Socket 已打开");
@@ -66,7 +69,7 @@
 
         }
         //连接
-        function connect() {
+        function connectChat() {
             url = "ChatGetUserName";
             $.post(url,function(json){
                 if(json.status=="error"){
@@ -76,31 +79,17 @@
                 else{
                     var userId = json.username;
                     console.log(userId);
-                    initSocket(userId);
+                    initSocketChat(userId);
                 }
 
             })
         }
     </script>
 </head>
-<body onload="initPage();getQuatations();flush()" class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-pink ">
-    <div class="mdui-appbar mdui-appbar-fixed">
-        <div class="mdui-toolbar mdui-color-theme">
-            <a class="mdui-btn mdui-btn-icon" mdui-drawer="{target: '#left-drawer'}"><i class="mdui-icon material-icons">menu</i></a>
-            <a href="javascript:;" class="mdui-typo-headline">期货交易系统</a>
-            <a href="javascript:;" class="mdui-typo-title">今日行情</a>
-            <div class="mdui-toolbar-spacer"></div>
-            <a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></a>
-            <a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">refresh</i></a>
-            <a onclick="logOut();" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">exit_to_app</i></a>
-        </div>
-    </div>
+<body onload="connect();getQuatations();flush()" class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-pink ">
 
-    <div class="mdui-drawer mdui-shadow-5" id="left-drawer">
-        <div class="mdui-spinner mdui-spinner-colorful" id="loader" style="display: block;margin-left:auto;margin-right:auto;margin-top: 50%"></div>
-        <div class="mdui-list mdui-collapse" mdui-collapse="{accordion:true}" id="drawer"></div>
-
-    </div>
+<div id="inc_appbar"></div>
+<div id="inc_menu"></div>
     <div class="mdui-container">
         <div class="mdui-tab" mdui-tab style="margin-top: 1%">
             <a href="#hs" class="mdui-ripple">沪深</a>
@@ -142,7 +131,7 @@
                 <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix mdui-shadow-1" style="border-style:solid; padding: 10px; border-width: 1px; border-color:gray;">
                     <h3>行情讨论中心</h3>
                     <form id="chatForm" style="margin-top: 3%">
-                        <button type="button" class="mdui-btn mdui-color-theme-accent mdui-ripple" onclick="connect()"><i class="mdui-icon material-icons">&#xe0b7;</i> 连接</button>
+                        <button type="button" class="mdui-btn mdui-color-theme-accent mdui-ripple" onclick="connectChat()"><i class="mdui-icon material-icons">&#xe0b7;</i> 连接</button>
                         <button type="button" class="mdui-btn mdui-color-theme-accent mdui-ripple" onclick="help()"><i class="mdui-icon material-icons">&#xe887;</i> 帮助</button>
                     </form>
                     <div class="mdui-textfield">
@@ -158,11 +147,17 @@
 
         </div>
     </div>
-
+    <div id="inc_notification"></div>
 </body>
 </html>
 
 <script>
+    $('#inc_appbar').load("index_beta.html #appbar");
+    $('#inc_menu').load("index_beta.html #left-drawer",function(responseTxt,statusTxt,xhr){
+        initPage();
+        $('#title').text("当前行情");
+    });
+    $('#inc_notification').load("index_beta.html #notifications");
     var list;
     var length;
     var isonline = 1;

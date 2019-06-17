@@ -1,5 +1,7 @@
 package news.getNews;
 
+import Broker.MqClient;
+import Broker.ProduceClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 import permission.manager.permissionChecker;
@@ -42,6 +44,7 @@ public class getNewsAction extends HttpServlet {
         }*/
 
         if(!permissionChecker.checkPermissionAndResponse(request,response,this)) return;
+
 
         //主线程从数据库中获得10条最新新闻返回
         try{

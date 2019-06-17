@@ -697,4 +697,57 @@
         <url-pattern>/QRLoginChecker</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>getNotifications</servlet-name>
+        <servlet-class>notifications.getFromDB.getNotifications</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getNotifications</servlet-name>
+        <url-pattern>/getNotifications</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>getAllnotificationAction</servlet-name>
+        <servlet-class>notifications.getFromDB.manager.getAllnotificationAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getAllnotificationAction</servlet-name>
+        <url-pattern>/getAllnotificationAction</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>NotificationDeleteAction</servlet-name>
+        <servlet-class>notifications.getFromDB.manager.NotificationDeleteAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>NotificationDeleteAction</servlet-name>
+        <url-pattern>/NotificationDeleteAction</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>NotificationModifyAction</servlet-name>
+        <servlet-class>notifications.getFromDB.manager.NotificationModifyAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>NotificationModifyAction</servlet-name>
+        <url-pattern>/NotificationModifyAction</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>NotificationExportAction</servlet-name>
+        <servlet-class>notifications.getFromDB.manager.NotificationExportAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>NotificationExportAction</servlet-name>
+        <url-pattern>/NotificationExportAction</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>NotificationStatisitcsAction</servlet-name>
+        <servlet-class>notifications.getFromDB.manager.NotificationStatisitcsAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>NotificationStatisitcsAction</servlet-name>
+        <url-pattern>/NotificationStatisitcsAction</url-pattern>
+    </servlet-mapping>
 </web-app>

@@ -1,5 +1,6 @@
 package transaction.bm.change;
 
+import Broker.ProduceClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 import permission.manager.permissionChecker;
@@ -181,6 +182,20 @@ public class bmchangeAction extends HttpServlet {
                     e.printStackTrace();
                 }
                 System.out.println("操作数据完毕，关闭了数据库！");
+
+                ProduceClient produceClient = new ProduceClient();
+                try {
+                    int saler_id = userid;
+                    User saler = User.findUserById(saler_id);
+                    String saler_name = saler.getUserName();
+                    User buyer = user;
+                    String buyer_name = user.getUserName();
+                    String message = saler_name + ":您的订单已被"+buyer_name+"购买！";
+                    produceClient.send(message);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                
             } catch (SQLException e) {
                 e.printStackTrace();
                 try {

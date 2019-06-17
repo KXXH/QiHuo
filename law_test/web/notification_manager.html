@@ -4,7 +4,7 @@
 <html lang="en">
 
 <head>
-    <title>行情管理</title>
+    <title>通知管理</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
     <meta name="keywords" content="" />
@@ -29,7 +29,7 @@
     }
 </style>
 
-<body onload="get_all_quotation();order();statistics();" class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-pink ">
+<body onload="get_all_notification();order();statistics();" class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-pink ">
 
 
 <div id="inc_appbar"></div>
@@ -47,10 +47,10 @@
                     <label class="mdui-radio mdui-m-l-2 mdui-m-r-1"><input type="radio" name="group1" value="id" checked/><i class="mdui-radio-icon"></i>id</label>
                 </li>
                 <li class="mdui-menu-item">
-                    <label class="mdui-radio mdui-m-l-2 mdui-m-r-1"><input type="radio" name="group1" value="Code"/><i class="mdui-radio-icon"></i>Code</label>
+                    <label class="mdui-radio mdui-m-l-2 mdui-m-r-1"><input type="radio" name="group1" value="message"/><i class="mdui-radio-icon"></i>message</label>
                 </li>
                 <li class="mdui-menu-item">
-                    <label class="mdui-radio mdui-m-l-2 mdui-m-r-1"><input type="radio" name="group1" value="Name"/><i class="mdui-radio-icon"></i>Name</label>
+                    <label class="mdui-radio mdui-m-l-2 mdui-m-r-1"><input type="radio" name="group1" value="datetime"/><i class="mdui-radio-icon"></i>datetime</label>
                 </li>
             </ul>
         </li>
@@ -64,10 +64,10 @@
                     <label class="mdui-radio mdui-m-l-2 mdui-m-r-1"><input type="radio" name="group2" value="id" checked/><i class="mdui-radio-icon"></i>id</label>
                 </li>
                 <li class="mdui-menu-item">
-                    <label class="mdui-radio mdui-m-l-2 mdui-m-r-1"><input type="radio" name="group2" value="Code"/><i class="mdui-radio-icon"></i>Code</label>
+                    <label class="mdui-radio mdui-m-l-2 mdui-m-r-1"><input type="radio" name="group2" value="message"/><i class="mdui-radio-icon"></i>message</label>
                 </li>
                 <li class="mdui-menu-item">
-                    <label class="mdui-radio mdui-m-l-2 mdui-m-r-1"><input type="radio" name="group2" value="Name"/><i class="mdui-radio-icon"></i>Name</label>
+                    <label class="mdui-radio mdui-m-l-2 mdui-m-r-1"><input type="radio" name="group2" value="datetime"/><i class="mdui-radio-icon"></i>datetime</label>
                 </li>
             </ul>
         </li>
@@ -77,15 +77,15 @@
     </button>
     <button class="mdui-btn" mdui-dialog="{'target':'#search_dialog'}">查找</button>
     <div class="mdui-dialog" id="search_dialog">
-        <div class="mdui-dialog-title">查找行情</div>
+        <div class="mdui-dialog-title">查找通知</div>
         <form name="user_search_form" class="mdui-dialog-content">
             <div class="mdui-textfield">
-                <label class="mdui-textfield-label">行情关键字</label>
+                <label class="mdui-textfield-label">通知关键字</label>
                 <input class="mdui-textfield-input" id="search" name="search"/>
             </div>
         </form>
         <div class="mdui-dialog-actions">
-            <button class="mdui-btn" onclick="search_quotation()" mdui-dialog-confirm>
+            <button class="mdui-btn" onclick="search_notification()" mdui-dialog-confirm>
                 搜索
             </button>
         </div>
@@ -94,29 +94,18 @@
 
     <div class="mdui-dialog" id="modify">
         <div class="mdui-dialog-content">
-            <div class="mdui-dialog-title">修改行情</div>
+            <div class="mdui-dialog-title">修改通知</div>
             请将您要修改的内容填入
             <div class="mdui-textfield">
                 <input class="mdui-textfield-input" type="text" disabled placeholder="id" id="id"/>
             </div>
 
             <div class="mdui-textfield">
-                <input class="mdui-textfield-input" type="text" disabled placeholder="Code" id="Code"/>
+                <label class="mdui-textfield-label">message</label>
+                <input class="mdui-textfield-input" id="message"/>
             </div>
             <div class="mdui-textfield">
-                <input class="mdui-textfield-input" type="text" disabled placeholder="Name" id="Name"/>
-            </div>
-            <div class="mdui-textfield">
-                <label class="mdui-textfield-label">Quotation</label>
-                <input class="mdui-textfield-input" id="Quotation"/>
-            </div>
-            <div class="mdui-textfield">
-                <label class="mdui-textfield-label">RiseOrFall</label>
-                <input class="mdui-textfield-input" id="RiseOrFall"/>
-            </div>
-            <div class="mdui-textfield">
-                <label class="mdui-textfield-label">ROFper(%)</label>
-                <input class="mdui-textfield-input" id="ROFper"/>
+                <input class="mdui-textfield-input" type="text" disabled placeholder="datetime" id="datetime"/>
             </div>
         </div>
         <div class="mdui-dialog-actions">
@@ -129,11 +118,8 @@
             <thead>
             <tr>
                 <th>id</th>
-                <th>Code</th>
-                <th>Name</th>
-                <th>Quotation</th>
-                <th>RiseOrFall</th>
-                <th>ROFper(%)</th>
+                <th>message</th>
+                <th>datetime</th>
                 <th>operation</th>
             </tr>
             </thead>
@@ -145,7 +131,7 @@
     </div>
 
     <div class="mdui-typo">
-        <h1>USDCNY各项指标按月统计</h1>
+        <h1>通知按日统计</h1>
         <div class="mdui-img-fluid" id="chartdiv">
 
         </div>
@@ -161,7 +147,7 @@
         </button>
         <div class="mdui-fab-dial">
 
-            <a class="mdui-fab mdui-fab-mini mdui-ripple mdui-color-yellow" href="quotation_print.htm"><i class="mdui-icon material-icons" mdui-tooltip="{content: '打印',position:'left'}">print</i></a>
+            <a class="mdui-fab mdui-fab-mini mdui-ripple mdui-color-yellow" href="notification_print.htm"><i class="mdui-icon material-icons" mdui-tooltip="{content: '打印',position:'left'}">print</i></a>
             <a class="mdui-fab mdui-fab-mini mdui-ripple mdui-color-orange"  id="export_dialog"><i class="mdui-icon material-icons" mdui-tooltip="{content: '导出',position:'left'}">file_download</i></a>
 
         </div>
@@ -183,8 +169,8 @@
     var search = document.getElementById("search").value;
     var inst = new mdui.Dialog("#modify");
 
-    function get_all_quotation(){
-        url = "getAllquotationAction";
+    function get_all_notification(){
+        url = "getAllnotificationAction";
         url = getQueryPath(url)
         order_1 = $("input[type=radio][name=group1]:checked").val();
         order_2 = $("input[type=radio][name=group2]:checked").val();
@@ -207,46 +193,52 @@
         for(var i = 0; i < list.length; i++){
             var newNode = document.createElement("tr");
             newNode.innerHTML = "<td>"+list[i].id+"</td>"
-            newNode.innerHTML += "<td>"+list[i].Code+"</td><td>"+list[i].Name +"</td><td>" +list[i].Quotation + "</td><td>" +list[i].RiseOrFall + "</td><td>" +list[i].ROFper + "</td>";
-            newNode.innerHTML += "<td><button class=\"mdui-btn mdui-btn-raised\" onclick='modify_record("+i+")'>修改</button></td>"
+            newNode.innerHTML += "<td>"+list[i].message+"</td><td>"+list[i].datetime +"</td>";
+            newNode.innerHTML += "<td><button class=\"mdui-btn mdui-btn-raised\" onclick='delete_record("+list[i].id+")'>删除</button><button class=\"mdui-btn mdui-btn-raised\" onclick='modify_record("+i+")'>修改</button></td>"
             parent.appendChild(newNode);
         }
+    }
+    function delete_record(id) {
+        url = "NotificationDeleteAction";
+        data={"id":id};
+        $.post(url,data,function(json){
+            if(json.status=="ok"){
+                get_all_notification();
+                mdui.alert("删除成功！");
+            }
+            else
+                alert("删除失败!");
+        })
     }
     function order(){
         $("input[type=radio]").change(function(){
             var parent = document.getElementById("tbody");
             parent.innerHTML = "";
-            get_all_quotation();
+            get_all_notification();
         });
     }
-    function search_quotation(){
+    function search_notification(){
         var parent = document.getElementById("tbody");
         parent.innerHTML = "";
-        get_all_quotation();
+        get_all_notification();
     }
     function modify_record(i){
         inst.open();
         document.getElementById("id").value = list[i].id;
-        document.getElementById("Code").value = list[i].Code;
-        document.getElementById("Name").value = list[i].Name;
-        document.getElementById("Quotation").value = list[i].Quotation;
-        document.getElementById("RiseOrFall").value = list[i].RiseOrFall;
-        document.getElementById("ROFper").value = list[i].ROFper;
+        document.getElementById("message").value = list[i].message;
+        document.getElementById("datetime").value = list[i].datetime;
     }
 
     function modify(){
-        url = "QuotationModifyAction";
+        url = "NotificationModifyAction";
         var id = document.getElementById("id").value;
-        var Code = document.getElementById("Code").value;
-        var Name = document.getElementById("Name").value;
-        var Quotation = document.getElementById("Quotation").value;
-        var RiseOrFall = document.getElementById("RiseOrFall").value;
-        var ROFper = document.getElementById("ROFper").value;
-        var data = {"id":id,"Code":Code,"Name":Name,"RiseOrFall":RiseOrFall,"ROFper":ROFper,"Quotation":Quotation};
+        var message = document.getElementById("message").value;
+        var datetime = document.getElementById("datetime").value;
+        var data = {"id":id,"message":message,"datetime":datetime};
         inst.close();
         $.post(url,data,function(json){
             if(json.status=="ok"){
-                get_all_quotation();
+                get_all_notification();
                 mdui.alert("修改成功！");
             }
             else
@@ -267,7 +259,7 @@
 
 // Create axes
         var categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis());
-        categoryAxis.dataFields.category = "month";
+        categoryAxis.dataFields.category = "day";
         categoryAxis.numberFormatter.numberFormat = "#";
         categoryAxis.renderer.inversed = true;
         categoryAxis.renderer.grid.template.location = 0;
@@ -281,7 +273,7 @@
         function createSeries(field, name) {
             var series = chart.series.push(new am4charts.ColumnSeries());
             series.dataFields.valueX = field;
-            series.dataFields.categoryY = "month";
+            series.dataFields.categoryY = "day";
             series.name = name;
             series.columns.template.tooltipText = "{name}: [bold]{valueX}[/]";
             series.columns.template.height = am4core.percent(100);
@@ -303,16 +295,13 @@
             categoryLabel.label.truncate = false;
         }
 
-        createSeries("avg_open", "AVGOpen");
-        createSeries("avg_close", "AVGClose");
-        createSeries("avg_high", "AVGHigh");
-        createSeries("avg_low", "AVGLow");
+        createSeries("message_count", "message_count");
     }
     function statistics(){
         var order_1 = "id";
-        var order_2 = "Code";
+        var order_2 = "message";
         var data = {"order_1":order_1,"order_2":order_2,"search":""};
-        url = "QuotationStatisitcsAction";
+        url = "NotificationStatisitcsAction";
         url = getQueryPath(url)
         $.post(url,data,function(json){
             if(json.status == "error"){
@@ -327,7 +316,7 @@
     }
     mdui.JQ('#export_dialog').on('click',function(){
         mdui.dialog({
-            title: '行情导出',
+            title: '通知导出',
             content: '确定导出到本地吗？',
             buttons: [
                 {
@@ -337,7 +326,7 @@
                     text: '确认',
                     onClick: function(inst){
                         window.location.href='';
-                        window.location.href='QuotationExportAction';
+                        window.location.href='NotificationExportAction';
                         mdui.alert("已导出到本地！");
                     }
                 }

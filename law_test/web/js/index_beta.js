@@ -1,6 +1,7 @@
 /**
  * Created by zjm97 on 2019/3/29.
  */
+
 function getQueryVariable(variable)
 {
     var query = window.location.search.substring(1);
@@ -48,6 +49,7 @@ function initPage(){
     document.getElementById("loader").style.display="block";
     mdui.mutation();
     getMenu();
+    getNotifications();
 }
 function initMenu(json) {
     document.getElementById("loader").style.display = "none";
@@ -133,4 +135,51 @@ function getMenu(){
         initMenu(json);
         console.log(JSON.stringify(json));
     })
+}
+var list;
+function getNotifications(){
+    url = "getNotifications";
+    $.post(url,function(json){
+        console.log(json.aaData);
+        list = json.aaData;
+        if(list.length>0){
+            mdui.snackbar({
+                message: '您有' + json.aaData.length + '条未读信息'
+            });
+            var parents = document.getElementById("notification_list");
+            for(var i = 0;i < list.length; i++){
+                var Node = document.createElement("li");
+                Node.id = list[i].num;
+                Node.setAttribute("mdui-dialog-close",null);
+                Node.className="mdui-list-item mdui-ripple";
+                Node.innerHTML = "<div class=\"mdui-list-item-content\" onclick='read("+(i+1)+")'>" + "id:" + list[i].num + "&nbsp;&nbsp;&nbsp;datetime:" + list[i].datetime + "&nbsp;&nbsp;&nbsp;message:" + list[i].message +"</div>";
+                Node.innerHTML += "<i class=\"mdui-list-item-icon mdui-icon material-icons\">&#xe5ca;</i>"
+                parents.appendChild(Node);
+            }
+        }
+        else{
+            mdui.snackbar({
+                message:'没有未读信息'
+            });
+            var parents = document.getElementById("notification_list");
+            var Node = document.createElement("li");
+            Node.onclick = function(){
+                read(i);
+            }
+            Node.setAttribute("mdui-dialog-close",null);
+            Node.className="mdui-list-item mdui-ripple";
+            Node.innerHTML = "<div class=\"mdui-list-item-content\">没有消息</div>";
+            parents.appendChild(Node);
+        }
+    })
+}
+
+var inst = new mdui.Dialog("#notifications");
+
+function read(i){
+    console.log(i)
+    if(i!=undefined){
+        mdui.alert("消息 "+i+" 已读,id:"+list[i].id);
+    }
+
 }

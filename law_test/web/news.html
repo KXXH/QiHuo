@@ -14,24 +14,15 @@
     <script src="//cdnjs.loli.net/ajax/libs/mdui/0.4.2/js/mdui.min.js"></script>
     <script src="js/index_beta.js"></script>
     <script src="js/utils.js"></script>
+    <script src="js/connectToBroker.js"></script>
 </head>
-<body onload="initPage();getNews();" class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-pink ">
-    <div class="mdui-appbar mdui-appbar-fixed">
-        <div class="mdui-toolbar mdui-color-theme">
-            <a class="mdui-btn mdui-btn-icon" mdui-drawer="{target: '#left-drawer'}"><i class="mdui-icon material-icons">menu</i></a>
-            <a href="javascript:;" class="mdui-typo-headline">期货交易系统</a>
-            <a href="javascript:;" class="mdui-typo-title">财经新闻</a>
-            <div class="mdui-toolbar-spacer"></div>
-            <a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></a>
-            <a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">refresh</i></a>
-            <a onclick="logOut();" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">exit_to_app</i></a>
-        </div>
-    </div>
-    <div class="mdui-drawer mdui-shadow-5" id="left-drawer">
-        <div class="mdui-spinner mdui-spinner-colorful" id="loader" style="display: block;margin-left:auto;margin-right:auto;margin-top: 50%"></div>
-        <div class="mdui-list mdui-collapse" mdui-collapse="{accordion:true}" id="drawer"></div>
+<body onload="connect();getNews();" class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-pink ">
 
-    </div>
+    <div id="inc_appbar"></div>
+
+    <div id="inc_menu"></div>
+
+    <div id="inc_notification"></div>
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-1"></div>
@@ -66,6 +57,12 @@
 </html>
 
 <script>
+    $('#inc_appbar').load("index_beta.html #appbar");
+    $('#inc_menu').load("index_beta.html #left-drawer",function(responseTxt,statusTxt,xhr){
+        initPage();
+        $('#title').text("财经新闻");
+    });
+    $('#inc_notification').load("index_beta.html #notifications");
     var list;
     var length;
     function getNews(){
@@ -89,9 +86,9 @@
         length = list.length;
         console.log("length",length);
         for(var i = 0; i < 10; i++){
-            console.log(list[i].title);
-            console.log(list[i].date);
-            console.log(list[i].thumbnail_pic_s);
+            //console.log(list[i].title);
+            //console.log(list[i].date);
+            //console.log(list[i].thumbnail_pic_s);
             var mediaNode = document.createElement("li");
             //newNode.className = "mdui-card mdui-col-xs-10";
             //newNode.innerHTML = "<div class=\"mdui-card-media mdui-col-xs-3\">";

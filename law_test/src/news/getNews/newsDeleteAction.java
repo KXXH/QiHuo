@@ -1,5 +1,6 @@
 package news.getNews;
 
+import Broker.ProduceClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 import permission.manager.permissionChecker;
