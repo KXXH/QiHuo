@@ -222,8 +222,9 @@
 		$('#title').text("买入区");
 	});
 	$('#inc_notification').load("index_beta.html #notifications");
-	var list;
+	var List;
 	var limit=15;
+	var bus_info;
 	var len=0;
 	var Order=0;
 	var orderid="";
@@ -236,14 +237,14 @@
 	function modify_record(i){
 		var inst = new mdui.Dialog("#modify");
 		inst.open();
-		document.getElementById("order_id").value = list[i].orderid;
-		document.getElementById("user_id").value = list[i].userid;
-		document.getElementById("user_name").value = list[i].username;
-		document.getElementById("stock_id").value = list[i].stockid;
-		document.getElementById("stock_name").value = list[i].stockname;
-		document.getElementById("quantity").value = list[i].quantity;
-		document.getElementById("bunitprice").value = list[i].bunitprice;
-		document.getElementById("createat").value = list[i].createat;
+		document.getElementById("order_id").value = List[i].orderid;
+		document.getElementById("user_id").value = List[i].userid;
+		document.getElementById("user_name").value = List[i].username;
+		document.getElementById("stock_id").value = List[i].stockid;
+		document.getElementById("stock_name").value = List[i].stockname;
+		document.getElementById("quantity").value = List[i].quantity;
+		document.getElementById("bunitprice").value = List[i].bunitprice;
+		document.getElementById("createat").value = List[i].createat;
 
 	}
 
@@ -280,7 +281,7 @@
 					if(json.code==3)
 					{
 						mdui.snackbar({'message':'买入失败！您的余额不足，请及时冲值！'});
-						show(1);
+						show(0);
 					}
 					else
 					{
@@ -376,16 +377,17 @@
 
 
 	function updateTable(json){
-		list=json.list;
+
+		List=json.list;
 		limit = limit + 15;
-		len = list.length;
+		len = List.length;
 		var table = document.getElementById('bus_list');
 		table.innerHTML="";
-		for(var i = 0; i < list.length; i++){
+		for(var i = 0; i < List.length; i++){
 			var newNode = document.createElement("tr");
-			var id = list[i].orderid;
-			newNode.innerHTML = "<td>"+list[i].orderid+"</td>"
-			newNode.innerHTML += "<td>"+list[i].userid +"</td><td>"+list[i].username +"</td><td>"+list[i].stockid +"</td><td>"+list[i].stockname +"</td><td>"+list[i].quantity +"</td><td>"+list[i].bunitprice +"</td><td>" +list[i].createat + "</td>";
+			var id = List[i].orderid;
+			newNode.innerHTML = "<td>"+List[i].orderid+"</td>"
+			newNode.innerHTML += "<td>"+List[i].userid +"</td><td>"+List[i].username +"</td><td>"+List[i].stockid +"</td><td>"+List[i].stockname +"</td><td>"+List[i].quantity +"</td><td>"+List[i].bunitprice +"</td><td>" +List[i].createat + "</td>";
 			newNode.innerHTML += "<td><button class=\"mdui-btn mdui-btn-raised\" onclick='modify_record("+i+")'>买入</button></td>"
 			table.appendChild(newNode);
 		}
@@ -413,6 +415,7 @@
 		$.post(url,j,function(json){
 			//console.log(JSON.stringify(json));
 			bus_info=json.list;
+			List=json.list;
 			if(json.status == "error"){
 				mdui.alert("出错了！");
 			}

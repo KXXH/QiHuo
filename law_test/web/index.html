@@ -91,7 +91,7 @@
 	});
 	$('#inc_notification').load("index_beta.html #notifications");
 
-	var list;
+	var List;
 	var limit=15;
 	var len=0;
 	var Order=0;
@@ -102,13 +102,13 @@
 	var rofper="";
 
 	function updateTable(json){
-		list=json.list;
+		List=json.list;
 		var table = document.getElementById('bus_list');
 		table.innerHTML="";
-		for(var i = 0; i < list.length; i++){
+		for(var i = 0; i < List.length; i++){
 			var newNode = document.createElement("tr");
-			newNode.innerHTML = "<td>"+list[i].id+"</td>"
-			newNode.innerHTML += "<td>"+list[i].name +"</td><td>"+list[i].quotation +"</td><td>"+list[i].riseorfall +"</td><td>"+list[i].rofper +"</td><td>"+list[i].createat +"</td>";
+			newNode.innerHTML = "<td>"+List[i].id+"</td>"
+			newNode.innerHTML += "<td>"+List[i].name +"</td><td>"+List[i].quotation +"</td><td>"+List[i].riseorfall +"</td><td>"+List[i].rofper +"</td><td>"+List[i].createat +"</td>";
 			newNode.innerHTML += "<td><button class=\"mdui-btn mdui-btn-raised\" onclick='modify_record("+i+")'>买入</button></td>"
 			table.appendChild(newNode);
 		}
@@ -117,11 +117,11 @@
 	function modify_record(i){
 		var inst = new mdui.Dialog("#modify");
 		inst.open();
-		document.getElementById("stock_id").value = list[i].id;
-		document.getElementById("stock_name").value = list[i].name;
-		document.getElementById("quantity").value = list[i].quantity;
-		document.getElementById("bunitprice").value = list[i].quotation;
-		document.getElementById("createat").value = list[i].createat;
+		document.getElementById("stock_id").value = List[i].id;
+		document.getElementById("stock_name").value = List[i].name;
+		document.getElementById("quantity").value = 0;
+		document.getElementById("bunitprice").value = List[i].quotation;
+		document.getElementById("createat").value = List[i].createat;
 
 	}
 	function addbmInfo(){
@@ -137,12 +137,12 @@
 		var obj = JSON.parse(data);
 		$.post(url,obj,function(json){
 			if(json.status=="1"){
-				mdui.snackbar({'message':'发布成功！'});
+				mdui.snackbar({'message':'买入成功！'});
 				show();
 			}
 			else
 			{
-				mdui.snackbar({'message':'发布失败！'});
+				mdui.snackbar({'message':'买入失败！'});
 				show();
 			}
 

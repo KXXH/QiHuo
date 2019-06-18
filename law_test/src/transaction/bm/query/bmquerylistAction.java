@@ -54,9 +54,11 @@ public class bmquerylistAction extends HttpServlet {
             String sql;
             if(orderid.length()==0 && userid.length()==0 && username.length()==0 && stockid.length()==0 && stockname.length()==0){
                 sql = "SELECT * FROM tbl_bm ORDER BY " + sel1 +"," +sel1 + "," +sel3 + "," +sel4 + " desc LIMIT " +limit;
+                System.out.println("执行的SQL语句是:"+sql);
             }
             else{
                 sql = "select * from tbl_bm WHERE UserId='"+userid+"'or UserName='"+username+"' or StockId='"+stockid+"' or StockName='"+stockname+"' or OrderId='"+orderid+"' ORDER BY "+sel1+","+sel2+","+sel3+","+sel4+" DESC LIMIT " +limit;
+                System.out.println("执行的SQL语句是:"+sql);
             }
             System.out.println(sql);
             ResultSet rs = statement.executeQuery(sql);
