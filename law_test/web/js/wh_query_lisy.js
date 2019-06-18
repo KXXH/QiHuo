@@ -17,7 +17,7 @@ function home(){
     window.location="wh_query_list.html";
 }
 function delet(i){
-    mdui.confirm("您确认要删除这个用户吗?<br>注意：删除操作是不可逆的，请仔细考虑!","删除确认",function(){
+    mdui.confirm("您确认要删除这个订单吗?<br>注意：删除操作是不可逆的，请仔细考虑!","删除确认",function(){
         var url = "deleteAction";
         url=getQueryPath(url);
         var id = list[i].stockid;

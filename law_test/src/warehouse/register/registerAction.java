@@ -28,11 +28,15 @@ public class registerAction extends HttpServlet {
         //获取add_file.jsp页面提交后传递过来的参数，在form里的参数才能传递过来，注意name和id的区别
 
 
-        String stockid = request.getParameter("StockId");
+        int stockid = Integer.parseInt(request.getParameter("StockId"));
         String stockname = request.getParameter("StockName");
         int quantity = Integer.parseInt(request.getParameter("Quantity"));
         double bunitprice = Double.valueOf(request.getParameter("BUnitPrice"));
         String createat = request.getParameter("CreateAt");
+
+        String ystockid=null;
+        String ystockname=null;
+        Connection conn = null;
 
 
         String tocken= tokenExtractor.extractToken(request);
@@ -47,7 +51,6 @@ public class registerAction extends HttpServlet {
             classnotfoundexception.printStackTrace();
         }
         System.out.println("加载了JDBC驱动");
-        Connection conn=null;
         //然后链接数据库，开始操作数据表
         try {
             conn = dbOpener.getDB();
@@ -55,6 +58,46 @@ public class registerAction extends HttpServlet {
             System.out.println("准备statement。");
             Statement statement = conn.createStatement();
             System.out.println("已经链接上数据库！");
+
+            String sql4 = "select * from tbl_userrealwh WHERE UserId=? and StockId=? and StockName=?";  //查一下有没有已经存在了吗
+            //String sql3 = "select * from tbl_userrealwh WHERE UserName=? and StockId=? and StockName=?";
+            System.out.println("即将执行的SQL4语句是：" + sql4);
+
+            System.out.println(stockid);
+            PreparedStatement ps;
+            ps = conn.prepareStatement(sql4);    //实例化PreparedStatement对象
+            ps.setInt(1, user.getUserId());
+            ps.setInt(2, stockid);       //设置预处理语句参数
+            ps.setString(3, stockname);
+            ResultSet rs = ps.executeQuery();   //执行预处理语句获取查询结果集
+            System.out.println("执行完毕，逐条显示<br>");
+            int quantityint = quantity;
+            //如果查询有结果，则循环显示查询出来的记录
+            while (rs.next()) {
+
+                double b = rs.getDouble("Quantity");
+                quantityint += b;
+                ystockid = rs.getString("StockId");
+                ystockname = rs.getString("StockName");
+            }
+            System.out.println(quantityint);
+            System.out.println(stockid);
+            System.out.println(stockname);
+            System.out.println(ystockid);
+            System.out.println(ystockname);
+            String sql3;
+            if (ystockid != null && ystockname != null) {
+                sql3 = "update tbl_userrealwh set Quantity='" + quantityint
+                        + "',BUnitPrice='"+bunitprice+"',CreateAt='" + createat + "' WHERE UserId='" + user.getUserId() + "' and StockId='" + stockid + "'";
+                System.out.println("即将执行的SQL3语句是：" + sql3);
+            } else {
+                sql3 = "insert into tbl_userrealwh(UserId,UserName,StockId,StockName,Quantity,BUnitPrice,CreateAt) values('"
+                        + user.getUserId() + "','" + user.getUserName() + "','" + stockid + "','" + stockname + "','" + quantityint + "','"+bunitprice+"','" + createat + "')";
+                System.out.println("即将执行的SQL2语句是：" + sql3);
+            }
+            System.out.println(sql3);
+            statement = conn.createStatement();
+            statement.executeUpdate(sql3);
 
             String sql1 = "insert into tbl_bm(UserId,UserName,StockId,StockName,Quantity,BUnitPrice,CreateAt) values('"
                     + user.getUserId() + "','" + user.getUserName() + "','" + stockid + "','" + stockname + "','" + quantity + "','" + bunitprice + "','" + createat + "')";
