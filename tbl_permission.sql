@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50151
 File Encoding         : 65001
 
-Date: 2019-06-18 00:29:31
+Date: 2019-06-18 14:28:04
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -24,7 +24,7 @@ CREATE TABLE `tbl_permission` (
   `className` varchar(255) NOT NULL,
   `permissionCode` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=87 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tbl_permission
@@ -94,7 +94,13 @@ INSERT INTO `tbl_permission` VALUES ('71', 'login.manager.index', '28');
 INSERT INTO `tbl_permission` VALUES ('74', 'login.manager.statisticAction', '16');
 INSERT INTO `tbl_permission` VALUES ('75', 'transaction.bm.query.bmquerylistAction', '28');
 INSERT INTO `tbl_permission` VALUES ('76', 'transaction.bm.register.bmregisterAction', '28');
-INSERT INTO `tbl_permission` VALUES ('77', 'transaction.bm.qstatistic.bmstatisticAction', '28');
+INSERT INTO `tbl_permission` VALUES ('77', 'transaction.bm.statistic.bmstatisticAction', '28');
 INSERT INTO `tbl_permission` VALUES ('78', 'transaction.bm.expor.bmdataToCSV', '28');
 INSERT INTO `tbl_permission` VALUES ('79', 'transaction.bm.change.bmchangeAction', '28');
 INSERT INTO `tbl_permission` VALUES ('80', 'index.query.indexquerylistAction', '30');
+INSERT INTO `tbl_permission` VALUES ('81', 'transaction.bmma.register.bmmaregisterAction', '24');
+INSERT INTO `tbl_permission` VALUES ('82', 'transaction.bmma.query.bmmaquerylistAction', '24');
+INSERT INTO `tbl_permission` VALUES ('83', 'transaction.bmma.statistic.bmmastatisticAction', '24');
+INSERT INTO `tbl_permission` VALUES ('84', 'transaction.bmma.expor.bmmadataToCSV', '24');
+INSERT INTO `tbl_permission` VALUES ('85', 'transaction.bmma.change.bmmachangeAction', '24');
+INSERT INTO `tbl_permission` VALUES ('86', 'transaction.bmma.delet.bmmadeleteAction', '24');

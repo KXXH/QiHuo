@@ -32,8 +32,6 @@ public class bmmaquerylistAction extends HttpServlet {
 
         String sel1 = request.getParameter("Sel1");
         String sel2 = request.getParameter("Sel2");
-        String sel3 = request.getParameter("Sel3");
-        String sel4 = request.getParameter("Sel4");
 
         String orderid = request.getParameter("OrderId");
         String userid = request.getParameter("UserId");
@@ -53,10 +51,10 @@ public class bmmaquerylistAction extends HttpServlet {
             Statement statement = conn.createStatement();
             String sql;
             if(orderid.length()==0 && userid.length()==0 && username.length()==0 && stockid.length()==0 && stockname.length()==0){
-                sql = "SELECT * FROM tbl_bm ORDER BY " + sel1 +"," +sel1 + "," +sel3 + "," +sel4 + " desc LIMIT " +limit;
+                sql = "SELECT * FROM tbl_bm ORDER BY " + sel1 +"," +sel1 + " desc LIMIT " +limit;
             }
             else{
-                sql = "select * from tbl_bm WHERE UserId='"+userid+"'or UserName='"+username+"' or StockId='"+stockid+"' or StockName='"+stockname+"' or OrderId='"+orderid+"' ORDER BY "+sel1+","+sel2+","+sel3+","+sel4+" DESC LIMIT " +limit;
+                sql = "select * from tbl_bm WHERE UserId='"+userid+"'or UserName='"+username+"' or StockId='"+stockid+"' or StockName='"+stockname+"' or OrderId='"+orderid+"' ORDER BY "+sel1+","+sel2+" DESC LIMIT " +limit;
             }
             System.out.println(sql);
             ResultSet rs = statement.executeQuery(sql);
