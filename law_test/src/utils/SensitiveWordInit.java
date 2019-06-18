@@ -68,9 +68,9 @@ public class SensitiveWordInit {
     @SuppressWarnings("resource")
     private Set<String> readSensitiveWordFile() throws Exception{
         Set<String> set = null;
-        String path = this.getClass().getClassLoader().getResource("").getPath();
+        //String path = this.getClass().getClassLoader().getResource("").getPath();
+        String path = "C:\\Program Files (x86)\\Apache Software Foundation\\Tomcat 8.0\\webapps\\XM10\\WEB-INF\\classes\\";
         path = path+"SensitiveWord.txt";
-        path = path.substring(1);
         System.out.println(path);
         File file = new File(path);
         InputStreamReader read = new InputStreamReader(new FileInputStream(file),ENCODING);
