@@ -251,15 +251,15 @@
 	function modify(){
 		url = "bmchangeAction";
 		url = getQueryPath(url)
-		orderid=document.getElementById("order_id").value;
-		userid=document.getElementById("user_id").value;
-		username=document.getElementById("user_name").value;
-		stockid=document.getElementById("stock_id").value;
-		stockname=document.getElementById("stock_name").value;
-		quantity=document.getElementById("quantity").value;
-		bunitprice=document.getElementById("bunitprice").value;
-		createat=document.getElementById("createat").value;
-		var data = '{"OrderId":"'+orderid+'","UserId":"'+userid+'","UserName":"'+username+'","StockId":"'+stockid+'","StockName":"'+stockname+'","Quantity":"'+quantity+'","BUnitPrice":"'+bunitprice+'","CreateAt":"'+createat+'"}';
+		var order_id=document.getElementById("order_id").value;
+		var user_id=document.getElementById("user_id").value;
+		var user_name=document.getElementById("user_name").value;
+		var stock_id=document.getElementById("stock_id").value;
+		var stock_name=document.getElementById("stock_name").value;
+		var quan_tity=document.getElementById("quantity").value;
+		var bunit_price=document.getElementById("bunitprice").value;
+		var create_at=document.getElementById("createat").value;
+		var data = '{"OrderId":"'+order_id+'","UserId":"'+user_id+'","UserName":"'+user_name+'","StockId":"'+stock_id+'","StockName":"'+stock_name+'","Quantity":"'+quan_tity+'","BUnitPrice":"'+bunit_price+'","CreateAt":"'+create_at+'"}';
 		console.log(data);
 		var obj = JSON.parse(data);
 		$.post(url,obj,function(json){
@@ -281,7 +281,7 @@
 					if(json.code==3)
 					{
 						mdui.snackbar({'message':'买入失败！您的余额不足，请及时冲值！'});
-						show(0);
+						show(1);
 					}
 					else
 					{
