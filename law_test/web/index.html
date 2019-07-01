@@ -13,13 +13,17 @@
 	<script src="js/utils.js"></script>
 	<script src="js/connectToBroker.js"></script>
 </head>
-<body onload="show();" class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-pink ">
+<body onload="show();getWeather();" class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-pink ">
 
 <div id="inc_appbar"></div>
 
 <div id="inc_menu"></div>
 
 <div id="inc_notification"></div>
+
+<div id="test">
+
+</div>
 
 <div class="mdui-container">
 
@@ -168,6 +172,18 @@
 			}
 		})
 
+	}
+
+	function getWeather() {
+		url = 'https://free-api.heweather.net/s6/weather/now?location=auto_ip&key=c4ec3ec551344da284571f2e43deddb3'
+		$.get(url,function (json) {
+			console.log(json.HeWeather6[0].now);
+			$('#test').html("天气："+json.HeWeather6[0].now.cond_txt
+					+"<br>风向："+json.HeWeather6[0].now.wind_dir
+					+"<br>风力："+json.HeWeather6[0].now.wind_deg
+					+"<br>相对湿度："+json.HeWeather6[0].now.hum
+					+"<br>降水量："+json.HeWeather6[0].now.pcpn);
+		})
 	}
 
 

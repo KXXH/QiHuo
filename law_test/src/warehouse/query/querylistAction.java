@@ -55,9 +55,9 @@ public class querylistAction extends HttpServlet {
             Connection conn = dbOpener.getDB();
             System.out.println("链接完毕，开始创建准备数据库操作的statement<br>");
 
-            String sql2 = "select tbl_userrealwh.StockId AS StockId,tbl_userrealwh.StockName AS StockName,tbl_userrealwh.Quantity AS Quantity,tbl_quotation.Quotation AS Quotation,tbl_userrealwh.CreateAt AS CreateAt FROM tbl_userrealwh INNER JOIN tbl_quotation ON tbl_userrealwh.StockId=tbl_quotation.id WHERE tbl_userrealwh.UserId='"+user.getUserId()+"'  " ;
+            String sql2 = "select tbl_userrealwh.StockId AS StockId,tbl_userrealwh.StockName AS StockName,tbl_userrealwh.Quantity AS Quantity,tbl_quotation.Quotation AS Quotation,tbl_userrealwh.CreateAt AS CreateAt FROM tbl_userrealwh INNER JOIN tbl_quotation ON tbl_userrealwh.StockId=tbl_quotation.id WHERE tbl_userrealwh.UserId='"+user.getUserId()+"' ORDER BY "+sel1+','+sel2+"";
 
-            String sql = "select * from tbl_userrealwh WHERE UserId='"+user.getUserId()+"' ORDER BY " +sel1+','+sel2;
+            //String sql = "select * from tbl_userrealwh WHERE UserId='"+user.getUserId()+"' ORDER BY " +sel1+','+sel2;
             System.out.println("即将执行的SQL语句是：" + sql2);
 
 

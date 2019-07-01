@@ -146,6 +146,14 @@ function updateTable(json){
     }
 }
 
+function order(){
+    $("input[type=radio]").change(function(){
+        var parent = document.getElementById("wh_list");
+        parent.innerHTML = "";
+
+        show();
+    });
+}
 
 function show(){
 
