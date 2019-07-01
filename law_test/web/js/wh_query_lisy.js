@@ -1,5 +1,5 @@
 var wh_info;
-var list;
+var List;
 var len=0;
 var Order=0;
 var id="";
@@ -20,8 +20,8 @@ function delet(i){
     mdui.confirm("您确认要删除这个订单吗?<br>注意：删除操作是不可逆的，请仔细考虑!","删除确认",function(){
         var url = "deleteAction";
         url=getQueryPath(url);
-        var id = list[i].stockid;
-        var tempquan=list[i].quantity;
+        var id = List[i].stockid;
+        var tempquan=List[i].quantity;
         var data1 = '{"StockId":"'+id+'","Quantity":"'+tempquan+'"}';
 
         var obj = JSON.parse(data1);
@@ -53,13 +53,13 @@ function delet(i){
 function modify_record(i){
     var inst = new mdui.Dialog("#modify");
     inst.open();
-    document.getElementById("user_id").value = list[i].userid;
-    document.getElementById("user_name").value = list[i].username;
-    document.getElementById("stock_id").value = list[i].stockid;
-    document.getElementById("stock_name").value = list[i].stockname;
-    document.getElementById("quantity").value = list[i].quantity;
-    document.getElementById("bunitprice").value = list[i].quotation;
-    document.getElementById("createat").value = list[i].createat;
+    document.getElementById("user_id").value = List[i].userid;
+    document.getElementById("user_name").value = List[i].username;
+    document.getElementById("stock_id").value = List[i].stockid;
+    document.getElementById("stock_name").value = List[i].stockname;
+    document.getElementById("quantity").value = List[i].quantity;
+    document.getElementById("bunitprice").value = List[i].quotation;
+    document.getElementById("createat").value = List[i].createat;
 
 }
 
@@ -132,14 +132,14 @@ function query(){
 }
 
 function updateTable(json){
-    list=json.list;
+    List=json.list;
     var table = document.getElementById('wh_list');
     table.innerHTML="";
-    for(var i = 0; i < list.length; i++){
+    for(var i = 0; i < List.length; i++){
         var newNode = document.createElement("tr");
 
-        newNode.innerHTML = "<td>"+list[i].stockid+"</td>"
-        newNode.innerHTML += "<td>"+list[i].stockname +"</td><td>"+list[i].quantity +"</td><td>"+list[i].quotation +"</td><td>" +list[i].createat + "</td>";
+        newNode.innerHTML = "<td>"+List[i].stockid+"</td>"
+        newNode.innerHTML += "<td>"+List[i].stockname +"</td><td>"+List[i].quantity +"</td><td>"+List[i].quotation +"</td><td>" +List[i].createat + "</td>";
         //newNode.innerHTML += "<td><button class=\"mdui-btn mdui-btn-raised\" onclick='delet("+id+")'>删除</button></td>"
         newNode.innerHTML += "<td><button class=\"mdui-btn mdui-btn-raised\" onclick='delet("+i+")'>删除</button><button class=\"mdui-btn mdui-btn-raised\" onclick='modify_record("+i+")'>卖出</button></td>"
         table.appendChild(newNode);
