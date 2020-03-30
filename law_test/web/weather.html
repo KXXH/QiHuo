@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="http://lib.sinaapp.com/js/jquery/2.0.2/jquery-2.0.2.min.js"></script>
+</head>
+<body onload="getWeather()">
+<div id="test">
+
+</div>
+</body>
+</html>
+<script>
+    function getWeather() {
+        url = 'https://free-api.heweather.net/s6/weather/now?location=auto_ip&key=c4ec3ec551344da284571f2e43deddb3'
+        $.get(url,function (json) {
+            console.log(json.HeWeather6[0].now);
+            $('#test').html("天气："+json.HeWeather6[0].now.cond_txt
+            +"<br>风向："+json.HeWeather6[0].now.wind_dir
+            +"<br>风力："+json.HeWeather6[0].now.wind_deg
+            +"<br>相对湿度："+json.HeWeather6[0].now.hum
+            +"<br>降水量："+json.HeWeather6[0].now.pcpn);
+        })
+    }
+</script>
